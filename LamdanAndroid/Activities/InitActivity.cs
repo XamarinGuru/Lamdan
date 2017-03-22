@@ -17,8 +17,17 @@ namespace goheja
 
 			SetContentView(Resource.Layout.InitActivity);
 
-			FindViewById<TextView>(Resource.Id.ActionSignIn).Click += ActionSignIn;
-			FindViewById<TextView>(Resource.Id.ActionSignUp).Click += ActionSignUp;
+			InitUISettings();
+		}
+
+		void InitUISettings()
+		{
+			var btnSignIn = FindViewById<Button>(Resource.Id.ActionSignIn);
+			var btnSignUp = FindViewById<Button>(Resource.Id.ActionSignUp);
+			btnSignIn.Click += ActionSignIn;
+			btnSignUp.Click += ActionSignUp;
+
+			btnSignUp.SetBackgroundColor(GROUP_COLOR);
 		}
 
 		void ActionSignIn(object sender, EventArgs e)

@@ -318,7 +318,7 @@
                                 android:minHeight="25px"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:id="@+id/linearLayout10"
+                                android:id="@+id/bgSymbolCycling"
                                 android:layout_marginLeft="10dp"
                                 android:background="#ffe5a109">
                                 <ImageView
@@ -373,7 +373,7 @@
                                     android:text="Duration"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/textView3"
+                                    android:id="@+id/lblCycleDurationTitle"
                                     android:textColor="#ffe5a109"
                                     android:textSize="12dp"
                                     android:textStyle="bold" />
@@ -417,7 +417,7 @@
                                     android:text="Distance"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/textView3"
+                                    android:id="@+id/lblCycleDistanceTitle"
                                     android:textColor="#ffe5a109"
                                     android:textSize="12dp"
                                     android:textStyle="bold" />
@@ -461,7 +461,7 @@
                                     android:text="Load"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/textView3"
+                                    android:id="@+id/lblCycleStressTitle"
                                     android:textColor="#ffe5a109"
                                     android:textSize="12dp"
                                     android:textStyle="bold" />
@@ -507,7 +507,7 @@
                                 android:minHeight="25px"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:id="@+id/linearLayout10"
+                                android:id="@+id/bgSymbolRunning"
                                 android:layout_marginLeft="10dp"
                                 android:background="#ffe5a109">
                                 <ImageView
@@ -562,7 +562,7 @@
                                     android:text="Duration"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/textView3"
+                                    android:id="@+id/lblRunDurationTitle"
                                     android:textColor="#ffe5a109"
                                     android:textSize="12dp"
                                     android:textStyle="bold" />
@@ -606,7 +606,7 @@
                                     android:text="Distance"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/textView3"
+                                    android:id="@+id/lblRunDistanceTitle"
                                     android:textColor="#ffe5a109"
                                     android:textSize="12dp"
                                     android:textStyle="bold" />
@@ -650,7 +650,7 @@
                                     android:text="Load"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/textView3"
+                                    android:id="@+id/lblRunStressTitle"
                                     android:textColor="#ffe5a109"
                                     android:textSize="12dp"
                                     android:textStyle="bold" />
@@ -696,7 +696,7 @@
                                 android:minHeight="25px"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:id="@+id/linearLayout10"
+                                android:id="@+id/bgSymbolSwimming"
                                 android:layout_marginLeft="10dp"
                                 android:background="#ffe5a109">
                                 <ImageView
@@ -751,7 +751,7 @@
                                     android:text="Duration"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/textView3"
+                                    android:id="@+id/lblSwimDurationTitle"
                                     android:textColor="#ffe5a109"
                                     android:textSize="12dp"
                                     android:textStyle="bold" />
@@ -795,7 +795,7 @@
                                     android:text="Distance"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/textView3"
+                                    android:id="@+id/lblSwimDistanceTitle"
                                     android:textColor="#ffe5a109"
                                     android:textSize="12dp"
                                     android:textStyle="bold" />
@@ -839,7 +839,7 @@
                                     android:text="Load"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/textView3"
+                                    android:id="@+id/lblSwimStressTitle"
                                     android:textColor="#ffe5a109"
                                     android:textSize="12dp"
                                     android:textStyle="bold" />

@@ -13,7 +13,6 @@ namespace goheja
 	[Activity(Label = "SelectPTypeActivity", ScreenOrientation = ScreenOrientation.Portrait)]
 	public class SelectPTypeActivity : BaseActivity
 	{
-		Color COLOR_ACTIVE = Color.Rgb(229, 161, 9);
 		Color COLOR_DISABLE = Color.Rgb(67, 67, 67);
 
 		protected override void OnCreate(Bundle savedInstanceState)
@@ -36,19 +35,19 @@ namespace goheja
 			switch (AppSettings.selectedEvent.type)
 			{
 				case "1":
-					FindViewById<LinearLayout>(Resource.Id.stateCycling).SetBackgroundColor(COLOR_ACTIVE);
+					FindViewById<LinearLayout>(Resource.Id.stateCycling).SetBackgroundColor(GROUP_COLOR);
 					break;
 				case "2":
-					FindViewById<LinearLayout>(Resource.Id.stateRunning).SetBackgroundColor(COLOR_ACTIVE);
+					FindViewById<LinearLayout>(Resource.Id.stateRunning).SetBackgroundColor(GROUP_COLOR);
 					break;
 				case "3":
-					FindViewById<LinearLayout>(Resource.Id.stateSwimming).SetBackgroundColor(COLOR_ACTIVE);
+					FindViewById<LinearLayout>(Resource.Id.stateSwimming).SetBackgroundColor(GROUP_COLOR);
 					break;
 				case "4":
-					FindViewById<LinearLayout>(Resource.Id.stateTriathlon).SetBackgroundColor(COLOR_ACTIVE);
+					FindViewById<LinearLayout>(Resource.Id.stateTriathlon).SetBackgroundColor(GROUP_COLOR);
 					break;
 				case "5":
-					FindViewById<LinearLayout>(Resource.Id.stateOther).SetBackgroundColor(COLOR_ACTIVE);
+					FindViewById<LinearLayout>(Resource.Id.stateOther).SetBackgroundColor(GROUP_COLOR);
 					break;
 			}
 

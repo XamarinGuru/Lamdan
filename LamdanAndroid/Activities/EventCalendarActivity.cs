@@ -24,12 +24,21 @@ namespace goheja
 		List<GoHejaEvent> _events = new List<GoHejaEvent>();
 		LinearLayout noEventsContent;
 
+		TextView lblTSB, lblCTL, lblATL, lblLoad;
+
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 
 			SetContentView(Resource.Layout.EventCalendarActivity);
 
+			ReloadEvents();
+
+			InitUISettings();
+		}
+
+		void InitUISettings()
+		{
 			#region xuni calendar
 			calendar = FindViewById<XuniCalendar>(Resource.Id.calendar);
 			calendar.Orientation = CalendarOrientation.Vertical;
@@ -39,16 +48,26 @@ namespace goheja
 			calendar.DayOfWeekBackgroundColor = System.Drawing.Color.Transparent.ToArgb();
 			calendar.DayOfWeekTextColor = System.Drawing.Color.LightGray.ToArgb();
 			calendar.TodayTextColor = System.Drawing.Color.Red.ToArgb();
-			calendar.SelectionBackgroundColor = System.Drawing.Color.Orange.ToArgb();
+			calendar.SelectionBackgroundColor = GROUP_COLOR;
 
 			calendar.DaySlotLoading += CalendarDaySlotLoading;
 			calendar.SelectionChanged += CalendarSelectionChanged;
 			#endregion
 
+			lblTSB = FindViewById<TextView>(Resource.Id.lblTSB);
+			lblCTL = FindViewById<TextView>(Resource.Id.lblCTL);
+			lblATL = FindViewById<TextView>(Resource.Id.lblATL);
+			lblLoad = FindViewById<TextView>(Resource.Id.lblLoad);
+
+			FindViewById<TextView>(Resource.Id.lblNoEvent).SetTextColor(GROUP_COLOR);
+
+			lblTSB.SetTextColor(GROUP_COLOR);
+			lblCTL.SetTextColor(GROUP_COLOR);
+			lblATL.SetTextColor(GROUP_COLOR);
+			lblLoad.SetTextColor(GROUP_COLOR);
+
 			noEventsContent = FindViewById<LinearLayout>(Resource.Id.noEventsContent);
 			noEventsContent.Visibility = ViewStates.Gone;
-
-			ReloadEvents();
 
 			FindViewById(Resource.Id.ActionReload).Click += (sender, e) => ReloadEvents();
 			FindViewById(Resource.Id.ActionToday).Click += (sender, e) => GotoToday();
@@ -130,7 +149,7 @@ namespace goheja
 					var startDate = _events[i].StartDateTime();
 					if (startDate.Date == currentDateTime.Date)
 					{
-						tv.SetBackgroundColor(Android.Graphics.Color.Orange);
+						tv.SetBackgroundColor(GROUP_COLOR);
 					}
 				}
 			}
@@ -190,17 +209,17 @@ namespace goheja
 				{
 					if (performanceData == null)
 					{
-						FindViewById<TextView>(Resource.Id.lblTSB).Text = "-";
-						FindViewById<TextView>(Resource.Id.lblCTL).Text = "-";
-						FindViewById<TextView>(Resource.Id.lblATL).Text = "-";
-						FindViewById<TextView>(Resource.Id.lblLoad).Text = "-";
+						lblTSB.Text = "-";
+						lblCTL.Text = "-";
+						lblATL.Text = "-";
+						lblLoad.Text = "-";
 					}
 					else
 					{
-						FindViewById<TextView>(Resource.Id.lblTSB).Text = performanceData.TSB == "NaN" ? "0" : performanceData.TSB;
-						FindViewById<TextView>(Resource.Id.lblCTL).Text = performanceData.CTL == "NaN" ? "0" : performanceData.CTL;
-						FindViewById<TextView>(Resource.Id.lblATL).Text = performanceData.ATL == "NaN" ? "0" : performanceData.ATL;
-						FindViewById<TextView>(Resource.Id.lblLoad).Text = performanceData.LOAD == "NaN" ? "0" : performanceData.LOAD;
+						lblTSB.Text = performanceData.TSB == "NaN" ? "0" : performanceData.TSB;
+						lblCTL.Text = performanceData.CTL == "NaN" ? "0" : performanceData.CTL;
+						lblATL.Text = performanceData.ATL == "NaN" ? "0" : performanceData.ATL;
+						lblLoad.Text = performanceData.LOAD == "NaN" ? "0" : performanceData.LOAD;
 					}
 				});
 			});

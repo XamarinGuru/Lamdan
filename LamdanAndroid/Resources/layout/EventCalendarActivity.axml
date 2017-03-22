@@ -87,7 +87,7 @@
                         android:text="No Events"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/textView1"
+                        android:id="@+id/lblNoEvent"
                         android:textColor="#ffe5a109"
                         android:textSize="15dp" />
                 </LinearLayout>

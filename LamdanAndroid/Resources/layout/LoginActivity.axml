@@ -228,7 +228,7 @@
             android:layout_height="60dp"
             android:id="@+id/linearLayout7">
             <Button
-                android:text="GO HEJA"
+                android:text="GO LAMDAN"
                 android:id="@+id/ActionLogin"
                 android:textColor="#ffffff"
                 android:background="#ffe5a109"

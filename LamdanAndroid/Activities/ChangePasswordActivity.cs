@@ -43,6 +43,8 @@ namespace goheja
 			invalidPwConfirm.Visibility = ViewStates.Invisible;
 			errorPassword.Visibility = ViewStates.Invisible;
 			errorPwConfirm.Visibility = ViewStates.Invisible;
+
+			FindViewById<Button>(Resource.Id.ActionResetPassword).SetBackgroundColor(GROUP_COLOR);
 		}
 
 		private bool Validate()

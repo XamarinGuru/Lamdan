@@ -42,7 +42,7 @@ namespace goheja
 			base.OnViewCreated(view, savedInstanceState);
 			mView = view;
 
-			SetUIVariablesAndActions();
+			SetUISettings();
 
 			if (!rootActivity.IsNetEnable()) return;
 		}
@@ -68,7 +68,7 @@ namespace goheja
 			});
 		}
 
-		private void SetUIVariablesAndActions()
+		private void SetUISettings()
 		{
 			#region UI Variables
 			lblCycleDuration = mView.FindViewById<TextView>(Resource.Id.lblCycleDuration);
@@ -80,6 +80,30 @@ namespace goheja
 			lblCycleStress = mView.FindViewById<TextView>(Resource.Id.lblCycleStress);
 			lblRunStress = mView.FindViewById<TextView>(Resource.Id.lblRunStress);
 			lblSwimStress = mView.FindViewById<TextView>(Resource.Id.lblSwimStress);
+
+			mView.FindViewById<TextView>(Resource.Id.lblCycleDurationTitle).SetTextColor(rootActivity.GROUP_COLOR);
+			mView.FindViewById<TextView>(Resource.Id.lblRunDurationTitle).SetTextColor(rootActivity.GROUP_COLOR);
+			mView.FindViewById<TextView>(Resource.Id.lblSwimDurationTitle).SetTextColor(rootActivity.GROUP_COLOR);
+			mView.FindViewById<TextView>(Resource.Id.lblCycleDistanceTitle).SetTextColor(rootActivity.GROUP_COLOR);
+			mView.FindViewById<TextView>(Resource.Id.lblRunDistanceTitle).SetTextColor(rootActivity.GROUP_COLOR);
+			mView.FindViewById<TextView>(Resource.Id.lblSwimDistanceTitle).SetTextColor(rootActivity.GROUP_COLOR);
+			mView.FindViewById<TextView>(Resource.Id.lblCycleStressTitle).SetTextColor(rootActivity.GROUP_COLOR);
+			mView.FindViewById<TextView>(Resource.Id.lblRunStressTitle).SetTextColor(rootActivity.GROUP_COLOR);
+			mView.FindViewById<TextView>(Resource.Id.lblSwimStressTitle).SetTextColor(rootActivity.GROUP_COLOR);
+
+			lblCycleDuration.SetTextColor(rootActivity.GROUP_COLOR);
+			lblRunDuration.SetTextColor(rootActivity.GROUP_COLOR);
+			lblSwimDuration.SetTextColor(rootActivity.GROUP_COLOR);
+			lblCycleDistance.SetTextColor(rootActivity.GROUP_COLOR);
+			lblRunDistance.SetTextColor(rootActivity.GROUP_COLOR);
+			lblSwimDistance.SetTextColor(rootActivity.GROUP_COLOR);
+			lblCycleStress.SetTextColor(rootActivity.GROUP_COLOR);
+			lblRunStress.SetTextColor(rootActivity.GROUP_COLOR);
+			lblSwimStress.SetTextColor(rootActivity.GROUP_COLOR);
+
+			mView.FindViewById<LinearLayout>(Resource.Id.bgSymbolCycling).SetBackgroundColor(rootActivity.GROUP_COLOR);
+			mView.FindViewById<LinearLayout>(Resource.Id.bgSymbolRunning).SetBackgroundColor(rootActivity.GROUP_COLOR);
+			mView.FindViewById<LinearLayout>(Resource.Id.bgSymbolSwimming).SetBackgroundColor(rootActivity.GROUP_COLOR);
 
 			btnCycle = mView.FindViewById<ImageView>(Resource.Id.btnCycle);
 			btnRun = mView.FindViewById<ImageView>(Resource.Id.btnRun);
@@ -100,6 +124,7 @@ namespace goheja
 			mView.FindViewById<RelativeLayout>(Resource.Id.collapsSwim).Click += ActionCollepse;
 			mView.FindViewById<Button>(Resource.Id.ActionViewCalendar).Click += ActionViewCalendar;
 
+			mView.FindViewById<Button>(Resource.Id.ActionViewCalendar).SetBackgroundColor(rootActivity.GROUP_COLOR);
 			//toggle series visibility
 			//mView.FindViewById<LinearLayout>(Resource.Id.ActionToggleTSB).Click += ActionToggleSeries;
 			//mView.FindViewById<LinearLayout>(Resource.Id.ActionToggleATL).Click += ActionToggleSeries;

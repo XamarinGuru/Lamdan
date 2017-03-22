@@ -60,7 +60,7 @@ namespace goheja
         {
             var contentIntent = PendingIntent.GetActivity(this, 0, new Intent(this, typeof(SwipeTabActivity)), PendingIntentFlags.UpdateCurrent);
             var builder = new NotificationCompat.Builder(this)
-               	.SetContentTitle("500WATT on the go")
+               	.SetContentTitle("Lamdan on the go")
                	.SetSmallIcon(Resource.Drawable.icon_notification)
                	.SetPriority(1)
               	.SetContentIntent(contentIntent)

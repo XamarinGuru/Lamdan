@@ -37,6 +37,8 @@ namespace goheja
 
 			invalidEmail.Visibility = ViewStates.Invisible;
 			errorEmail.Visibility = ViewStates.Invisible;
+
+			FindViewById<Button>(Resource.Id.ActionResetPassword).SetBackgroundColor(GROUP_COLOR);
 		}
 
 		private bool Validate()

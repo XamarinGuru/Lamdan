@@ -22,6 +22,8 @@ namespace goheja
 	[Activity(Label = "BaseActivity", ScreenOrientation = ScreenOrientation.Portrait)]
 	public class BaseActivity : FragmentActivity
 	{
+		public Color GROUP_COLOR;
+
 		Color[] PATH_COLORS = { Color.Red, Color.Rgb(38, 127, 0), Color.Blue };
 		Color COLOR_ORANGE = Color.Rgb(229, 161, 9);
 		Color COLOR_RED = Color.Rgb(179, 66, 17);
@@ -35,6 +37,13 @@ namespace goheja
 		{
 			Window.RequestFeature(WindowFeatures.NoTitle);
 			base.OnCreate(savedInstanceState);
+
+			SetGroupColor();
+		}
+
+		void SetGroupColor()
+		{
+			GROUP_COLOR = Color.ParseColor("#" + Constants.GROUP_COLOR);
 		}
 
 		protected override void OnResume()

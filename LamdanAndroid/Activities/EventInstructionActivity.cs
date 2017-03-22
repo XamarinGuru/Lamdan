@@ -13,7 +13,7 @@ namespace goheja
 	[Activity(Label = "EventInstructionActivity", ScreenOrientation = ScreenOrientation.Portrait)]
 	public class EventInstructionActivity : BaseActivity
 	{
-		TextView lblPDistance, lblPDuration, lblPLoad;
+		TextView lblPDistance, lblPDuration, lblPLoad, lblPHB;
 		TextView lblTDistance, lblTDuration, lblTload;
 
 		float fDistance = 0;
@@ -71,6 +71,22 @@ namespace goheja
 			lblPDistance = FindViewById<TextView>(Resource.Id.lblPDistance);
 			lblPDuration = FindViewById<TextView>(Resource.Id.lblPDuration);
 			lblPLoad = FindViewById<TextView>(Resource.Id.lblPLoad);
+			lblPHB = FindViewById<TextView>(Resource.Id.lblPHB);
+
+			lblPDistance.SetTextColor(GROUP_COLOR);
+			lblPDuration.SetTextColor(GROUP_COLOR);
+			lblPLoad.SetTextColor(GROUP_COLOR);
+			lblPHB.SetTextColor(GROUP_COLOR);
+
+			FindViewById<TextView>(Resource.Id.lblAvgSpeed).SetTextColor(GROUP_COLOR);
+			FindViewById<TextView>(Resource.Id.lblTotalDistance).SetTextColor(GROUP_COLOR);
+			FindViewById<TextView>(Resource.Id.lblElapsedTime).SetTextColor(GROUP_COLOR);
+			FindViewById<TextView>(Resource.Id.lblTotalAcent).SetTextColor(GROUP_COLOR);
+			FindViewById<TextView>(Resource.Id.lblAvgHR).SetTextColor(GROUP_COLOR);
+			FindViewById<TextView>(Resource.Id.lblTotalCalories).SetTextColor(GROUP_COLOR);
+			FindViewById<TextView>(Resource.Id.lblAvgPower).SetTextColor(GROUP_COLOR);
+			FindViewById<TextView>(Resource.Id.lblLoad).SetTextColor(GROUP_COLOR);
+			FindViewById<TextView>(Resource.Id.lblLeveledPower).SetTextColor(GROUP_COLOR);
 
 			lblTDistance = FindViewById<TextView>(Resource.Id.lblTotalDistance);
 			lblTDuration = FindViewById<TextView>(Resource.Id.lblElapsedTime);
@@ -91,21 +107,18 @@ namespace goheja
 				var activity = new Intent(this, typeof(AdjustTrainningActivity));
 				StartActivityForResult(activity, 1);
 			};
+			FindViewById(Resource.Id.ActionAdjustTrainning).SetBackgroundColor(GROUP_COLOR);
+
 			FindViewById(Resource.Id.ActionAddComment).Click += delegate (object sender, EventArgs e) { 
 				var activity = new Intent(this, typeof(AddCommentActivity));
 				StartActivityForResult(activity, 1);
 			};
+			FindViewById(Resource.Id.ActionAddComment).SetBackgroundColor(GROUP_COLOR);
 
 			if (DateTime.Compare(selectedEvent.StartDateTime(), DateTime.Now) > 0)
-			{
 				FindViewById(Resource.Id.ActionAdjustTrainning).Visibility = ViewStates.Gone;
-				//FindViewById(Resource.Id.totalContent).Visibility = ViewStates.Gone;
-			}
 			else
-			{
 				FindViewById(Resource.Id.ActionAdjustTrainning).Visibility = ViewStates.Visible;
-				//FindViewById(Resource.Id.totalContent).Visibility = ViewStates.Visible;
-			}
 		}
 
 		void InitBindingEventData(GoHejaEvent selectedEvent)
@@ -123,7 +136,7 @@ namespace goheja
 				var c = b / 100;
 				var formattedDistance = c.ToString("F2");
 
-				FindViewById<TextView>(Resource.Id.lblPDistance).Text = formattedDistance + " KM";
+				lblPDistance.Text = formattedDistance + " KM";
 
 				var durMin = selectedEvent.durMin == "" ? 0 : int.Parse(selectedEvent.durMin);
 				var durHrs = selectedEvent.durHrs == "" ? 0 : int.Parse(selectedEvent.durHrs);
@@ -135,9 +148,9 @@ namespace goheja
 
 				fLoad = selectedEvent.tss == "" ? 0 : float.Parse(selectedEvent.tss);
 
-				FindViewById<TextView>(Resource.Id.lblPDuration).Text = strDuration;
-				FindViewById<TextView>(Resource.Id.lblPLoad).Text = selectedEvent.tss;
-				FindViewById<TextView>(Resource.Id.lblPHB).Text = selectedEvent.hb;
+				lblPDuration.Text = strDuration;
+				lblPLoad.Text = selectedEvent.tss;
+				lblPHB.Text = selectedEvent.hb;
 
 				var imgType = FindViewById<ImageView>(Resource.Id.imgType);
 				switch (selectedEvent.type)

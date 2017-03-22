@@ -63,6 +63,8 @@ namespace goheja
 			errorUsername.Visibility = ViewStates.Invisible;
 			errorEmail.Visibility = ViewStates.Invisible;
 			errorPassword.Visibility = ViewStates.Invisible;
+
+			FindViewById<Button>(Resource.Id.ActionSignUp).SetBackgroundColor(GROUP_COLOR);
 		}
 
 		private bool Validate()

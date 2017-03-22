@@ -23,6 +23,8 @@ namespace goheja
 
 			SetContentView(Resource.Layout.AddCommentActivity);
 
+			InitUISettings();
+
 			if (!IsNetEnable()) return;
 
 			System.Threading.ThreadPool.QueueUserWorkItem(delegate
@@ -34,13 +36,13 @@ namespace goheja
 				HideLoadingView();
 			});
 
-			InitUISettings();
 		}
 
 		void InitUISettings()
 		{
 			txtComment = FindViewById<EditText>(Resource.Id.txtComment);
 			FindViewById(Resource.Id.ActionAddComment).Click += ActionAddComment;
+			FindViewById(Resource.Id.ActionAddComment).SetBackgroundColor(GROUP_COLOR);
 		}
 
 		void ActionAddComment(object sender, EventArgs e)

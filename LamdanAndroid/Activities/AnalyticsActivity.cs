@@ -18,7 +18,7 @@ using System.Collections.Generic;
 
 namespace goheja
 {
-    [Activity(Label = "500WATT", Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Lamdan", Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
 	public class AnalyticsActivity : BaseActivity, ILocationListener, IOnMapReadyCallback, ActivityCompat.IOnRequestPermissionsResultCallback, GoogleMap.IOnMarkerClickListener
     {
 		readonly string[] PermissionsLocation =

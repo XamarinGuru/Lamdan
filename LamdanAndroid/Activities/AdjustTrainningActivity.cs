@@ -27,6 +27,8 @@ namespace goheja
 
 			SetContentView(Resource.Layout.AdjustTrainningActivity);
 
+			InitUISettings();
+
 			if (!IsNetEnable()) return;
 
 			System.Threading.ThreadPool.QueueUserWorkItem(delegate
@@ -38,7 +40,6 @@ namespace goheja
 				HideLoadingView();
 			});
 
-			InitUISettings();
 			InitBindingEventTotal();
 		}
 
@@ -52,6 +53,8 @@ namespace goheja
 		{
 			SetPType();
 
+			FindViewById<LinearLayout>(Resource.Id.bgType).SetBackgroundColor(GROUP_COLOR);
+
 			attended = FindViewById<CheckBox>(Resource.Id.checkAttended);
 
 			lblTime = FindViewById<TextView>(Resource.Id.lblTime);
@@ -63,6 +66,10 @@ namespace goheja
 			seekDistance = FindViewById<SeekBar>(Resource.Id.ActionDistanceChanged);
 			seekTSS = FindViewById<SeekBar>(Resource.Id.ActionTSSChanged);
 
+			seekTime.ProgressDrawable.SetColorFilter(GROUP_COLOR, Android.Graphics.PorterDuff.Mode.Multiply);
+			seekDistance.ProgressDrawable.SetColorFilter(GROUP_COLOR, Android.Graphics.PorterDuff.Mode.Multiply);
+			seekTSS.ProgressDrawable.SetColorFilter(GROUP_COLOR, Android.Graphics.PorterDuff.Mode.Multiply);
+
 			seekTime.ProgressChanged += (sender, e) => { lblTime.Text = ((SeekBar)sender).Progress.ToString(); };
 			seekDistance.ProgressChanged += (sender, e) => { lblDistance.Text = ((SeekBar)sender).Progress.ToString(); };
 			seekTSS.ProgressChanged += (sender, e) => { lblTSS.Text = ((SeekBar)sender).Progress.ToString(); };
@@ -73,6 +80,7 @@ namespace goheja
 				StartActivityForResult(activity, 1);
 			};
 			FindViewById(Resource.Id.ActionAdjustTrainning).Click += ActionAdjustTrainning;
+			FindViewById(Resource.Id.ActionAdjustTrainning).SetBackgroundColor(GROUP_COLOR);
 
 			try
 			{
