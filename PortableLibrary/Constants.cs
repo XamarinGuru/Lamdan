@@ -10,7 +10,7 @@ namespace PortableLibrary
 		public const string SPEC_GROUP_TYPE = "lamdan" ;
 		public const string DEVICE_CALENDAR_TITLE = "Lamdan Calendar";
 		public const string GROUP_COLOR = "24DBFD";
-		public const string PATH_USER_IMAGE = "data/goheja.lamdan.com/files/me.png";
+		public const string PATH_USER_IMAGE = "data/goheja.gohejalamdanteam/files/me.png";
 		public const string MSG_SIGNUP_FAIL = "You are not registered to Lamdan services.";
 		#endregion
 
