@@ -166,7 +166,8 @@ namespace goheja
             try
             {
                 var sdCardPath = Android.OS.Environment.DataDirectory.AbsolutePath;
-				var filePath = System.IO.Path.Combine(sdCardPath, Constants.PATH_USER_IMAGE);
+				var pName = Application.Context.PackageName;
+				var filePath = System.IO.Path.Combine(sdCardPath, string.Format(Constants.PATH_USER_IMAGE, pName));
                 var stream = new FileStream(filePath, FileMode.Create);
 
                 bitmap.Compress(Bitmap.CompressFormat.Png, 100, stream);// Bitmap.CompressFormat.Png, 100, stream);
@@ -243,7 +244,9 @@ namespace goheja
 			try
 			{
 				var sdCardPath = Android.OS.Environment.DataDirectory.AbsolutePath;
-				var filePath = System.IO.Path.Combine(sdCardPath, Constants.PATH_USER_IMAGE);
+				var pName = Application.Context.PackageName;
+				var filePath = System.IO.Path.Combine(sdCardPath, string.Format(Constants.PATH_USER_IMAGE, pName));
+				//var filePath = System.IO.Path.Combine(sdCardPath, Constants.PATH_USER_IMAGE);
 				var s2 = new FileStream(filePath, FileMode.Open);
 				Bitmap bitmap2 = BitmapFactory.DecodeFile(filePath);
 				imgProfile.SetImageBitmap(bitmap2);

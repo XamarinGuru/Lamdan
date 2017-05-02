@@ -10,7 +10,6 @@ namespace PortableLibrary
 		public const string SPEC_GROUP_TYPE = "lamdan" ;
 		public const string DEVICE_CALENDAR_TITLE = "Lamdan Calendar";
 		public const string GROUP_COLOR = "24DBFD";
-		public const string PATH_USER_IMAGE = "data/goheja.gohejalamdanteam/files/me.png";
 		public const string MSG_SIGNUP_FAIL = "You are not registered to Lamdan services.";
 		#endregion
 
@@ -23,7 +22,11 @@ namespace PortableLibrary
 		public const string URL_CALENDAR = "http://go-heja.com/nitro/mobda.php?userNickName={0}&userId={1}";
 		public const string URL_WATCH = "http://go-heja.com:8080/gh/mob/sync.php?userId={0}&mog={1}&url=uurrll";
 		public const string URL_GAUGE = "http://go-heja.com:8080/innovi/mobGraph/totalGauge.php?userId={0}";
+
+		public const string PATH_USER_IMAGE = "data/{0}/files/me.png";
+
 		public const string URL_GOOGLE = "www.google.com";
+
 
 		public static double[] LOCATION_ISURAEL = { 31.0461, 34.8516 };
 
