@@ -121,7 +121,6 @@ namespace goheja
 
 			linLayoutV.AddView(okButton);
 			return linLayoutV;
-
 		}
 
 		public void onSaveInstanceState(Bundle outState)
@@ -211,8 +210,7 @@ namespace goheja
 				}
 				else
 				{
-					textView.Text = numPicker.Value.ToString();
-					seekBar.Progress = (int)float.Parse(textView.Text);
+					seekBar.Progress = numPicker.Value * 10;
 				}
 				
 				Dismiss();

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using Android.App;
-using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
@@ -44,7 +43,6 @@ namespace goheja
 			calendar.Orientation = CalendarOrientation.Vertical;
 			calendar.MaxSelectionCount = 1;
 
-			// change appearance
 			calendar.DayOfWeekBackgroundColor = System.Drawing.Color.Transparent.ToArgb();
 			calendar.DayOfWeekTextColor = System.Drawing.Color.LightGray.ToArgb();
 			calendar.TodayTextColor = System.Drawing.Color.Red.ToArgb();
@@ -151,17 +149,17 @@ namespace goheja
 
 				layout.AddView(tv);
 
-				if (_events != null && _events.Count != 0)
+			if (_events != null && _events.Count != 0)
+			{
+				for (int i = 0; i < _events.Count; i++)
 				{
-					for (int i = 0; i < _events.Count; i++)
+					var startDate = _events[i].StartDateTime();
+					if (startDate.Date == currentDateTime.Date)
 					{
-						var startDate = _events[i].StartDateTime();
-						if (startDate.Date == currentDateTime.Date)
-						{
-							tv.SetBackgroundColor(Android.Graphics.Color.Orange);
-						}
+						tv.SetBackgroundColor(GROUP_COLOR);
 					}
 				}
+			}
 
 				e.DaySlot = layout;
 			}

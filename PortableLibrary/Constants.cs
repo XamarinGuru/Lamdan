@@ -22,11 +22,9 @@ namespace PortableLibrary
 		public const string URL_CALENDAR = "http://go-heja.com/nitro/mobda.php?userNickName={0}&userId={1}";
 		public const string URL_WATCH = "http://go-heja.com:8080/gh/mob/sync.php?userId={0}&mog={1}&url=uurrll";
 		public const string URL_GAUGE = "http://go-heja.com:8080/innovi/mobGraph/totalGauge.php?userId={0}";
-
-		public const string PATH_USER_IMAGE = "data/{0}/files/me.png";
-
 		public const string URL_GOOGLE = "www.google.com";
 
+		public const string PATH_USER_IMAGE = "data/{0}/files/me.png";
 
 		public static double[] LOCATION_ISURAEL = { 31.0461, 34.8516 };
 
@@ -46,6 +44,7 @@ namespace PortableLibrary
 		public const string MSG_LOGIN_FAIL = "Login failed.";
 		public const string MSG_SIGNUP = "Sign Up...";
 		public const string MSG_LOADING_DATA = "Loading data...";
+		public const string MSG_NO_ATHLETES = "No Athletes in this group";
 		public const string MSG_LOADING_USER_DATA = "Loading user data...";
 		public const string MSG_LOADING_EVENTS = "Loading events...";
 		public const string MSG_LOADING_EVENT_DETAIL = "Loading event details...";
@@ -64,6 +63,7 @@ namespace PortableLibrary
 		public const string MSG_GPS_DISABLED = "GPS settings disabled.";
 		public const string MSG_COMFIRM_STOP_SPORT_COMP = "You sure you want to stop practice?";
 		public const string MSG_TRAKING_ERROR = "Tracking error into server...";
+        public const string MSG_FAKE_USER_VIEW = "Coach, you are viewing {0}";
 
 		//TYPES
 		public const string TOTALS_ES_TIME = "Elapsed time";
@@ -121,6 +121,11 @@ namespace PortableLibrary
 		public const int TAG_EDIT_RUN = 1006;
 		public const int TAG_EDIT_BIKE = 1007;
 
+		public enum USER_TYPE
+		{
+			COACH,
+			ATHLETE
+		}
 
 		public enum PICKER_TYPE
 		{
