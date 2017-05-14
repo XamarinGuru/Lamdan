@@ -55,7 +55,7 @@ namespace goheja
 			if (!IsNetEnable()) return;
 
 			var author = MemberModel.firstname + " " + MemberModel.lastname;
-			var authorID = AppSettings.isFakeUser ? AppSettings.CurrentUser.userId : AppSettings.CurrentUser.athleteId;
+			var authorID = AppSettings.CurrentUser.userId;
 
 			System.Threading.ThreadPool.QueueUserWorkItem(delegate
 			{
