@@ -16,6 +16,10 @@ namespace location2
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        Xuni.iOS.Calendar.XuniCalendar calendar { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.NSLayoutConstraint heightEventDetail { get; set; }
 
         [Outlet]
@@ -52,6 +56,11 @@ namespace location2
 
         void ReleaseDesignerOutlets ()
         {
+            if (calendar != null) {
+                calendar.Dispose ();
+                calendar = null;
+            }
+
             if (heightEventDetail != null) {
                 heightEventDetail.Dispose ();
                 heightEventDetail = null;

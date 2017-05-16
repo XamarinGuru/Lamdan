@@ -24,8 +24,7 @@ namespace location2
 
 			NavigationItem.HidesBackButton = true;
 
-			var leftButton = new UIButton(new CGRect(0, 0, 20, 20));
-			leftButton.SetImage(UIImage.FromFile("icon_left.png"), UIControlState.Normal);
+			var leftButton = NavLeftButton();
 			leftButton.TouchUpInside += (sender, e) => NavigationController.PopViewController(true);
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem(leftButton);
 
@@ -48,7 +47,7 @@ namespace location2
 				HideLoadingView();
 			});
 
-			InitBindingEventTotal();
+			//InitBindingEventTotal();
 		}
 
 		void InitUISettings()
@@ -92,11 +91,14 @@ namespace location2
 					imgType.Image = UIImage.FromFile("icon_other.png");
 					break;
 			}
+            InitBindingEventTotal();
 		}
 
 		void InitBindingEventTotal()
 		{
 			attended.On = selectedEvent.attended == "1" ? true : false;
+
+			seekDistance.MaxValue = selectedEvent.type == "3" ? 10 : 250;
 
 			txtTime.ShouldChangeCharacters = ActionChangeSliderValue;
 			txtDistance.ShouldChangeCharacters = ActionChangeSliderValue;
@@ -109,12 +111,32 @@ namespace location2
 			var strTss = eventTotal.GetValue(Constants.TOTALS_LOAD);
 
 			txtTime.Text = strEt.ToString();
-			txtDistance.Text = float.Parse(strTd).ToString("F0");
-			txtTss.Text = float.Parse(strTss).ToString("F0");
+			//txtDistance.Text = float.Parse(strTd).ToString("F1");
+			txtTss.Text = float.Parse(strTss).ToString("F1");
 
 			seekTime.Value = strEt;
-			seekDistance.Value = float.Parse(strTd);
+			//seekDistance.Value = float.Parse(strTd);
 			seekTSS.Value = float.Parse(strTss);
+
+			var valDistance = float.Parse(strTd);
+			if (selectedEvent.type == "3")
+			{
+				if (valDistance > 10)
+				{
+					txtDistance.Text = "10";
+					seekDistance.Value = 10;
+				}
+				else
+				{
+					txtDistance.Text = valDistance.ToString("F1");
+					seekDistance.Value = valDistance;
+				}
+			}
+			else
+			{
+				txtDistance.Text = valDistance.ToString("F1");
+				seekDistance.Value = valDistance;
+			}
 		}
 
 		partial void ActionSwitchType(UIButton sender)
@@ -136,7 +158,7 @@ namespace location2
 					seekBar = seekTime;
 					break;
 				case 1:
-					maxValue = 250;
+					maxValue = selectedEvent.type == "3" ? 10 : 250;
 					seekBar = seekDistance;
 					break;
 				case 2:
@@ -167,10 +189,10 @@ namespace location2
 					txtTime.Text = ((int)sender.Value).ToString();
 					break;
 				case 1:
-					txtDistance.Text = ((int)sender.Value).ToString();
+					txtDistance.Text = sender.Value.ToString("F1");
 					break;
 				case 2:
-					txtTss.Text = ((int)sender.Value).ToString();
+					txtTss.Text = sender.Value.ToString("F1");
 					break;
 			}
 		}
@@ -185,7 +207,9 @@ namespace location2
 
 				InvokeOnMainThread(() =>
 				{
-					UpdateMemberNotes(txtComment.Text, AppSettings.UserID, selectedEvent._id, MemberModel.username, attended.On ? "1" : "0", txtTime.Text, txtDistance.Text, txtTss.Text, selectedEvent.type);
+					var authorID = AppSettings.CurrentUser.userId;
+
+					UpdateMemberNotes(txtComment.Text, authorID, selectedEvent._id, MemberModel.username, attended.On ? "1" : "0", txtTime.Text, txtDistance.Text, txtTss.Text, selectedEvent.type);
 
 					HideLoadingView();
 					NavigationController.PopViewController(true);

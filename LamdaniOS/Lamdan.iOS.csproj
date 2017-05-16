@@ -20,7 +20,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>i386</MtouchArch>
+    <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>iPhone Distribution: sagiv daniel (ACS2X6ERDY)</CodesignKey>
     <AssemblyName>location2</AssemblyName>
@@ -43,14 +43,14 @@
     <AssemblyName>Nitro</AssemblyName>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchFloat32>true</MtouchFloat32>
-    <CodesignProvision>d970fc16-49d2-4cef-b3c7-6044aededa9d</CodesignProvision>
+    <CodesignProvision>Lamdan-pro</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <MtouchArch>i386</MtouchArch>
+    <MtouchArch>i386, x86_64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <MtouchLink>Full</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
@@ -158,6 +158,9 @@
     </Reference>
     <Reference Include="XCalendar">
       <HintPath>..\Components\XCalendar-1.1\lib\ios-unified\XCalendar.dll</HintPath>
+    </Reference>
+    <Reference Include="SDWebImage">
+      <HintPath>..\packages\Xamarin.SDWebImage.3.7.5\lib\Xamarin.iOS\SDWebImage.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -282,8 +285,32 @@
     </Compile>
     <Compile Include="ViewModel\RangeSlider.cs" />
     <Compile Include="Helper\DeviceHardware.cs" />
+    <Compile Include="Controllers\CoachHomeViewController.cs" />
+    <Compile Include="Controllers\CoachHomeViewController.designer.cs">
+      <DependentUpon>CoachHomeViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\CoachGroupsViewController.cs" />
+    <Compile Include="Controllers\CoachGroupsViewController.designer.cs">
+      <DependentUpon>CoachGroupsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\CoachSubGroupViewController.cs" />
+    <Compile Include="Controllers\CoachSubGroupViewController.designer.cs">
+      <DependentUpon>CoachSubGroupViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\CoachAthletesBySubGroupViewController.cs" />
+    <Compile Include="Controllers\CoachAthletesBySubGroupViewController.designer.cs">
+      <DependentUpon>CoachAthletesBySubGroupViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Web References\trackSvc\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\UserCell.cs" />
+    <Compile Include="ViewModel\UserCell.designer.cs">
+      <DependentUpon>UserCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\UserSubGroupCell.cs" />
+    <Compile Include="ViewModel\UserSubGroupCell.designer.cs">
+      <DependentUpon>UserSubGroupCell.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -453,6 +480,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="XCalendar">
       <Version>1.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="sdwebimage">
+      <Version>3.7.5</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

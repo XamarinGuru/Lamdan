@@ -67,7 +67,7 @@ namespace goheja
 					switch (eventsDoneToday[i])
 					{
 						case "1":
-							convertView.FindViewById<ImageView>(Resource.Id.img1).SetImageResource(Resource.Drawable.icon_triathlon);
+							convertView.FindViewById<ImageView>(Resource.Id.img1).SetImageResource(Resource.Drawable.icon_bike);
 							break;
 						case "2":
 							convertView.FindViewById<ImageView>(Resource.Id.img2).SetImageResource(Resource.Drawable.icon_run);
@@ -128,7 +128,7 @@ namespace goheja
             }
             else
             {
-                currentUser.athleteId = (sender as LinearLayout).Tag.ToString();
+                currentUser.athleteId = fakeUserId;
                 AppSettings.isFakeUser = true;
 				foreach (var tmpUser in _searchAthletes)
 				{
@@ -202,7 +202,7 @@ namespace goheja
 					switch (eventsDoneToday[i])
 					{
 						case "1":
-							convertView.FindViewById<ImageView>(Resource.Id.img1).SetImageResource(Resource.Drawable.icon_triathlon);
+							convertView.FindViewById<ImageView>(Resource.Id.img1).SetImageResource(Resource.Drawable.icon_bike);
 							break;
 						case "2":
 							convertView.FindViewById<ImageView>(Resource.Id.img2).SetImageResource(Resource.Drawable.icon_run);

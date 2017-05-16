@@ -175,11 +175,9 @@ namespace goheja
 
 					System.Threading.ThreadPool.QueueUserWorkItem(delegate
 					{
-						var result = "";
-
 						ShowLoadingView(Constants.MSG_SIGNUP);
 
-						result = RegisterUser(txtFirstname.Text, txtLastname.Text, deviceUDID, txtUsername.Text, txtPassword.Text, txtEmail.Text, int.Parse(txtAge.Text));
+						var result = RegisterUser(txtFirstname.Text, txtLastname.Text, deviceUDID, txtUsername.Text, txtPassword.Text, txtEmail.Text, int.Parse(txtAge.Text));
 
 						if (result == "user added")
 						{
@@ -220,7 +218,8 @@ namespace goheja
             }
             catch (Exception ex)
             {
-				ShowTrackMessageBox(ex.Message);
+                HideLoadingView();
+				ShowMessageBox(null, ex.Message.ToString());
             }
         }
 

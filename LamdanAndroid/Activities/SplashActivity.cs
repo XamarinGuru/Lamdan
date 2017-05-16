@@ -68,15 +68,13 @@ namespace goheja
         public Notification CreateNotification()
         {
 			var contentIntent = PendingIntent.GetActivity(this, 0, new Intent(this, typeof(SplashActivity)), PendingIntentFlags.UpdateCurrent);
-            var builder = new NotificationCompat.Builder(this)
-               	.SetContentTitle("Lamdan on the go")
-               	.SetSmallIcon(Resource.Drawable.icon_notification)
-               	.SetPriority(1)
-              	.SetContentIntent(contentIntent)
-               	.SetCategory("tst")
-              	.SetStyle(new NotificationCompat.BigTextStyle()
-          		.BigText(Html.FromHtml("Tap to Open")))
-               	.SetContentText(Html.FromHtml("Tap to Open"));
+			var builder = new NotificationCompat.Builder(this)
+			                                    .SetContentTitle(ApplicationInfo.LoadLabel(PackageManager) + " on the go")
+			                                    .SetSmallIcon(Resource.Drawable.icon_notification).SetPriority(1)
+			                                    .SetContentIntent(contentIntent)
+			                                    .SetCategory("tst")
+			                                    .SetStyle(new NotificationCompat.BigTextStyle().BigText(Html.FromHtml("Tap to Open")))
+			                                    .SetContentText(Html.FromHtml("Tap to Open"));
 			
             var clossIntent = new Intent(this, typeof(CloseApplicationActivity));
             clossIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask | ActivityFlags.ClearTop);

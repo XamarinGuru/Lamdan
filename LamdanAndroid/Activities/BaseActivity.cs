@@ -377,7 +377,7 @@ namespace goheja
 			return result;
 		}
 
-		public string UpdateUserDataJson(RootMember updatedUserObject, string updatedById = null)
+		public string UpdateUserDataJson(RootMember updatedUserObject)
 		{
 			string result = "";
 

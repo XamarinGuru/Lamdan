@@ -19,11 +19,15 @@ namespace goheja
 
 		LinearLayout errorEmail, errorPassword;
 
+		string requestCode;
+
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 
 			SetContentView(Resource.Layout.LoginActivity);
+
+			requestCode = Intent.GetStringExtra("requestCode");
 
 			InitUI();
 		}
@@ -128,7 +132,33 @@ namespace goheja
 
 		void ActionBack(object sender, EventArgs e)
 		{
-			ActionBackCancel();
+			if (requestCode == "init")
+			{
+				ActionBackCancel();
+			}
+			else
+			{
+				var activity = new Intent(this, typeof(InitActivity));
+				StartActivityForResult(activity, 1);
+			}
+		}
+
+		public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
+		{
+			if (keyCode == Keycode.Back)
+			{
+				if (requestCode == "init")
+				{
+					ActionBackCancel();
+				}
+				else
+				{
+					var activity = new Intent(this, typeof(InitActivity));
+					StartActivityForResult(activity, 1);
+				}
+			}
+
+			return base.OnKeyDown(keyCode, e);
 		}
 	}
 }

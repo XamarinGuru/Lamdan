@@ -84,6 +84,10 @@ namespace location2
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel lblFakeUserName { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel lblRunDistance { get; set; }
 
         [Outlet]
@@ -279,6 +283,11 @@ namespace location2
             if (lblCycleStressTitle != null) {
                 lblCycleStressTitle.Dispose ();
                 lblCycleStressTitle = null;
+            }
+
+            if (lblFakeUserName != null) {
+                lblFakeUserName.Dispose ();
+                lblFakeUserName = null;
             }
 
             if (lblRunDistance != null) {

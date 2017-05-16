@@ -2791,14 +2791,8 @@ namespace goheja
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f06002b
-			public const int ApplicationName = 2131099691;
-			
 			// aapt resource value: 0x7f06002a
 			public const int Hello = 2131099690;
-			
-			// aapt resource value: 0x7f06002c
-			public const int app_name = 2131099692;
 			
 			// aapt resource value: 0x7f06001d
 			public const int auth_google_play_services_client_facebook_display_name = 2131099677;
@@ -2895,12 +2889,6 @@ namespace goheja
 			
 			// aapt resource value: 0x7f06001f
 			public const int define_roundedimageview = 2131099679;
-			
-			// aapt resource value: 0x7f06002e
-			public const int demo_max_label = 2131099694;
-			
-			// aapt resource value: 0x7f06002d
-			public const int demo_min_label = 2131099693;
 			
 			// aapt resource value: 0x7f060029
 			public const int library_name = 2131099689;

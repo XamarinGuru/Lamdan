@@ -131,7 +131,8 @@ namespace goheja
 			rootActivity.SignOutUser();
 
 			var activity = new Intent(this.Activity, typeof(LoginActivity));
-			StartActivity(activity);
+			activity.PutExtra("requestCode", "profile");
+			StartActivityForResult(activity, 1);
 			rootActivity.Finish();
 		}
 

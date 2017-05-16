@@ -28,7 +28,15 @@ namespace location2
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint constraintTabBarHeight { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIView pageContent { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView tabBar { get; set; }
 
         [Action ("ActionTab:")]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -51,9 +59,19 @@ namespace location2
                 btnProfile = null;
             }
 
+            if (constraintTabBarHeight != null) {
+                constraintTabBarHeight.Dispose ();
+                constraintTabBarHeight = null;
+            }
+
             if (pageContent != null) {
                 pageContent.Dispose ();
                 pageContent = null;
+            }
+
+            if (tabBar != null) {
+                tabBar.Dispose ();
+                tabBar = null;
             }
         }
     }
