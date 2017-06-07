@@ -237,23 +237,23 @@ namespace goheja
 			AppSettings.DeviceUDID = string.Empty;
 		}
 
-		public List<Athlete> GetAllUsers()
-		{
-			var result = new List<Athlete>();
+		//public List<Athlete> GetAllUsers()
+		//{
+		//	var result = new List<Athlete>();
 
-			try
-			{
-				var objAthletes = mTrackSvc.athGeneralListMob(string.Empty, Constants.SPEC_GROUP_TYPE);
-				var athletes = JsonConvert.DeserializeObject<Athletes>(objAthletes.ToString());
-				result = athletes.athlete;
-			}
-			catch (Exception ex)
-			{
-				ShowTrackMessageBox(ex.Message);
-			}
+		//	try
+		//	{
+		//		var objAthletes = mTrackSvc.athGeneralListMob(string.Empty, Constants.SPEC_GROUP_TYPE);
+		//		var athletes = JsonConvert.DeserializeObject<Athletes>(objAthletes.ToString());
+		//		result = athletes.athlete;
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		ShowTrackMessageBox(ex.Message);
+		//	}
 
-			return SortUsers(result);
-		}
+		//	return SortUsers(result);
+		//}
 
 		public List<Athlete> GetAllUsersWithTypeAndId()
 		{

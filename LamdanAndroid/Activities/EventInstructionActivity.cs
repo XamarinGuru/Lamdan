@@ -99,10 +99,7 @@ namespace goheja
             btnTotals = FindViewById<TextView>(Resource.Id.btnTotals);
             btnLaps = FindViewById<TextView>(Resource.Id.btnLaps);
 
-            btnTotals.SetTextColor(GROUP_COLOR);
-            btnLaps.SetTextColor(Color.White);
-            FindViewById<LinearLayout>(Resource.Id.contentTotals).Visibility = ViewStates.Visible;
-            FindViewById<LinearLayout>(Resource.Id.contentLaps).Visibility = ViewStates.Gone;
+            SetActiveTab(0);
 
             //plan
 			lblPlannedDistance = FindViewById<TextView>(Resource.Id.lblPlannedDistance);
@@ -159,17 +156,11 @@ namespace goheja
 
 			btnTotals.Click += delegate (object sender, System.EventArgs e)
 			{
-                btnTotals.SetTextColor(GROUP_COLOR);
-                btnLaps.SetTextColor(Color.White);
-                FindViewById<LinearLayout>(Resource.Id.contentTotals).Visibility = ViewStates.Visible;
-                FindViewById<LinearLayout>(Resource.Id.contentLaps).Visibility = ViewStates.Gone;
+                SetActiveTab(0);
 			};
 			btnLaps.Click += delegate (object sender, System.EventArgs e)
 			{
-				btnTotals.SetTextColor(Color.White);
-				btnLaps.SetTextColor(GROUP_COLOR);
-				FindViewById<LinearLayout>(Resource.Id.contentTotals).Visibility = ViewStates.Gone;
-                FindViewById<LinearLayout>(Resource.Id.contentLaps).Visibility = ViewStates.Visible;
+				SetActiveTab(1);
 			};
 
 			FindViewById(Resource.Id.btnBack).Click += delegate (object sender, System.EventArgs e) {
@@ -180,18 +171,23 @@ namespace goheja
 				var activity = new Intent(this, typeof(LocationActivity));
 				StartActivityForResult(activity, 1);
 			};
-			FindViewById(Resource.Id.ActionAdjustTrainning).Click += delegate (object sender, System.EventArgs e)
+
+			var ActionAdjustTrainning = FindViewById(Resource.Id.ActionAdjustTrainning);
+			ActionAdjustTrainning.Click += delegate (object sender, System.EventArgs e)
 			{
 				var activity = new Intent(this, typeof(AdjustTrainningActivity));
 				StartActivityForResult(activity, 1);
 			};
-			FindViewById(Resource.Id.ActionAdjustTrainning).SetBackgroundColor(GROUP_COLOR);
+			ActionAdjustTrainning.SetBackgroundColor(GROUP_COLOR);
 
 			FindViewById(Resource.Id.ActionAddComment).Click += delegate (object sender, System.EventArgs e) { 
 				var activity = new Intent(this, typeof(AddCommentActivity));
 				StartActivityForResult(activity, 1);
 			};
 			FindViewById(Resource.Id.ActionAddComment).SetBackgroundColor(GROUP_COLOR);
+
+			ActionAdjustTrainning.Visibility = AppSettings.isFakeUser? ViewStates.Gone : ViewStates.Visible;
+			FindViewById(Resource.Id.contentEditBtn).Visibility = AppSettings.isFakeUser? ViewStates.Gone : ViewStates.Visible;
 		}
 
 		void InitBindingEventPlanned(GoHejaEvent selectedEvent)
@@ -371,11 +367,33 @@ namespace goheja
             editPerformedLoad.SetBackgroundColor(bgColor);
 		}
 
+        void SetActiveTab(int tabType)
+        {
+            if(tabType == 0)
+            {
+				btnTotals.SetTextColor(GROUP_COLOR);
+				btnLaps.SetTextColor(Color.White);
+				FindViewById<LinearLayout>(Resource.Id.contentTotals).Visibility = ViewStates.Visible;
+				FindViewById<LinearLayout>(Resource.Id.tabTotalsBorder).Visibility = ViewStates.Gone;
+                FindViewById<LinearLayout>(Resource.Id.contentLaps).Visibility = ViewStates.Gone;
+                FindViewById<LinearLayout>(Resource.Id.tabLapsBorder).Visibility = ViewStates.Visible;
+            }
+            else
+            {
+				btnTotals.SetTextColor(Color.White);
+				btnLaps.SetTextColor(GROUP_COLOR);
+				FindViewById<LinearLayout>(Resource.Id.contentTotals).Visibility = ViewStates.Gone;
+                FindViewById<LinearLayout>(Resource.Id.tabTotalsBorder).Visibility = ViewStates.Visible;
+				FindViewById<LinearLayout>(Resource.Id.contentLaps).Visibility = ViewStates.Visible;
+                FindViewById<LinearLayout>(Resource.Id.tabLapsBorder).Visibility = ViewStates.Gone;
+            }
+        }
+
         public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
         {
             if (keyCode == Keycode.Back)
             {
-                BackAction();
+                ActionBackCancel();
             }
 
             return base.OnKeyDown(keyCode, e);

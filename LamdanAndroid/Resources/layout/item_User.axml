@@ -82,9 +82,7 @@
                         android:layout_height="match_parent"
                         android:id="@+id/todayDoneScrollView"
                         android:scrollbars="none"
-                        android:layout_weight="5"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp" />
+                        android:layout_weight="5" />
                     <LinearLayout
                         android:orientation="horizontal"
                         android:minWidth="25px"

@@ -326,10 +326,10 @@ namespace goheja
                 {
                     mSuperActivity.ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
 
-                    var eventDetail = mSuperActivity.GetEventDetail("59217dbc16528b20e4542d7c");
+                    var eventDetail = mSuperActivity.GetEventDetail(eventId);
 
                     AppSettings.selectedEvent = eventDetail;
-                    AppSettings.selectedEvent._id = "59217dbc16528b20e4542d7c";
+                    AppSettings.selectedEvent._id = eventId;
 
                     mSuperActivity.HideLoadingView();
 
