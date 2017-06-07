@@ -46,8 +46,6 @@ namespace location2
 
 				HideLoadingView();
 			});
-
-			//InitBindingEventTotal();
 		}
 
 		void InitUISettings()

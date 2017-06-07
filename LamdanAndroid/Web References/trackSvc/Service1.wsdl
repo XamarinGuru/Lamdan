@@ -159,6 +159,12 @@
   <wsdl:message name="IService1_athGeneralListMob_OutputMessage">
     <wsdl:part name="parameters" element="tns:athGeneralListMobResponse" />
   </wsdl:message>
+  <wsdl:message name="IService1_athGeneralListMobWithTypeAndId_InputMessage">
+    <wsdl:part name="parameters" element="tns:athGeneralListMobWithTypeAndId" />
+  </wsdl:message>
+  <wsdl:message name="IService1_athGeneralListMobWithTypeAndId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:athGeneralListMobWithTypeAndIdResponse" />
+  </wsdl:message>
   <wsdl:message name="IService1_insertMultiToGroup_InputMessage">
     <wsdl:part name="parameters" element="tns:insertMultiToGroup" />
   </wsdl:message>
@@ -818,6 +824,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/athGeneralListMob" message="tns:IService1_athGeneralListMob_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService1/athGeneralListMobResponse" message="tns:IService1_athGeneralListMob_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="athGeneralListMobWithTypeAndId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/athGeneralListMobWithTypeAndId" message="tns:IService1_athGeneralListMobWithTypeAndId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/athGeneralListMobWithTypeAndIdResponse" message="tns:IService1_athGeneralListMobWithTypeAndId_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="insertMultiToGroup">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/insertMultiToGroup" message="tns:IService1_insertMultiToGroup_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService1/insertMultiToGroupResponse" message="tns:IService1_insertMultiToGroup_OutputMessage" />
@@ -1411,6 +1421,15 @@
     </wsdl:operation>
     <wsdl:operation name="athGeneralListMob">
       <soap:operation soapAction="http://tempuri.org/IService1/athGeneralListMob" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="athGeneralListMobWithTypeAndId">
+      <soap:operation soapAction="http://tempuri.org/IService1/athGeneralListMobWithTypeAndId" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

@@ -59,13 +59,31 @@ namespace goheja
 				else if(AppSettings.CurrentUser.userType == (int)Constants.USER_TYPE.COACH)
 				{
 					AppSettings.isFakeUser = false;
-					return base.OnKeyDown(keyCode, e);
+                    //return base.OnKeyDown(keyCode, e);
+                    BackAction();
 				}
 
 				return false;
 			}
 
 			return base.OnKeyDown(keyCode, e);
+		}
+
+		void BackAction()
+		{
+			var fromWhere = Intent.GetStringExtra("FromWhere");
+
+			if (!string.IsNullOrEmpty(fromWhere) && fromWhere.Equals("CoachList"))
+			{
+                var nextIntent = new Intent(this, typeof(CoachHomeActivity));
+				nextIntent.PutExtra("FromWhere", "CoachList");
+				StartActivityForResult(nextIntent, 0);
+				Finish();
+			}
+			else
+			{
+				ActionBackCancel();
+			}
 		}
 
 		private void InitUISettings()

@@ -6,6 +6,7 @@ using Android.Text;
 using System.Threading.Tasks;
 using Android.Content.PM;
 using PortableLibrary;
+using Com.GrapeCity.Xuni.Core;
 
 namespace goheja
 {
@@ -16,6 +17,8 @@ namespace goheja
         public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
         {
             base.OnCreate(savedInstanceState, persistentState);
+
+            LicenseManager.Key = License.Key;
         }
 
         protected override void OnResume()

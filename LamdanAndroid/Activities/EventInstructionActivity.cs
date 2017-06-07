@@ -1,20 +1,30 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using Com.GrapeCity.Xuni.Core;
+using goheja.Adapter;
 using PortableLibrary;
+using PortableLibrary.Model;
 
 namespace goheja
 {
 	[Activity(Label = "EventInstructionActivity", ScreenOrientation = ScreenOrientation.Portrait)]
 	public class EventInstructionActivity : BaseActivity
 	{
-		TextView lblPDistance, lblPDuration, lblPLoad, lblPHB;
-		TextView lblTDistance, lblTDuration, lblTload;
+        TextView btnEdit;
+        TextView lblPlannedDistance, lblPlannedDuration, lblPlannedLoad, lblPlannedAvgSpeed, lblPlannedAcent, lblPlannedAvgHr, lblPlannedCalories, lblPlannedAvgPower, lblPlannedLeveledPower;
+        EditText editPerformedDistance, editPerformedDuration, editPerformedLoad;
+        TextView lblPerformedAvgSpeed, lblPerformedAcent, lblPerformedAvgHR, lblPerformedCalories, lblPerformedAvgPower, lblPerformedLeveledPower;
+
+        ListView listLaps;
+        TextView btnTotals, btnLaps;
 
 		float fDistance = 0;
 		float fDuration = 0;
@@ -26,22 +36,25 @@ namespace goheja
 
 			SetContentView(Resource.Layout.EventInstructionActivity);
 
-			var selectedEvent = AppSettings.selectedEvent;
+            LicenseManager.Key = License.Key;
 
-			InitUISettings(selectedEvent);
+			var selectedEvent = AppSettings.selectedEvent;
 
 			if (!IsNetEnable()) return;
 
-			InitBindingEventData(selectedEvent);
+            InitUISettings(selectedEvent);
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            ResetUISettings();
 		}
 
-		protected override void OnResume()
-		{
-			base.OnResume();
-
+        void ResetUISettings()
+        {
 			var selectedEvent = AppSettings.selectedEvent;
-
-			if (!IsNetEnable()) return;
 
 			try
 			{
@@ -50,17 +63,18 @@ namespace goheja
 					ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
 
 					var eventDetail = GetEventDetail(selectedEvent._id);
-					var eventTotal = GetEventTotals(selectedEvent._id);
+
+					var reportData = GetEventReport(selectedEvent._id);
 					var eventComment = GetComments(selectedEvent._id);
 
 					AppSettings.selectedEvent = eventDetail;
 					AppSettings.selectedEvent._id = selectedEvent._id;
-					AppSettings.currentEventTotal = eventTotal;
+					AppSettings.currentEventReport = reportData;
 
 					RunOnUiThread(() =>
 					{
-						InitBindingEventData(eventDetail);
-						InitBindingEventTotal(eventTotal);
+						InitBindingEventPlanned(eventDetail);
+						InitBindingEventReport(reportData);
 						InitBindingEventComments(eventComment);
 					});
 
@@ -71,64 +85,116 @@ namespace goheja
 			{
 				ShowTrackMessageBox(ex.Message);
 			}
-		}
+        }
 
 		void InitUISettings(GoHejaEvent selectedEvent)
 		{
-			lblPDistance = FindViewById<TextView>(Resource.Id.lblPDistance);
-			lblPDuration = FindViewById<TextView>(Resource.Id.lblPDuration);
-			lblPLoad = FindViewById<TextView>(Resource.Id.lblPLoad);
-			lblPHB = FindViewById<TextView>(Resource.Id.lblPHB);
+            btnEdit = FindViewById<TextView>(Resource.Id.ActionEdit);
+            btnEdit.SetTextColor(GROUP_COLOR);
+            var imgEdit = FindViewById<ImageView>(Resource.Id.imgEdit);
 
-			lblPDistance.SetTextColor(GROUP_COLOR);
-			lblPDuration.SetTextColor(GROUP_COLOR);
-			lblPLoad.SetTextColor(GROUP_COLOR);
-			lblPHB.SetTextColor(GROUP_COLOR);
+            listLaps = FindViewById<ListView>(Resource.Id.listLaps);
+            listLaps.SetOnTouchListener(new MyTouchListener());
 
-			FindViewById<TextView>(Resource.Id.lblAvgSpeed).SetTextColor(GROUP_COLOR);
-			FindViewById<TextView>(Resource.Id.lblTotalDistance).SetTextColor(GROUP_COLOR);
-			FindViewById<TextView>(Resource.Id.lblElapsedTime).SetTextColor(GROUP_COLOR);
-			FindViewById<TextView>(Resource.Id.lblTotalAcent).SetTextColor(GROUP_COLOR);
-			FindViewById<TextView>(Resource.Id.lblAvgHR).SetTextColor(GROUP_COLOR);
-			FindViewById<TextView>(Resource.Id.lblTotalCalories).SetTextColor(GROUP_COLOR);
-			FindViewById<TextView>(Resource.Id.lblAvgPower).SetTextColor(GROUP_COLOR);
-			FindViewById<TextView>(Resource.Id.lblLoad).SetTextColor(GROUP_COLOR);
-			FindViewById<TextView>(Resource.Id.lblLeveledPower).SetTextColor(GROUP_COLOR);
+            btnTotals = FindViewById<TextView>(Resource.Id.btnTotals);
+            btnLaps = FindViewById<TextView>(Resource.Id.btnLaps);
 
-			lblTDistance = FindViewById<TextView>(Resource.Id.lblTotalDistance);
-			lblTDuration = FindViewById<TextView>(Resource.Id.lblElapsedTime);
-			lblTload = FindViewById<TextView>(Resource.Id.lblLoad);
+            btnTotals.SetTextColor(GROUP_COLOR);
+            btnLaps.SetTextColor(Color.White);
+            FindViewById<LinearLayout>(Resource.Id.contentTotals).Visibility = ViewStates.Visible;
+            FindViewById<LinearLayout>(Resource.Id.contentLaps).Visibility = ViewStates.Gone;
 
-			FindViewById(Resource.Id.btnBack).Click += delegate (object sender, EventArgs e) {
-				var activity = new Intent();
-				SetResult(Result.Canceled, activity);
-				Finish();
+            //plan
+			lblPlannedDistance = FindViewById<TextView>(Resource.Id.lblPlannedDistance);
+			lblPlannedDuration = FindViewById<TextView>(Resource.Id.lblPlannedDuration);
+			lblPlannedLoad = FindViewById<TextView>(Resource.Id.lblPlannedLoad);
+			lblPlannedAvgSpeed = FindViewById<TextView>(Resource.Id.lblPlannedAvgSpeed);
+			lblPlannedAcent = FindViewById<TextView>(Resource.Id.lblPlannedAcent);
+			lblPlannedAvgHr = FindViewById<TextView>(Resource.Id.lblPlannedAvgHr);
+			lblPlannedCalories = FindViewById<TextView>(Resource.Id.lblPlannedCalories);
+			lblPlannedAvgPower = FindViewById<TextView>(Resource.Id.lblPlannedAvgPower);
+			lblPlannedLeveledPower = FindViewById<TextView>(Resource.Id.lblPlannedLeveledPower);
+
+            //perform
+            editPerformedDistance = FindViewById<EditText>(Resource.Id.editPerformedDistance);
+			editPerformedDuration = FindViewById<EditText>(Resource.Id.editPerformedDuration);
+			editPerformedLoad = FindViewById<EditText>(Resource.Id.editPerformedLoad);
+
+            lblPerformedAvgSpeed = FindViewById<TextView>(Resource.Id.lblPerformedAvgSpeed);
+            lblPerformedAcent = FindViewById<TextView>(Resource.Id.lblPerformedAcent);
+            lblPerformedAvgHR = FindViewById<TextView>(Resource.Id.lblPerformedAvgHR);
+            lblPerformedCalories = FindViewById<TextView>(Resource.Id.lblPerformedCalories);
+            lblPerformedAvgPower = FindViewById<TextView>(Resource.Id.lblPerformedAvgPower);
+            lblPerformedLeveledPower = FindViewById<TextView>(Resource.Id.lblPerformedLeveledPower);
+
+            SetEditPerformField();
+
+			btnEdit.Click += delegate (object sender, System.EventArgs e)
+			{
+                btnEdit.Text = btnEdit.Text == "Edit" ? "Done" : "Edit";
+                imgEdit.SetImageResource(btnEdit.Text == "Edit" ? Resource.Drawable.icon_pencil : Resource.Drawable.icon_check);
+
+                SetEditPerformField();
+
+                if (btnEdit.Text == "Edit")
+                {
+                    System.Threading.ThreadPool.QueueUserWorkItem(delegate
+                    {
+                        ShowLoadingView(Constants.MSG_ADJUST_TRAINING);
+
+                        var authorID = AppSettings.CurrentUser.userId;
+
+                        var pDuration = ConvertToFloat(editPerformedDuration.Text);
+                        var pDistance = ConvertToFloat(editPerformedDistance.Text);
+                        var pLoad = ConvertToFloat(editPerformedLoad.Text);
+
+                        UpdateMemberNotes(string.Empty, authorID, AppSettings.selectedEvent._id, string.Empty, selectedEvent.attended, pDuration.ToString(), pDistance.ToString(), pLoad.ToString(), AppSettings.selectedEvent.type);
+
+                        HideLoadingView();
+
+                        ResetUISettings();
+                    });
+                }
 			};
-			FindViewById(Resource.Id.ActionLocation).Click += delegate (object sender, EventArgs e)
+
+			btnTotals.Click += delegate (object sender, System.EventArgs e)
+			{
+                btnTotals.SetTextColor(GROUP_COLOR);
+                btnLaps.SetTextColor(Color.White);
+                FindViewById<LinearLayout>(Resource.Id.contentTotals).Visibility = ViewStates.Visible;
+                FindViewById<LinearLayout>(Resource.Id.contentLaps).Visibility = ViewStates.Gone;
+			};
+			btnLaps.Click += delegate (object sender, System.EventArgs e)
+			{
+				btnTotals.SetTextColor(Color.White);
+				btnLaps.SetTextColor(GROUP_COLOR);
+				FindViewById<LinearLayout>(Resource.Id.contentTotals).Visibility = ViewStates.Gone;
+                FindViewById<LinearLayout>(Resource.Id.contentLaps).Visibility = ViewStates.Visible;
+			};
+
+			FindViewById(Resource.Id.btnBack).Click += delegate (object sender, System.EventArgs e) {
+                BackAction();
+			};
+			FindViewById(Resource.Id.ActionLocation).Click += delegate (object sender, System.EventArgs e)
 			{
 				var activity = new Intent(this, typeof(LocationActivity));
 				StartActivityForResult(activity, 1);
 			};
-			FindViewById(Resource.Id.ActionAdjustTrainning).Click += delegate (object sender, EventArgs e)
+			FindViewById(Resource.Id.ActionAdjustTrainning).Click += delegate (object sender, System.EventArgs e)
 			{
 				var activity = new Intent(this, typeof(AdjustTrainningActivity));
 				StartActivityForResult(activity, 1);
 			};
 			FindViewById(Resource.Id.ActionAdjustTrainning).SetBackgroundColor(GROUP_COLOR);
 
-			FindViewById(Resource.Id.ActionAddComment).Click += delegate (object sender, EventArgs e) { 
+			FindViewById(Resource.Id.ActionAddComment).Click += delegate (object sender, System.EventArgs e) { 
 				var activity = new Intent(this, typeof(AddCommentActivity));
 				StartActivityForResult(activity, 1);
 			};
 			FindViewById(Resource.Id.ActionAddComment).SetBackgroundColor(GROUP_COLOR);
-
-			if (DateTime.Compare(selectedEvent.StartDateTime(), DateTime.Now) > 0)
-				FindViewById(Resource.Id.ActionAdjustTrainning).Visibility = ViewStates.Gone;
-			else
-				FindViewById(Resource.Id.ActionAdjustTrainning).Visibility = ViewStates.Visible;
 		}
 
-		void InitBindingEventData(GoHejaEvent selectedEvent)
+		void InitBindingEventPlanned(GoHejaEvent selectedEvent)
 		{
 			try
 			{
@@ -143,7 +209,7 @@ namespace goheja
 				var c = b / 100;
 				var formattedDistance = c.ToString("F2");
 
-				lblPDistance.Text = formattedDistance + " KM";
+                lblPlannedDistance.Text = formattedDistance + " KM";
 
 				var durMin = selectedEvent.durMin == "" ? 0 : int.Parse(selectedEvent.durMin);
 				var durHrs = selectedEvent.durHrs == "" ? 0 : int.Parse(selectedEvent.durHrs);
@@ -155,29 +221,30 @@ namespace goheja
 
 				fLoad = selectedEvent.tss == "" ? 0 : float.Parse(selectedEvent.tss);
 
-				lblPDuration.Text = strDuration;
-				lblPLoad.Text = selectedEvent.tss;
-				lblPHB.Text = selectedEvent.hb;
+                lblPlannedDuration.Text = strDuration;
+                lblPlannedLoad.Text = selectedEvent.tss;
+                lblPlannedAvgHr.Text = selectedEvent.hb;
 
 				var imgType = FindViewById<ImageView>(Resource.Id.imgType);
-				switch (selectedEvent.type)
+                var pType = (Constants.EVENT_TYPE)Enum.ToObject(typeof(Constants.EVENT_TYPE), int.Parse(selectedEvent.type));
+				switch (pType)
 				{
-					case "0":
-						imgType.SetImageResource(Resource.Drawable.icon_triathlon);
+                    case Constants.EVENT_TYPE.OTHER:
+						imgType.SetImageResource(Resource.Drawable.icon_other);
 						break;
-					case "1":
+					case Constants.EVENT_TYPE.BIKE:
 						imgType.SetImageResource(Resource.Drawable.icon_bike);
 						break;
-					case "2":
+                    case Constants.EVENT_TYPE.RUN:
 						imgType.SetImageResource(Resource.Drawable.icon_run);
 						break;
-					case "3":
+                    case Constants.EVENT_TYPE.SWIM:
 						imgType.SetImageResource(Resource.Drawable.icon_swim);
 						break;
-					case "4":
+                    case Constants.EVENT_TYPE.TRIATHLON:
 						imgType.SetImageResource(Resource.Drawable.icon_triathlon);
 						break;
-					case "5":
+                    case Constants.EVENT_TYPE.ANOTHER:
 						imgType.SetImageResource(Resource.Drawable.icon_other);
 						break;
 				}
@@ -188,36 +255,79 @@ namespace goheja
 			}
 		}
 
-		void InitBindingEventTotal(EventTotal eventTotal)
-		{
-			if (eventTotal == null || eventTotal.totals == null)
+        void InitBindingEventReport(ReportData report)
+        {
+            if (report != null)
 			{
-				FindViewById(Resource.Id.totalContent).Visibility = ViewStates.Gone;
-				return;
+				if (report.data != null)
+					InitBindingEventPerformed(report.data);
+
+				if (report.lapData != null)
+					InitBindingEventLaps(report.lapData, report.type);
 			}
+        }
 
-			FindViewById(Resource.Id.totalContent).Visibility = ViewStates.Visible;
-
+        void InitBindingEventPerformed(List<Item> eventTotal)
+		{
 			try
 			{
-				FindViewById<TextView>(Resource.Id.lblAvgSpeed).Text = FormatNumber(eventTotal.totals[0].value);
-				FindViewById<TextView>(Resource.Id.lblTotalDistance).Text = FormatNumber(eventTotal.totals[1].value);
-				FindViewById<TextView>(Resource.Id.lblElapsedTime).Text = FormatNumber(eventTotal.totals[2].value);
-				FindViewById<TextView>(Resource.Id.lblTotalAcent).Text = FormatNumber(eventTotal.totals[3].value);
-				FindViewById<TextView>(Resource.Id.lblAvgHR).Text = FormatNumber(eventTotal.totals[4].value);
-				FindViewById<TextView>(Resource.Id.lblTotalCalories).Text = FormatNumber(eventTotal.totals[5].value);
-				FindViewById<TextView>(Resource.Id.lblAvgPower).Text = FormatNumber(eventTotal.totals[6].value);
-				FindViewById<TextView>(Resource.Id.lblLoad).Text = FormatNumber(eventTotal.totals[7].value);
-				FindViewById<TextView>(Resource.Id.lblLeveledPower).Text = FormatNumber(eventTotal.totals[8].value);
+				lblPerformedAvgSpeed.Text = FormatNumber(eventTotal[0].value);
+                editPerformedDistance.Text = FormatNumber(eventTotal[1].value);
 
-				CompareEventResult(fDistance, ConvertToFloat(eventTotal.totals[1].value), lblPDistance, lblTDistance);
-				CompareEventResult(fDuration, TotalSecFromString(eventTotal.totals[2].value), lblPDuration, lblTDuration);
-				CompareEventResult(fLoad, ConvertToFloat(eventTotal.totals[7].value), lblPLoad, lblTload);
+                var strEt = GetFormatedDurationAsMin(eventTotal[2].value);
+                editPerformedDuration.Text = strEt.ToString();
+
+                lblPerformedAcent.Text = FormatNumber(eventTotal[3].value);
+                lblPerformedAvgHR.Text = FormatNumber(eventTotal[4].value);
+                lblPerformedCalories.Text = FormatNumber(eventTotal[5].value);
+                lblPerformedAvgPower.Text = FormatNumber(eventTotal[6].value);
+				editPerformedLoad.Text = FormatNumber(eventTotal[7].value);
+                lblPerformedLeveledPower.Text = FormatNumber(eventTotal[8].value);
+
+				CompareEventResult(fDistance, ConvertToFloat(eventTotal[1].value), lblPlannedDistance, editPerformedDistance);
+				CompareEventResult(fDuration, TotalSecFromString(eventTotal[2].value), lblPlannedDuration, editPerformedDuration);
+				CompareEventResult(fLoad, ConvertToFloat(eventTotal[7].value), lblPlannedLoad, editPerformedLoad);
 			}
 			catch (Exception ex)
 			{
 				ShowTrackMessageBox(ex.Message);
 			}
+		}
+
+		void InitBindingEventLaps(List<Lap> laps, int type)
+		{
+            var lapHeaderForBikeOrRun = FindViewById<LinearLayout>(Resource.Id.lapHeaderForBikeOrRun);
+            var lapHeaderForSwim = FindViewById<LinearLayout>(Resource.Id.lapHeaderForSwim);
+            var lapHeaderForTriathlon = FindViewById<LinearLayout>(Resource.Id.lapHeaderForTriathlon);
+            var lapHeaderForOther = FindViewById<LinearLayout>(Resource.Id.lapHeaderForOther);
+
+            lapHeaderForBikeOrRun.Visibility = ViewStates.Gone;
+            lapHeaderForSwim.Visibility = ViewStates.Gone;
+            lapHeaderForTriathlon.Visibility = ViewStates.Gone;
+            lapHeaderForOther.Visibility = ViewStates.Gone;
+
+			var pType = (Constants.EVENT_TYPE)Enum.ToObject(typeof(Constants.EVENT_TYPE), type);
+			switch (pType)
+			{
+				case Constants.EVENT_TYPE.BIKE:
+				case Constants.EVENT_TYPE.RUN:
+                    lapHeaderForBikeOrRun.Visibility = ViewStates.Visible;
+					break;
+				case Constants.EVENT_TYPE.SWIM:
+					lapHeaderForSwim.Visibility = ViewStates.Visible;
+					break;
+				case Constants.EVENT_TYPE.TRIATHLON:
+					lapHeaderForTriathlon.Visibility = ViewStates.Visible;
+					break;
+				case Constants.EVENT_TYPE.ANOTHER:
+				case Constants.EVENT_TYPE.OTHER:
+					lapHeaderForOther.Visibility = ViewStates.Visible;
+					break;
+			}
+
+			var adapter = new LapsAdapter(laps, type, this);
+			listLaps.Adapter = adapter;
+			adapter.NotifyDataSetChanged();
 		}
 
 		void InitBindingEventComments(Comment comments)
@@ -248,14 +358,63 @@ namespace goheja
 			}
 		}
 
-		public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
-		{
-			if (keyCode == Keycode.Back)
+        void SetEditPerformField()
+        {
+			var isEditable = !(btnEdit.Text == "Edit");
+			editPerformedDistance.Enabled = isEditable;
+			editPerformedDuration.Enabled = isEditable;
+			editPerformedLoad.Enabled = isEditable;
+
+            var bgColor = isEditable ? Color.Gray : Color.Transparent;
+			editPerformedDistance.SetBackgroundColor(bgColor);
+            editPerformedDuration.SetBackgroundColor(bgColor);
+            editPerformedLoad.SetBackgroundColor(bgColor);
+		}
+
+        public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
+        {
+            if (keyCode == Keycode.Back)
+            {
+                BackAction();
+            }
+
+            return base.OnKeyDown(keyCode, e);
+        }
+
+        void BackAction()
+        {
+			var fromWhere = Intent.GetStringExtra("FromWhere");
+
+            if (!string.IsNullOrEmpty(fromWhere) && fromWhere.Equals("CoachList"))
+			{
+				var nextIntent = new Intent(this, typeof(EventCalendarActivity));
+				nextIntent.PutExtra("FromWhere", "CoachList");
+				StartActivityForResult(nextIntent, 0);
+				Finish();
+			}
+			else
 			{
 				ActionBackCancel();
 			}
+        }
 
-			return base.OnKeyDown(keyCode, e);
+		public class MyTouchListener: Java.Lang.Object, View.IOnTouchListener
+		{
+            public bool OnTouch(View v, MotionEvent e)
+            {
+                switch (e.Action)
+                {
+                    case MotionEventActions.Down:
+                        v.Parent.RequestDisallowInterceptTouchEvent(true);
+                        break;
+                    case MotionEventActions.Up:
+                        v.Parent.RequestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                v.OnTouchEvent(e);
+                return true;
+            }
 		}
 	}
 }

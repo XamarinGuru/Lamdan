@@ -61,28 +61,40 @@ namespace goheja
 				ActionFakeUser.Click += ActionChangeFakeUser;
 				ActionFakeUser.Tag = athletes._id;
 
-				var eventsDoneToday = athletes.eventsDoneToday.Split(new char[] { ',' });
-				for (int i = 0; i < eventsDoneToday.Length; i++)
+                var scrollView = convertView.FindViewById<HorizontalScrollView>(Resource.Id.todayDoneScrollView);
+                var layout = new LinearLayout(mSuperActivity.ApplicationContext);
+
+                foreach(var eventDoneToday in athletes.eventsDoneToday)
 				{
-					switch (eventsDoneToday[i])
+                    var imgTodayDone = new ImageView(mSuperActivity.ApplicationContext);
+                    switch (eventDoneToday.eventType)
 					{
 						case "1":
-							convertView.FindViewById<ImageView>(Resource.Id.img1).SetImageResource(Resource.Drawable.icon_bike);
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_bike);
 							break;
 						case "2":
-							convertView.FindViewById<ImageView>(Resource.Id.img2).SetImageResource(Resource.Drawable.icon_run);
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_run);
 							break;
 						case "3":
-							convertView.FindViewById<ImageView>(Resource.Id.img3).SetImageResource(Resource.Drawable.icon_swim);
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_swim);
 							break;
 						case "4":
-							convertView.FindViewById<ImageView>(Resource.Id.img4).SetImageResource(Resource.Drawable.icon_triathlon);
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_triathlon);
 							break;
 						case "5":
-							convertView.FindViewById<ImageView>(Resource.Id.img5).SetImageResource(Resource.Drawable.icon_other);
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_other);
 							break;
 					}
+
+                    imgTodayDone.SetX(0);
+                    imgTodayDone.LayoutParameters = new ViewGroup.LayoutParams(50, ViewGroup.LayoutParams.MatchParent);
+                    imgTodayDone.SetPadding(5, 5, 5, 5);
+                    layout.AddView(imgTodayDone);
+
+                    imgTodayDone.Click += ActionEventInstruction;
+                    imgTodayDone.Tag = athletes._id + "," + eventDoneToday.eventId;
 				}
+                scrollView.AddView(layout);
 
 				switch (athletes.pmcStatus)
 				{
@@ -108,7 +120,54 @@ namespace goheja
 			return convertView;
 		}
 
-		public void PerformSearch(string strSearch)
+        private void ActionEventInstruction(object sender, EventArgs e)
+        {
+            var tags = (sender as ImageView).Tag.ToString().Split(new char[] { ',' });
+
+            var fakeUserId = tags[0];
+            var eventId = tags[1];
+
+            System.Threading.ThreadPool.QueueUserWorkItem(delegate
+                {
+                    mSuperActivity.ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
+
+                    var eventDetail = mSuperActivity.GetEventDetail(eventId);
+
+                    AppSettings.selectedEvent = eventDetail;
+                    AppSettings.selectedEvent._id = eventId;
+
+                    mSuperActivity.HideLoadingView();
+
+
+                    var currentUser = AppSettings.CurrentUser;
+
+                    if (currentUser.userId == fakeUserId)
+                    {
+                        currentUser.athleteId = null;
+                        AppSettings.isFakeUser = false;
+                        AppSettings.fakeUserName = string.Empty;
+                    }
+                    else
+                    {
+                        currentUser.athleteId = fakeUserId;
+                        AppSettings.isFakeUser = true;
+                        foreach (var tmpUser in _searchAthletes)
+                        {
+                            if (tmpUser._id == fakeUserId)
+                                AppSettings.fakeUserName = tmpUser.name;
+                        }
+                    }
+
+                    AppSettings.CurrentUser = currentUser;
+
+                    var nextIntent = new Intent(mSuperActivity, typeof(EventInstructionActivity));
+                    nextIntent.PutExtra("FromWhere", "CoachList");
+                    mSuperActivity.StartActivityForResult(nextIntent, 0);
+
+                });
+        }
+
+        public void PerformSearch(string strSearch)
 		{
 			strSearch = strSearch.ToLower();
 			_searchAthletes = _athletes.Where(x => x.name.ToLower().Contains(strSearch)).ToList();
@@ -196,28 +255,41 @@ namespace goheja
 				ActionFakeUser.Click += ActionChangeFakeUser;
 				ActionFakeUser.Tag = athletes.athleteId;
 
-				var eventsDoneToday = athletes.eventsDoneToday.Split(new char[] { ',' });
-				for (int i = 0; i < eventsDoneToday.Length; i++)
+				var scrollView = convertView.FindViewById<HorizontalScrollView>(Resource.Id.todayDoneScrollView);
+				var layout = new LinearLayout(mSuperActivity.ApplicationContext);
+
+				foreach (var eventDoneToday in athletes.eventsDoneToday)
 				{
-					switch (eventsDoneToday[i])
+					var imgTodayDone = new ImageView(mSuperActivity.ApplicationContext);
+                    switch (eventDoneToday.eventType)
 					{
 						case "1":
-							convertView.FindViewById<ImageView>(Resource.Id.img1).SetImageResource(Resource.Drawable.icon_bike);
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_bike);
 							break;
 						case "2":
-							convertView.FindViewById<ImageView>(Resource.Id.img2).SetImageResource(Resource.Drawable.icon_run);
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_run);
 							break;
 						case "3":
-							convertView.FindViewById<ImageView>(Resource.Id.img3).SetImageResource(Resource.Drawable.icon_swim);
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_swim);
 							break;
 						case "4":
-							convertView.FindViewById<ImageView>(Resource.Id.img4).SetImageResource(Resource.Drawable.icon_triathlon);
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_triathlon);
 							break;
 						case "5":
-							convertView.FindViewById<ImageView>(Resource.Id.img5).SetImageResource(Resource.Drawable.icon_other);
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_other);
 							break;
 					}
+
+					imgTodayDone.SetX(0);
+					imgTodayDone.LayoutParameters = new ViewGroup.LayoutParams(50, ViewGroup.LayoutParams.MatchParent);
+					imgTodayDone.SetPadding(5, 5, 5, 5);
+					layout.AddView(imgTodayDone);
+
+
+					imgTodayDone.Click += ActionEventInstruction;
+                    imgTodayDone.Tag = athletes.athleteId + "," + eventDoneToday.eventId;
 				}
+				scrollView.AddView(layout);
 
 				switch (athletes.pmcStatus)
 				{
@@ -242,6 +314,53 @@ namespace goheja
 
 			return convertView;
 		}
+
+        private void ActionEventInstruction(object sender, EventArgs e)
+        {
+            var tags = (sender as ImageView).Tag.ToString().Split(new char[] { ',' });
+
+            var fakeUserId = tags[0];
+            var eventId = tags[1];
+
+            System.Threading.ThreadPool.QueueUserWorkItem(delegate
+                {
+                    mSuperActivity.ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
+
+                    var eventDetail = mSuperActivity.GetEventDetail("59217dbc16528b20e4542d7c");
+
+                    AppSettings.selectedEvent = eventDetail;
+                    AppSettings.selectedEvent._id = "59217dbc16528b20e4542d7c";
+
+                    mSuperActivity.HideLoadingView();
+
+
+                    var currentUser = AppSettings.CurrentUser;
+
+                    if (currentUser.userId == fakeUserId)
+                    {
+                        currentUser.athleteId = null;
+                        AppSettings.isFakeUser = false;
+                        AppSettings.fakeUserName = string.Empty;
+                    }
+                    else
+                    {
+                        currentUser.athleteId = fakeUserId;
+                        AppSettings.isFakeUser = true;
+                        foreach (var tmpUser in _searchAthletes)
+                        {
+                            if (tmpUser.athleteId == fakeUserId)
+                                AppSettings.fakeUserName = tmpUser.athleteName;
+                        }
+                    }
+
+                    AppSettings.CurrentUser = currentUser;
+
+                    var nextIntent = new Intent(mSuperActivity, typeof(EventInstructionActivity));
+                    nextIntent.PutExtra("FromWhere", "CoachList");
+                    mSuperActivity.StartActivityForResult(nextIntent, 0);
+
+                });
+        }
 
 		public void PerformSearch(string strSearch)
 		{

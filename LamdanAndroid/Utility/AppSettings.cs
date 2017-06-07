@@ -3,6 +3,7 @@ using Android.App;
 using Android.Content;
 using Newtonsoft.Json;
 using PortableLibrary;
+using PortableLibrary.Model;
 
 namespace goheja
 {
@@ -13,7 +14,8 @@ namespace goheja
 		public static BaseActivity baseVC;
 
 		public static List<GoHejaEvent> currentEventsList;
-		public static EventTotal currentEventTotal;
+		//public static EventTotal currentEventTotal;
+        public static ReportData currentEventReport;
 		public static GoHejaEvent selectedEvent;
 
 		public static List<AthleteInSubGroup> selectedAthletesInSubGroup;

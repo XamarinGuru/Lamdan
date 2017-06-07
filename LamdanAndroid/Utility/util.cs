@@ -22,29 +22,7 @@ namespace goheja
             return direction;
         }
     }
-	//public static class imageMan
-	//{
-	//	public static Bitmap getPersonalImage()
-	//	{
-	//		var sdCardPath = Android.OS.Environment.DataDirectory.AbsolutePath;
-	//		var filePath = System.IO.Path.Combine(sdCardPath, Constants.PATH_USER_IMAGE);
-	//		var s2 = new FileStream(filePath, FileMode.Open);
 
-	//		try
-	//		{
-	//			Bitmap bitmap2 = BitmapFactory.DecodeFile(filePath);
-	//			return  bitmap2;
-	//		}
-	//		catch
-	//		{
-	//			return null;
-	//		}
-	//		finally 
-	//		{
-	//			s2.Close();
-	//		}
-	//	}
-	//}
 	public class record
 	{
 		public string fullName="";

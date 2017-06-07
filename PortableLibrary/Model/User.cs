@@ -22,13 +22,18 @@ namespace PortableLibrary
 		public List<Athlete> athlete { get; set; }
 	}
 
+    public class EventDoneToday
+    {
+        public string eventId { get; set; }
+        public string eventType { get; set; }
+    }
 	public class Athlete
 	{
 		public string _id { get; set; }
 		public string name { get; set; }
 		public string fields { get; set; }
 		public string userImagURI { get; set; }
-		public string eventsDoneToday { get; set; }
+		public List<EventDoneToday> eventsDoneToday { get; set; }
 		public int pmcStatus { get; set; }
 	}
 
@@ -37,7 +42,7 @@ namespace PortableLibrary
 		public string athleteId { get; set; }
 		public string athleteName { get; set; }
 		public string userImagURI { get; set; }
-		public string eventsDoneToday { get; set; }
+		public List<EventDoneToday> eventsDoneToday { get; set; }
 		public int pmcStatus { get; set; }
 	}
 }

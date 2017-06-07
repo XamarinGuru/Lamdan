@@ -412,10 +412,10 @@ namespace goheja
 				mContext.mView.FindViewById<TextView>(Resource.Id.txtDailyTSS).Text = String.Format("Daily Load: {0}", data.dayliTss);
 				mContext.mView.FindViewById<TextView>(Resource.Id.txtDailyIF).Text = String.Format("Day Intencity: {0}", data.dayliIf);
 			}
-			catch (Exception err)
-			{
-			}
-		}
+            catch (Exception e)
+            {
+            }
+        }
 	}
 	#endregion
 }

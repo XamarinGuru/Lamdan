@@ -58,24 +58,25 @@ namespace goheja
 				txtTime.Text = String.Format("{0:t}", eventDate);
 
 				var imgType = convertView.FindViewById<ImageView>(Resource.Id.imgType);
-				switch (goHejaEvent.type)
+                var pType = (Constants.EVENT_TYPE)Enum.ToObject(typeof(Constants.EVENT_TYPE), int.Parse(goHejaEvent.type));
+				switch (pType)
 				{
-					case "0":
-						imgType.SetImageResource(Resource.Drawable.icon_triathlon);
+					case Constants.EVENT_TYPE.OTHER:
+						imgType.SetImageResource(Resource.Drawable.icon_other);
 						break;
-					case "1":
+					case Constants.EVENT_TYPE.BIKE:
 						imgType.SetImageResource(Resource.Drawable.icon_bike);
 						break;
-					case "2":
+					case Constants.EVENT_TYPE.RUN:
 						imgType.SetImageResource(Resource.Drawable.icon_run);
 						break;
-					case "3":
+					case Constants.EVENT_TYPE.SWIM:
 						imgType.SetImageResource(Resource.Drawable.icon_swim);
 						break;
-					case "4":
+					case Constants.EVENT_TYPE.TRIATHLON:
 						imgType.SetImageResource(Resource.Drawable.icon_triathlon);
 						break;
-					case "5":
+					case Constants.EVENT_TYPE.ANOTHER:
 						imgType.SetImageResource(Resource.Drawable.icon_other);
 						break;
 				}

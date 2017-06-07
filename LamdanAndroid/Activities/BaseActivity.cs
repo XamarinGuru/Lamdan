@@ -17,6 +17,7 @@ using AndroidHUD;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PortableLibrary;
+using PortableLibrary.Model;
 
 namespace goheja
 {
@@ -243,6 +244,24 @@ namespace goheja
 			try
 			{
 				var objAthletes = mTrackSvc.athGeneralListMob(string.Empty, Constants.SPEC_GROUP_TYPE);
+				var athletes = JsonConvert.DeserializeObject<Athletes>(objAthletes.ToString());
+				result = athletes.athlete;
+			}
+			catch (Exception ex)
+			{
+				ShowTrackMessageBox(ex.Message);
+			}
+
+			return SortUsers(result);
+		}
+
+		public List<Athlete> GetAllUsersWithTypeAndId()
+		{
+			var result = new List<Athlete>();
+
+			try
+			{
+				var objAthletes = mTrackSvc.athGeneralListMobWithTypeAndId(string.Empty, Constants.SPEC_GROUP_TYPE);
 				var athletes = JsonConvert.DeserializeObject<Athletes>(objAthletes.ToString());
 				result = athletes.athlete;
 			}
@@ -576,6 +595,23 @@ namespace goheja
 			return eventTotal;
 		}
 
+        public ReportData GetEventReport(string eventID)
+		{
+            var result = new ReportData();
+
+            try
+            {
+                var reportObject = mTrackSvc.getEventReport(eventID, Constants.SPEC_GROUP_TYPE);
+                result = JsonConvert.DeserializeObject<ReportData>(reportObject.ToString());
+            }
+            catch (Exception ex)
+            {
+                //ShowTrackMessageBox(ex.Message);
+                return null;
+            }
+			return result;
+		}
+
 		public EventPoints GetAllMarkers(string eventID)
 		{
 			var eventMarkers = new EventPoints();
@@ -796,43 +832,43 @@ namespace goheja
 			return result;
 		}
 
-		public void CompareEventResult(float planned, float total, TextView lblPlanned, TextView lblTotal)
+		public void CompareEventResult(float planned, float performed, TextView lblPlanned, TextView lblPerformed)
 		{
 			try
 			{
-				if (planned == total || planned == 0 || total == 0)
+				if (planned == performed || planned == 0 || performed == 0)
 				{
 					lblPlanned.SetTextColor(COLOR_ORANGE);
-					lblTotal.SetTextColor(COLOR_ORANGE);
+					lblPerformed.SetTextColor(COLOR_ORANGE);
 					return;
 				}
 
-				if (planned > total)
+				if (planned > performed)
 				{
-					var delta = (planned - total) / total;
+					var delta = (planned - performed) / performed;
 					if (delta < 0.15)
 					{
 						lblPlanned.SetTextColor(COLOR_ORANGE);
-						lblTotal.SetTextColor(COLOR_ORANGE);
+						lblPerformed.SetTextColor(COLOR_ORANGE);
 					}
 					else
 					{
 						lblPlanned.SetTextColor(COLOR_BLUE);
-						lblTotal.SetTextColor(COLOR_BLUE);
+						lblPerformed.SetTextColor(COLOR_BLUE);
 					}
 				}
-				else if (planned < total)
+				else if (planned < performed)
 				{
-					var delta = (total - planned) / planned;
+					var delta = (performed - planned) / planned;
 					if (delta < 0.15)
 					{
 						lblPlanned.SetTextColor(COLOR_ORANGE);
-						lblTotal.SetTextColor(COLOR_ORANGE);
+						lblPerformed.SetTextColor(COLOR_ORANGE);
 					}
 					else
 					{
 						lblPlanned.SetTextColor(COLOR_RED);
-						lblTotal.SetTextColor(COLOR_RED);
+						lblPerformed.SetTextColor(COLOR_RED);
 					}
 				}
 			}

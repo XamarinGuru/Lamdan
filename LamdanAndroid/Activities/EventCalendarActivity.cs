@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
@@ -258,10 +259,27 @@ namespace goheja
 		{
 			if (keyCode == Keycode.Back)
 			{
-				ActionBackCancel();
+                BackAction();
 			}
 
 			return base.OnKeyDown(keyCode, e);
+		}
+
+		void BackAction()
+		{
+			var fromWhere = Intent.GetStringExtra("FromWhere");
+
+			if (!string.IsNullOrEmpty(fromWhere) && fromWhere.Equals("CoachList"))
+			{
+                var nextIntent = new Intent(this, typeof(SwipeTabActivity));
+				nextIntent.PutExtra("FromWhere", "CoachList");
+				StartActivityForResult(nextIntent, 0);
+				Finish();
+			}
+			else
+			{
+				ActionBackCancel();
+			}
 		}
 	}
 }

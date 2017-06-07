@@ -152,7 +152,7 @@ namespace goheja
 		{
 			try
 			{
-				var eventTotal = AppSettings.currentEventTotal;
+                var reportData = AppSettings.currentEventReport;
 
 				SetupDistanceAdjustPicker(lblDistance, seekDistance, AppSettings.selectedEvent.type == "3" ? 10 : 250);
 
@@ -160,11 +160,11 @@ namespace goheja
 
 				seekDistance.Max = AppSettings.selectedEvent.type == "3" ? 100 : 2500;
 
-				if (eventTotal == null || eventTotal.totals == null) return;
+                if (reportData == null || reportData.data == null) return;
 
-				var strEt = GetFormatedDurationAsMin(eventTotal.GetValue(Constants.TOTALS_ES_TIME));
-				var strTd = eventTotal.GetValue(Constants.TOTALS_DISTANCE);
-				var strTss = eventTotal.GetValue(Constants.TOTALS_LOAD);
+                var strEt = GetFormatedDurationAsMin(reportData.GetTotalValue(Constants.TOTALS_ES_TIME));
+				var strTd = reportData.GetTotalValue(Constants.TOTALS_DISTANCE);
+				var strTss = reportData.GetTotalValue(Constants.TOTALS_LOAD);
 
 				lblTime.Text = strEt.ToString();
 				lblTSS.Text = float.Parse(strTss).ToString("F1");

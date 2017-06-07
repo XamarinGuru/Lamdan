@@ -172,6 +172,7 @@
     <Compile Include="Activities\CoachGroupsActivity.cs" />
     <Compile Include="Activities\CoachSubGroupsActivity.cs" />
     <Compile Include="Activities\CoachAthletesBySubGroupActivity.cs" />
+    <Compile Include="Adapter\LapsAdapter.cs" />
     <Compile Include="Web References\trackSvc\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
@@ -326,6 +327,7 @@
     <AndroidResource Include="Resources\layout\CoachSubGroupsActivity.axml" />
     <AndroidResource Include="Resources\layout\CoachAthletesBySubGroupActivity.axml" />
     <AndroidResource Include="Resources\drawable\icon_circle_empty.png" />
+    <AndroidResource Include="Resources\layout\item_Lap.axml" />
     <None Include="Web References\trackSvc\Service1.xsd" />
     <None Include="Web References\trackSvc\Service10.xsd" />
     <None Include="Web References\trackSvc\Service11.xsd" />

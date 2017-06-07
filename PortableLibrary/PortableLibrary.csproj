@@ -42,6 +42,7 @@
     <Compile Include="Model\PerformanceDataForDate.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\Group.cs" />
+    <Compile Include="Model\ReportData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FluentValidation">

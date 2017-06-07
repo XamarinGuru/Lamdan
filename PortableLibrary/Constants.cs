@@ -121,6 +121,16 @@ namespace PortableLibrary
 		public const int TAG_EDIT_RUN = 1006;
 		public const int TAG_EDIT_BIKE = 1007;
 
+		public enum EVENT_TYPE
+		{
+			OTHER,
+			BIKE,
+            RUN,
+            SWIM,
+            TRIATHLON,
+            ANOTHER
+		}
+
 		public enum USER_TYPE
 		{
 			COACH,
