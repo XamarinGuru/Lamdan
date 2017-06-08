@@ -22,12 +22,12 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>iPhone Developer: sagiv daniel (VXWT9CF4J3)</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <AssemblyName>location2</AssemblyName>
     <MtouchLink>SdkOnly</MtouchLink>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <MtouchFastDev>false</MtouchFastDev>
-    <CodesignProvision>lamdan-dev-new</CodesignProvision>
+    <CodesignProvision></CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <Optimize>true</Optimize>
@@ -452,6 +452,10 @@
     <BundleResource Include="Resources\icon_seek_thumb_dis.png" />
     <BundleResource Include="Resources\icon_home.png" />
     <BundleResource Include="Resources\icon_search.png" />
+    <BundleResource Include="Resources\icon_circle_blue.png" />
+    <BundleResource Include="Resources\icon_circle_empty.png" />
+    <BundleResource Include="Resources\icon_circle_green.png" />
+    <BundleResource Include="Resources\icon_circle_red.png" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References" />

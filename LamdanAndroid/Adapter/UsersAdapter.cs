@@ -284,11 +284,10 @@ namespace goheja
 					}
 
 					imgTodayDone.SetX(0);
-                    imgTodayDone.LayoutParameters = new ViewGroup.LayoutParams(50, ViewGroup.LayoutParams.MatchParent);
-                    imgTodayDone.LayoutParameters.Width = imgTodayDone.LayoutParameters.Height;
+					int dimensionInDp = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 35, mSuperActivity.Resources.DisplayMetrics);
+					imgTodayDone.LayoutParameters = new ViewGroup.LayoutParams(dimensionInDp, ViewGroup.LayoutParams.MatchParent);
 					imgTodayDone.SetPadding(5, 5, 5, 5);
 					layout.AddView(imgTodayDone);
-
 
 					imgTodayDone.Click += ActionEventInstruction;
                     imgTodayDone.Tag = athletes.athleteId + "," + eventDoneToday.eventId;

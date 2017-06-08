@@ -615,6 +615,12 @@
   <wsdl:message name="IService1_fieldAthletsAndEvenetsMob_OutputMessage">
     <wsdl:part name="parameters" element="tns:fieldAthletsAndEvenetsMobResponse" />
   </wsdl:message>
+  <wsdl:message name="IService1_fieldAthletsAndEvenetsMobWithIdAndType_InputMessage">
+    <wsdl:part name="parameters" element="tns:fieldAthletsAndEvenetsMobWithIdAndType" />
+  </wsdl:message>
+  <wsdl:message name="IService1_fieldAthletsAndEvenetsMobWithIdAndType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:fieldAthletsAndEvenetsMobWithIdAndTypeResponse" />
+  </wsdl:message>
   <wsdl:message name="IService1_updateMomgoGroups_InputMessage">
     <wsdl:part name="parameters" element="tns:updateMomgoGroups" />
   </wsdl:message>
@@ -1127,6 +1133,10 @@
     <wsdl:operation name="fieldAthletsAndEvenetsMob">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/fieldAthletsAndEvenetsMob" message="tns:IService1_fieldAthletsAndEvenetsMob_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService1/fieldAthletsAndEvenetsMobResponse" message="tns:IService1_fieldAthletsAndEvenetsMob_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="fieldAthletsAndEvenetsMobWithIdAndType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/fieldAthletsAndEvenetsMobWithIdAndType" message="tns:IService1_fieldAthletsAndEvenetsMobWithIdAndType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/fieldAthletsAndEvenetsMobWithIdAndTypeResponse" message="tns:IService1_fieldAthletsAndEvenetsMobWithIdAndType_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="updateMomgoGroups">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/updateMomgoGroups" message="tns:IService1_updateMomgoGroups_InputMessage" />
@@ -2105,6 +2115,15 @@
     </wsdl:operation>
     <wsdl:operation name="fieldAthletsAndEvenetsMob">
       <soap:operation soapAction="http://tempuri.org/IService1/fieldAthletsAndEvenetsMob" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="fieldAthletsAndEvenetsMobWithIdAndType">
+      <soap:operation soapAction="http://tempuri.org/IService1/fieldAthletsAndEvenetsMobWithIdAndType" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

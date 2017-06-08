@@ -23,11 +23,11 @@ namespace location2
 
 			if (!IsNetEnable()) return;
 
-			System.Threading.ThreadPool.QueueUserWorkItem(delegate
-			{
-				ShowLoadingView(Constants.MSG_LOADING_DATA);
+            System.Threading.ThreadPool.QueueUserWorkItem(delegate
+            {
+                ShowLoadingView(Constants.MSG_LOADING_DATA);
 
-				_users = GetAllUsers();
+                _users = GetAllUsers();
 
 				var tblDataSource = new UsersTableViewSource(_users, this);
 
@@ -93,7 +93,7 @@ namespace location2
 			public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 			{
 				UserCell cell = tableView.DequeueReusableCell("UserCell") as UserCell;
-				cell.SetCell(_searchAthletes[indexPath.Row]);
+				cell.SetCell(_searchAthletes[indexPath.Row], mSuperVC);
 
 				return cell;
 			}

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using CoreLocation;
 using CoreGraphics;
 using System.Runtime.CompilerServices;
+using PortableLibrary.Model;
 
 namespace location2
 {
@@ -56,12 +57,12 @@ namespace location2
             return leftButton;
         }
 
-		protected void ShowLoadingView(string title)
+		public void ShowLoadingView(string title)
 		{
 			InvokeOnMainThread(() => { BTProgressHUD.Show(title, -1, ProgressHUD.MaskType.Black); });
 		}
 
-		protected void HideLoadingView()
+		public void HideLoadingView()
 		{
 			InvokeOnMainThread(() => { BTProgressHUD.Dismiss(); });
 		}
@@ -220,7 +221,7 @@ namespace location2
 
 			try
 			{
-				var objAthletes = mTrackSvc.athGeneralListMob(string.Empty, Constants.SPEC_GROUP_TYPE);
+                var objAthletes = mTrackSvc.athGeneralListMobWithTypeAndId(string.Empty, Constants.SPEC_GROUP_TYPE);
 				var athletes = JsonConvert.DeserializeObject<Athletes>(objAthletes.ToString());
 				result = athletes.athlete;
 			}
@@ -554,6 +555,23 @@ namespace location2
 			return eventTotal;
 		}
 
+		public ReportData GetEventReport(string eventID)
+		{
+			var result = new ReportData();
+
+			try
+			{
+				var reportObject = mTrackSvc.getEventReport(eventID, Constants.SPEC_GROUP_TYPE);
+				result = JsonConvert.DeserializeObject<ReportData>(reportObject.ToString());
+			}
+			catch (Exception ex)
+			{
+				//ShowTrackMessageBox(ex.Message);
+				return null;
+			}
+			return result;
+		}
+
 		public EventPoints GetAllMarkers(string eventID)
 		{
 			var eventMarkers = new EventPoints();
@@ -769,7 +787,7 @@ namespace location2
 			return result;
 		}
 
-		public void CompareEventResult(float planned, float total, UILabel lblPlanned, UILabel lblTotal)
+        public void CompareEventResult(float planned, float total, UILabel lblPlanned, UITextField lblTotal)
 		{
 			try
 			{

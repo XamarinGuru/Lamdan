@@ -36,7 +36,7 @@ namespace goheja
 			{
 				ShowLoadingView(Constants.MSG_LOADING_DATA);
 
-                _users = GetAllUsersWithTypeAndId();
+                _users = GetAllUsers();
 
 				RunOnUiThread(() =>
 				{

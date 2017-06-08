@@ -3,11 +3,15 @@ using System;
 using UIKit;
 using PortableLibrary;
 using SDWebImage;
+using CoreGraphics;
 
 namespace location2
 {
 	public partial class UserCell : UITableViewCell
 	{
+        Athlete _user;
+        BaseViewController _mSuperVC;
+
 		public static readonly NSString Key = new NSString("UserCell");
 		public static readonly UINib Nib;
 
@@ -21,13 +25,14 @@ namespace location2
 			// Note: this .ctor should not contain any initialization logic.
 		}
 
-		public void SetCell(Athlete user)
+        public void SetCell(Athlete user, BaseViewController superVC)
 		{
-			img1.Image = new UIImage();
-			img2.Image = new UIImage();
-			img3.Image = new UIImage();
-			img4.Image = new UIImage();
-			img5.Image = new UIImage();
+            _user = user;
+            _mSuperVC = superVC;
+
+            foreach (var subView in scrollView.Subviews)
+                subView.RemoveFromSuperview();
+            
 			imgStatus.Image = new UIImage();
 			imgPhoto.Image = UIImage.FromFile("icon_no_avatar.png");
 
@@ -43,29 +48,41 @@ namespace location2
 			{
 			}
 
-			foreach (var eventDoneToday in user.eventsDoneToday)
-			{
-                var imgTodayDone = new UIImageView();
-				switch (eventDoneToday.eventType)
-				{
-					case "1":
-						imgTodayDone.Image = UIImage.FromFile("icon_bike.png");
-						break;
-					case "2":
-						imgTodayDone.Image = UIImage.FromFile("icon_run.png");
-						break;
-					case "3":
-						imgTodayDone.Image = UIImage.FromFile("icon_swim.png");
-						break;
-					case "4":
-						imgTodayDone.Image = UIImage.FromFile("icon_triathlon.png");
-						break;
-					case "5":
-						imgTodayDone.Image = UIImage.FromFile("icon_other.png");
-						break;
-				}
-			}
-			switch (user.pmcStatus)
+            var posX = 0;
+            for (var i = 0; i < user.eventsDoneToday.Count; i++)
+            {
+                var eventDoneToday = user.eventsDoneToday[i];
+                var imgTodayDone = new UIImageView(new CGRect(posX, 5, 30, 30));
+                switch (eventDoneToday.eventType)
+                {
+                    case "1":
+                        imgTodayDone.Image = UIImage.FromFile("icon_bike.png");
+                        break;
+                    case "2":
+                        imgTodayDone.Image = UIImage.FromFile("icon_run.png");
+                        break;
+                    case "3":
+                        imgTodayDone.Image = UIImage.FromFile("icon_swim.png");
+                        break;
+                    case "4":
+                        imgTodayDone.Image = UIImage.FromFile("icon_triathlon.png");
+                        break;
+                    case "5":
+                        imgTodayDone.Image = UIImage.FromFile("icon_other.png");
+                        break;
+                }
+                imgTodayDone.ContentMode = UIViewContentMode.ScaleAspectFit;
+                scrollView.AddSubview(imgTodayDone);
+                posX += 40;
+                scrollView.ContentSize = new CGSize(posX, 40);
+
+                var btnActionEventInstruction = new UIButton(imgTodayDone.Frame);
+                scrollView.AddSubview(btnActionEventInstruction);
+                btnActionEventInstruction.Tag = i;
+                btnActionEventInstruction.TouchUpInside += ActionEventInstruction;
+            }
+
+            switch (user.pmcStatus)
 			{
 				case 1:
 					imgStatus.Image = UIImage.FromFile("icon_circle_green.png");
@@ -82,7 +99,48 @@ namespace location2
 			}
 		}
 
-		override public void LayoutSubviews()
+        private void ActionEventInstruction(object sender, EventArgs e)
+        {
+            var fakeUserId = _user._id;
+            var eventId = _user.eventsDoneToday[(int)(sender as UIButton).Tag].eventId;
+
+            System.Threading.ThreadPool.QueueUserWorkItem(delegate
+                {
+                    _mSuperVC.ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
+
+                    var eventDetail = _mSuperVC.GetEventDetail(eventId);
+                    eventDetail._id = eventId;
+                    _mSuperVC.HideLoadingView();
+
+                    var currentUser = AppSettings.CurrentUser;
+
+                    if (currentUser.userId == fakeUserId)
+                    {
+                        currentUser.athleteId = null;
+                        AppSettings.isFakeUser = false;
+                        AppSettings.fakeUserName = string.Empty;
+                    }
+                    else
+                    {
+                        currentUser.athleteId = fakeUserId;
+                        AppSettings.isFakeUser = true;
+                        AppSettings.fakeUserName = _user.name;
+                    }
+
+                    AppSettings.CurrentUser = currentUser;
+
+					InvokeOnMainThread(() =>
+					{
+						UIStoryboard sb = UIStoryboard.FromName("Main", null);
+						EventInstructionController eventInstructionVC = sb.InstantiateViewController("EventInstructionController") as EventInstructionController;
+						eventInstructionVC.selectedEvent = eventDetail;
+						_mSuperVC.NavigationController.PushViewController(eventInstructionVC, true);
+
+					});
+                });
+        }
+
+        override public void LayoutSubviews()
 		{
 			base.LayoutSubviews();
 
