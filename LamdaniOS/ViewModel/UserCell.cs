@@ -43,25 +43,25 @@ namespace location2
 			{
 			}
 
-			var eventsDoneToday = user.eventsDoneToday.Split(new char[] { ',' });
-			for (int i = 0; i < eventsDoneToday.Length; i++)
+			foreach (var eventDoneToday in user.eventsDoneToday)
 			{
-				switch (eventsDoneToday[i])
+                var imgTodayDone = new UIImageView();
+				switch (eventDoneToday.eventType)
 				{
 					case "1":
-						img1.Image = UIImage.FromFile("icon_bike.png");
+						imgTodayDone.Image = UIImage.FromFile("icon_bike.png");
 						break;
 					case "2":
-						img2.Image = UIImage.FromFile("icon_run.png");
+						imgTodayDone.Image = UIImage.FromFile("icon_run.png");
 						break;
 					case "3":
-						img3.Image = UIImage.FromFile("icon_swim.png");
+						imgTodayDone.Image = UIImage.FromFile("icon_swim.png");
 						break;
 					case "4":
-						img4.Image = UIImage.FromFile("icon_triathlon.png");
+						imgTodayDone.Image = UIImage.FromFile("icon_triathlon.png");
 						break;
 					case "5":
-						img5.Image = UIImage.FromFile("icon_other.png");
+						imgTodayDone.Image = UIImage.FromFile("icon_other.png");
 						break;
 				}
 			}

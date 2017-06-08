@@ -142,18 +142,6 @@
     <Reference Include="Calabash">
       <HintPath>..\packages\Xamarin.TestCloud.Agent.0.20.1\lib\Xamarin.iOS10\Calabash.dll</HintPath>
     </Reference>
-    <Reference Include="Xuni.iOS.Core">
-      <HintPath>..\packages\Xuni.iOS.Core.2.3.20163.178\lib\Xamarin.iOS10\Xuni.iOS.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Xuni.iOS.Calendar">
-      <HintPath>..\packages\Xuni.iOS.Calendar.2.3.20163.178\lib\Xamarin.iOS10\Xuni.iOS.Calendar.dll</HintPath>
-    </Reference>
-    <Reference Include="Xuni.iOS.ChartCore">
-      <HintPath>..\packages\Xuni.iOS.ChartCore.2.3.20163.178\lib\Xamarin.iOS10\Xuni.iOS.ChartCore.dll</HintPath>
-    </Reference>
-    <Reference Include="Xuni.iOS.FlexChart">
-      <HintPath>..\packages\Xuni.iOS.FlexChart.2.3.20163.178\lib\Xamarin.iOS10\Xuni.iOS.FlexChart.dll</HintPath>
-    </Reference>
     <Reference Include="BTProgressHUD">
       <HintPath>..\Components\btprogresshud-1.20\lib\ios-unified\BTProgressHUD.dll</HintPath>
     </Reference>
@@ -162,6 +150,18 @@
     </Reference>
     <Reference Include="SDWebImage">
       <HintPath>..\packages\Xamarin.SDWebImage.3.7.5\lib\Xamarin.iOS\SDWebImage.dll</HintPath>
+    </Reference>
+    <Reference Include="Xuni.iOS.Core">
+      <HintPath>..\packages\Xuni.iOS.Core.2.3.20171.185\lib\Xamarin.iOS10\Xuni.iOS.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xuni.iOS.ChartCore">
+      <HintPath>..\packages\Xuni.iOS.ChartCore.2.3.20171.185\lib\Xamarin.iOS10\Xuni.iOS.ChartCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Xuni.iOS.Calendar">
+      <HintPath>..\packages\Xuni.iOS.Calendar.2.3.20171.185\lib\Xamarin.iOS10\Xuni.iOS.Calendar.dll</HintPath>
+    </Reference>
+    <Reference Include="Xuni.iOS.FlexChart">
+      <HintPath>..\packages\Xuni.iOS.FlexChart.2.3.20171.185\lib\Xamarin.iOS10\Xuni.iOS.FlexChart.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -302,9 +302,6 @@
     <Compile Include="Controllers\CoachAthletesBySubGroupViewController.designer.cs">
       <DependentUpon>CoachAthletesBySubGroupViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Web References\trackSvc\Reference.cs">
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
     <Compile Include="ViewModel\UserCell.cs" />
     <Compile Include="ViewModel\UserCell.designer.cs">
       <DependentUpon>UserCell.cs</DependentUpon>
@@ -312,6 +309,9 @@
     <Compile Include="ViewModel\UserSubGroupCell.cs" />
     <Compile Include="ViewModel\UserSubGroupCell.designer.cs">
       <DependentUpon>UserSubGroupCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\trackSvc\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

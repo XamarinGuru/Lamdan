@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Android.Content;
+using Android.Content.Res;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using PortableLibrary;
@@ -64,36 +66,37 @@ namespace goheja
                 var scrollView = convertView.FindViewById<HorizontalScrollView>(Resource.Id.todayDoneScrollView);
                 var layout = new LinearLayout(mSuperActivity.ApplicationContext);
 
-                foreach(var eventDoneToday in athletes.eventsDoneToday)
-				{
+                foreach (var eventDoneToday in athletes.eventsDoneToday)
+                {
                     var imgTodayDone = new ImageView(mSuperActivity.ApplicationContext);
                     switch (eventDoneToday.eventType)
-					{
-						case "1":
-							imgTodayDone.SetImageResource(Resource.Drawable.icon_bike);
-							break;
-						case "2":
-							imgTodayDone.SetImageResource(Resource.Drawable.icon_run);
-							break;
-						case "3":
-							imgTodayDone.SetImageResource(Resource.Drawable.icon_swim);
-							break;
-						case "4":
-							imgTodayDone.SetImageResource(Resource.Drawable.icon_triathlon);
-							break;
-						case "5":
-							imgTodayDone.SetImageResource(Resource.Drawable.icon_other);
-							break;
-					}
+                    {
+                        case "1":
+                            imgTodayDone.SetImageResource(Resource.Drawable.icon_bike);
+                            break;
+                        case "2":
+                            imgTodayDone.SetImageResource(Resource.Drawable.icon_run);
+                            break;
+                        case "3":
+                            imgTodayDone.SetImageResource(Resource.Drawable.icon_swim);
+                            break;
+                        case "4":
+                            imgTodayDone.SetImageResource(Resource.Drawable.icon_triathlon);
+                            break;
+                        case "5":
+                            imgTodayDone.SetImageResource(Resource.Drawable.icon_other);
+                            break;
+                    }
 
                     imgTodayDone.SetX(0);
-                    imgTodayDone.LayoutParameters = new ViewGroup.LayoutParams(50, ViewGroup.LayoutParams.MatchParent);
+                    int dimensionInDp = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 35, mSuperActivity.Resources.DisplayMetrics);
+                    imgTodayDone.LayoutParameters = new ViewGroup.LayoutParams(dimensionInDp, ViewGroup.LayoutParams.MatchParent);
                     imgTodayDone.SetPadding(5, 5, 5, 5);
                     layout.AddView(imgTodayDone);
 
                     imgTodayDone.Click += ActionEventInstruction;
                     imgTodayDone.Tag = athletes._id + "," + eventDoneToday.eventId;
-				}
+                }
                 scrollView.AddView(layout);
 
 				switch (athletes.pmcStatus)
@@ -281,7 +284,8 @@ namespace goheja
 					}
 
 					imgTodayDone.SetX(0);
-					imgTodayDone.LayoutParameters = new ViewGroup.LayoutParams(50, ViewGroup.LayoutParams.MatchParent);
+                    imgTodayDone.LayoutParameters = new ViewGroup.LayoutParams(50, ViewGroup.LayoutParams.MatchParent);
+                    imgTodayDone.LayoutParameters.Width = imgTodayDone.LayoutParameters.Height;
 					imgTodayDone.SetPadding(5, 5, 5, 5);
 					layout.AddView(imgTodayDone);
 
