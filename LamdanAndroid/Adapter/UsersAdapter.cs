@@ -89,7 +89,7 @@ namespace goheja
                     }
 
                     imgTodayDone.SetX(0);
-                    int dimensionInDp = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 35, mSuperActivity.Resources.DisplayMetrics);
+                    int dimensionInDp = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 30, mSuperActivity.Resources.DisplayMetrics);
                     imgTodayDone.LayoutParameters = new ViewGroup.LayoutParams(dimensionInDp, ViewGroup.LayoutParams.MatchParent);
                     imgTodayDone.SetPadding(5, 5, 5, 5);
                     layout.AddView(imgTodayDone);
@@ -284,7 +284,7 @@ namespace goheja
 					}
 
 					imgTodayDone.SetX(0);
-					int dimensionInDp = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 35, mSuperActivity.Resources.DisplayMetrics);
+					int dimensionInDp = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 30, mSuperActivity.Resources.DisplayMetrics);
 					imgTodayDone.LayoutParameters = new ViewGroup.LayoutParams(dimensionInDp, ViewGroup.LayoutParams.MatchParent);
 					imgTodayDone.SetPadding(5, 5, 5, 5);
 					layout.AddView(imgTodayDone);

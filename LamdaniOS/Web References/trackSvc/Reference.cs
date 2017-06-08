@@ -226,6 +226,8 @@ namespace location2.trackSvc {
         
         private System.Threading.SendOrPostCallback fieldAthletsAndEvenetsMobOperationCompleted;
         
+        private System.Threading.SendOrPostCallback fieldAthletsAndEvenetsMobWithIdAndTypeOperationCompleted;
+        
         private System.Threading.SendOrPostCallback updateMomgoGroupsOperationCompleted;
         
         private System.Threading.SendOrPostCallback removeAthFromGroupOperationCompleted;
@@ -573,6 +575,9 @@ namespace location2.trackSvc {
         
         /// CodeRemarks
         public event fieldAthletsAndEvenetsMobCompletedEventHandler fieldAthletsAndEvenetsMobCompleted;
+        
+        /// CodeRemarks
+        public event fieldAthletsAndEvenetsMobWithIdAndTypeCompletedEventHandler fieldAthletsAndEvenetsMobWithIdAndTypeCompleted;
         
         /// CodeRemarks
         public event updateMomgoGroupsCompletedEventHandler updateMomgoGroupsCompleted;
@@ -4321,6 +4326,40 @@ namespace location2.trackSvc {
         }
         
         /// CodeRemarks
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IService1/fieldAthletsAndEvenetsMobWithIdAndType", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public object fieldAthletsAndEvenetsMobWithIdAndType([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string token, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string fieldId, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string specGroup) {
+            object[] results = this.Invoke("fieldAthletsAndEvenetsMobWithIdAndType", new object[] {
+                        token,
+                        fieldId,
+                        specGroup});
+            return ((object)(results[0]));
+        }
+        
+        /// CodeRemarks
+        public void fieldAthletsAndEvenetsMobWithIdAndTypeAsync(string token, string fieldId, string specGroup) {
+            this.fieldAthletsAndEvenetsMobWithIdAndTypeAsync(token, fieldId, specGroup, null);
+        }
+        
+        /// CodeRemarks
+        public void fieldAthletsAndEvenetsMobWithIdAndTypeAsync(string token, string fieldId, string specGroup, object userState) {
+            if ((this.fieldAthletsAndEvenetsMobWithIdAndTypeOperationCompleted == null)) {
+                this.fieldAthletsAndEvenetsMobWithIdAndTypeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnfieldAthletsAndEvenetsMobWithIdAndTypeOperationCompleted);
+            }
+            this.InvokeAsync("fieldAthletsAndEvenetsMobWithIdAndType", new object[] {
+                        token,
+                        fieldId,
+                        specGroup}, this.fieldAthletsAndEvenetsMobWithIdAndTypeOperationCompleted, userState);
+        }
+        
+        private void OnfieldAthletsAndEvenetsMobWithIdAndTypeOperationCompleted(object arg) {
+            if ((this.fieldAthletsAndEvenetsMobWithIdAndTypeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.fieldAthletsAndEvenetsMobWithIdAndTypeCompleted(this, new fieldAthletsAndEvenetsMobWithIdAndTypeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// CodeRemarks
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IService1/updateMomgoGroups", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
         public string updateMomgoGroups([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string groupName, int groupid, [System.Xml.Serialization.XmlIgnoreAttribute()] bool groupidSpecified, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string subGroupId, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string userNickName, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string userUrl, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string userImg, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string specGroup) {
@@ -7634,6 +7673,32 @@ namespace location2.trackSvc {
         private object[] results;
         
         internal fieldAthletsAndEvenetsMobCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// CodeRemarks
+        public object Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((object)(this.results[0]));
+            }
+        }
+    }
+    
+    /// CodeRemarks
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XamarinStudio", "7.0.1.24")]
+    public delegate void fieldAthletsAndEvenetsMobWithIdAndTypeCompletedEventHandler(object sender, fieldAthletsAndEvenetsMobWithIdAndTypeCompletedEventArgs e);
+    
+    /// CodeRemarks
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XamarinStudio", "7.0.1.24")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class fieldAthletsAndEvenetsMobWithIdAndTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal fieldAthletsAndEvenetsMobWithIdAndTypeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

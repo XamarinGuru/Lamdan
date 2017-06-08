@@ -1663,6 +1663,22 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="fieldAthletsAndEvenetsMobWithIdAndType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="fieldId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="specGroup" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="fieldAthletsAndEvenetsMobWithIdAndTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="fieldAthletsAndEvenetsMobWithIdAndTypeResult" nillable="true" type="xs:anyType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="updateMomgoGroups">
     <xs:complexType>
       <xs:sequence>

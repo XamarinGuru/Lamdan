@@ -239,7 +239,7 @@ namespace location2
 
 			try
 			{
-				var objAthletes = mTrackSvc.fieldAthletsAndEvenetsMob(string.Empty, groupId, Constants.SPEC_GROUP_TYPE);
+				var objAthletes = mTrackSvc.fieldAthletsAndEvenetsMobWithIdAndType(string.Empty, groupId, Constants.SPEC_GROUP_TYPE);
 				result = JsonConvert.DeserializeObject<SubGroups>(objAthletes.ToString());
 			}
 			catch (Exception ex)
