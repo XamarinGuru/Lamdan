@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using UIKit;
 using PortableLibrary;
 using CoreGraphics;
 using PortableLibrary.Model;
 using System.Collections.Generic;
+using Foundation;
 
 namespace location2
 {
@@ -45,8 +46,6 @@ namespace location2
 			if (!IsNetEnable()) return;
 
 			InitUISettings();
-
-			//InitBindingEventData();
 		}
 
 		public override void ViewWillAppear(bool animated)
@@ -90,6 +89,7 @@ namespace location2
             SetActiveTab(0);
 
             btnEdit.SetTitleColor(GROUP_COLOR, UIControlState.Normal);
+            btnEdit.SetTitleColor(GROUP_COLOR, UIControlState.Selected);
 
             SetEditPerformField();
 
@@ -97,12 +97,8 @@ namespace location2
 			btnAddComment.BackgroundColor = GROUP_COLOR;
 
             heightAdjust.Constant = AppSettings.isFakeUser ? 0 : 100;
-
-            ///
-
+            contentEditBtnHeight.Constant = AppSettings.isFakeUser ? 0 : 30;
 		}
-
-		
 
 		void InitBindingEventPlanned()
 		{
@@ -203,36 +199,37 @@ namespace location2
 			}
 		}
 
-		void InitBindingEventLaps(List<Lap> laps, int type)
-		{
+        void InitBindingEventLaps(List<Lap> laps, int type)
+        {
             lapHeaderForBikeOrRun.Hidden = true;
-			lapHeaderForSwim.Hidden = true;
-			lapHeaderForTriathlon.Hidden = true;
-			lapHeaderForOther.Hidden = true;
+            lapHeaderForSwim.Hidden = true;
+            lapHeaderForTriathlon.Hidden = true;
+            lapHeaderForOther.Hidden = true;
 
-			var pType = (Constants.EVENT_TYPE)Enum.ToObject(typeof(Constants.EVENT_TYPE), type);
-			switch (pType)
-			{
-				case Constants.EVENT_TYPE.BIKE:
-				case Constants.EVENT_TYPE.RUN:
+            var pType = (Constants.EVENT_TYPE)Enum.ToObject(typeof(Constants.EVENT_TYPE), type);
+            switch (pType)
+            {
+                case Constants.EVENT_TYPE.BIKE:
+                case Constants.EVENT_TYPE.RUN:
                     lapHeaderForBikeOrRun.Hidden = false;
-					break;
-				case Constants.EVENT_TYPE.SWIM:
-					lapHeaderForSwim.Hidden = false;
-					break;
-				case Constants.EVENT_TYPE.TRIATHLON:
-					lapHeaderForTriathlon.Hidden = false;
-					break;
-				case Constants.EVENT_TYPE.ANOTHER:
-				case Constants.EVENT_TYPE.OTHER:
-					lapHeaderForOther.Hidden = false;
-					break;
-			}
+                    break;
+                case Constants.EVENT_TYPE.SWIM:
+                    lapHeaderForSwim.Hidden = false;
+                    break;
+                case Constants.EVENT_TYPE.TRIATHLON:
+                    lapHeaderForTriathlon.Hidden = false;
+                    break;
+                case Constants.EVENT_TYPE.ANOTHER:
+                case Constants.EVENT_TYPE.OTHER:
+                    lapHeaderForOther.Hidden = false;
+                    break;
+            }
 
-			//var adapter = new LapsAdapter(laps, type, this);
-			//listLaps.Adapter = adapter;
-			//adapter.NotifyDataSetChanged();
-		}
+            var tblDataSource = new LapsTableViewSource(laps, pType);
+
+            tableView.Source = tblDataSource;
+            tableView.ReloadData();
+        }
 
 		void InitBindingEventComments(Comment comments)
 		{
@@ -261,9 +258,9 @@ namespace location2
 			editPerformedDuration.Enabled = btnEdit.Selected;
 			editPerformedLoad.Enabled = btnEdit.Selected;
 
-            editPerformedDistance.BorderStyle = btnEdit.Selected ? UITextBorderStyle.None : UITextBorderStyle.RoundedRect;
-			editPerformedDuration.BorderStyle = btnEdit.Selected ? UITextBorderStyle.None : UITextBorderStyle.RoundedRect;
-			editPerformedLoad.BorderStyle = btnEdit.Selected ? UITextBorderStyle.None : UITextBorderStyle.RoundedRect;
+            editPerformedDistance.BorderStyle = btnEdit.Selected ? UITextBorderStyle.RoundedRect : UITextBorderStyle.None;
+			editPerformedDuration.BorderStyle = btnEdit.Selected ? UITextBorderStyle.RoundedRect : UITextBorderStyle.None;
+			editPerformedLoad.BorderStyle = btnEdit.Selected ? UITextBorderStyle.RoundedRect : UITextBorderStyle.None;
 		}
 
 		void SetActiveTab(int tabType)
@@ -273,18 +270,18 @@ namespace location2
                 btnTotals.SetTitleColor(GROUP_COLOR, UIControlState.Normal);
 				btnLaps.SetTitleColor(UIColor.White, UIControlState.Normal);
                 contentTotals.Hidden = false;
-				//tabTotalsBorder.Hidden = true;
+				tabTotalsBorder.Hidden = true;
 				contentLaps.Hidden = true;
-				//tabLapsBorder.Hidden = false;
+				tabLapsBorder.Hidden = false;
 			}
 			else
 			{
                 btnTotals.SetTitleColor(UIColor.White, UIControlState.Normal);
 				btnLaps.SetTitleColor(GROUP_COLOR, UIControlState.Normal);
 				contentTotals.Hidden = true;
-				//tabTotalsBorder.Hidden = false;
+				tabTotalsBorder.Hidden = false;
 				contentLaps.Hidden = false;
-				//tabLapsBorder.Hidden = true;
+				tabLapsBorder.Hidden = true;
 			}
 		}
 
@@ -300,17 +297,17 @@ namespace location2
 
 			if (!sender.Selected)
 			{
+				ShowLoadingView(Constants.MSG_ADJUST_TRAINING);
+				
+				var authorID = AppSettings.CurrentUser.userId;
+				
+				var pDuration = ConvertToFloat(editPerformedDuration.Text);
+				var pDistance = ConvertToFloat(editPerformedDistance.Text);
+				var pLoad = ConvertToFloat(editPerformedLoad.Text);
+
 				System.Threading.ThreadPool.QueueUserWorkItem(delegate
 				{
-					ShowLoadingView(Constants.MSG_ADJUST_TRAINING);
-
-					var authorID = AppSettings.CurrentUser.userId;
-
-					var pDuration = ConvertToFloat(editPerformedDuration.Text);
-					var pDistance = ConvertToFloat(editPerformedDistance.Text);
-					var pLoad = ConvertToFloat(editPerformedLoad.Text);
-
-                    UpdateMemberNotes(string.Empty, authorID, selectedEvent._id, string.Empty, selectedEvent.attended, pDuration.ToString(), pDistance.ToString(), pLoad.ToString(), AppSettings.selectedEvent.type);
+                    UpdateMemberNotes(string.Empty, authorID, selectedEvent._id, string.Empty, selectedEvent.attended, pDuration.ToString(), pDistance.ToString(), pLoad.ToString(), selectedEvent.type);
 
 					HideLoadingView();
 
@@ -328,7 +325,7 @@ namespace location2
 		{
 			AdjustTrainningController atVC = Storyboard.InstantiateViewController("AdjustTrainningController") as AdjustTrainningController;
 			atVC.selectedEvent = selectedEvent;
-			atVC.eventTotal = eventTotal;
+            atVC.selectedEventReport = reportData;
 
 			NavigationController.PushViewController(atVC, true);
 		}
@@ -347,9 +344,55 @@ namespace location2
 
 			NavigationController.PushViewController(acVC, true);
 		}
-        #endregion
+		#endregion
 
+		#region UserTableViewSource
+		class LapsTableViewSource : UITableViewSource
+		{
+            List<Lap> _laps = new List<Lap>();
+            Constants.EVENT_TYPE _type;
 
+			public LapsTableViewSource(List<Lap> laps, Constants.EVENT_TYPE type)
+			{
+				if (laps == null) return;
+				_laps = laps;
+                _type = type;
+			}
+			public override nint RowsInSection(UITableView tableview, nint section)
+			{
+				return _laps.Count;
+			}
 
-    }
+			public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+			{
+				return 30;
+			}
+			public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+			{
+                BaseLapTableViewCell cell = null;
+				switch (_type)
+				{
+					case Constants.EVENT_TYPE.BIKE:
+					case Constants.EVENT_TYPE.RUN:
+                        cell = tableView.DequeueReusableCell("LapBikeOrRunCell") as BaseLapTableViewCell;
+						break;
+					case Constants.EVENT_TYPE.SWIM:
+                        cell = tableView.DequeueReusableCell("LapSwimCell") as LapSwimCell;
+						break;
+					case Constants.EVENT_TYPE.TRIATHLON:
+                        cell = tableView.DequeueReusableCell("LapTriathlonCell") as LapTriathlonCell;
+						break;
+					case Constants.EVENT_TYPE.ANOTHER:
+					case Constants.EVENT_TYPE.OTHER:
+                        cell = tableView.DequeueReusableCell("LapOtherCell") as LapOtherCell;
+						break;
+				}
+
+				cell.SetCell(_laps[indexPath.Row]);
+
+				return cell;
+			}
+		}
+		#endregion
+	}
 }

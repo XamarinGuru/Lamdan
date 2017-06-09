@@ -1,4 +1,4 @@
-// WARNING
+﻿// WARNING
 //
 // This file has been generated automatically by Visual Studio from the outlets and
 // actions declared in your storyboard file.
@@ -41,6 +41,10 @@ namespace location2
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIView contentComment { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.NSLayoutConstraint contentEditBtnHeight { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -206,6 +210,18 @@ namespace location2
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel lblTotalName8 { get; set; }
 
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView tabLapsBorder { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITableView tableView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView tabTotalsBorder { get; set; }
+
         [Action ("ActionAddComment:")]
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void ActionAddComment (UIKit.UIButton sender);
@@ -261,6 +277,11 @@ namespace location2
             if (contentComment != null) {
                 contentComment.Dispose ();
                 contentComment = null;
+            }
+
+            if (contentEditBtnHeight != null) {
+                contentEditBtnHeight.Dispose ();
+                contentEditBtnHeight = null;
             }
 
             if (contentLaps != null) {
@@ -466,6 +487,21 @@ namespace location2
             if (lblTotalName8 != null) {
                 lblTotalName8.Dispose ();
                 lblTotalName8 = null;
+            }
+
+            if (tabLapsBorder != null) {
+                tabLapsBorder.Dispose ();
+                tabLapsBorder = null;
+            }
+
+            if (tableView != null) {
+                tableView.Dispose ();
+                tableView = null;
+            }
+
+            if (tabTotalsBorder != null) {
+                tabTotalsBorder.Dispose ();
+                tabTotalsBorder = null;
             }
         }
     }

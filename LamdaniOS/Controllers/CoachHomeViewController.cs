@@ -1,4 +1,4 @@
-using Foundation;
+﻿using Foundation;
 using System;
 using UIKit;
 using System.Collections.Generic;
@@ -125,8 +125,6 @@ namespace location2
 
 				AppSettings.CurrentUser = currentUser;
 
-				//var nextIntent = new Intent(mSuperActivity, typeof(SwipeTabActivity));
-				//mSuperActivity.StartActivityForResult(nextIntent, 0);
 				var sb = UIStoryboard.FromName("Main", null);
 				MainPageViewController nextVC = sb.InstantiateViewController("MainPageViewController") as MainPageViewController;
 				mSuperVC.NavigationController.PushViewController(nextVC, true);

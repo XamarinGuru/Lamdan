@@ -1,15 +1,16 @@
-using Foundation;
+﻿using Foundation;
 using System;
 using UIKit;
 using CoreGraphics;
 using PortableLibrary;
+using PortableLibrary.Model;
 
 namespace location2
 {
     public partial class AdjustTrainningController : BaseViewController
     {
 		public GoHejaEvent selectedEvent;
-		public EventTotal eventTotal;
+        public ReportData selectedEventReport;
 
         public AdjustTrainningController() : base()
 		{
@@ -102,18 +103,16 @@ namespace location2
 			txtDistance.ShouldChangeCharacters = ActionChangeSliderValue;
 			txtTss.ShouldChangeCharacters = ActionChangeSliderValue;
 
-			if (eventTotal == null || eventTotal.totals == null) return;
+			if (selectedEventReport == null || selectedEventReport.data == null) return;
 
-			var strEt = GetFormatedDurationAsMin(eventTotal.GetValue(Constants.TOTALS_ES_TIME));
-			var strTd = eventTotal.GetValue(Constants.TOTALS_DISTANCE);
-			var strTss = eventTotal.GetValue(Constants.TOTALS_LOAD);
+			var strEt = GetFormatedDurationAsMin(selectedEventReport.GetTotalValue(Constants.TOTALS_ES_TIME));
+			var strTd = selectedEventReport.GetTotalValue(Constants.TOTALS_DISTANCE);
+			var strTss = selectedEventReport.GetTotalValue(Constants.TOTALS_LOAD);
 
 			txtTime.Text = strEt.ToString();
-			//txtDistance.Text = float.Parse(strTd).ToString("F1");
 			txtTss.Text = float.Parse(strTss).ToString("F1");
 
 			seekTime.Value = strEt;
-			//seekDistance.Value = float.Parse(strTd);
 			seekTSS.Value = float.Parse(strTss);
 
 			var valDistance = float.Parse(strTd);

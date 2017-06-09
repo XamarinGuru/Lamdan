@@ -313,6 +313,22 @@
     <Compile Include="Web References\trackSvc\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\LapBikeOrRunCell.cs" />
+    <Compile Include="ViewModel\LapBikeOrRunCell.designer.cs">
+      <DependentUpon>LapBikeOrRunCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\LapSwimCell.cs" />
+    <Compile Include="ViewModel\LapSwimCell.designer.cs">
+      <DependentUpon>LapSwimCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\LapTriathlonCell.cs" />
+    <Compile Include="ViewModel\LapTriathlonCell.designer.cs">
+      <DependentUpon>LapTriathlonCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\LapOtherCell.cs" />
+    <Compile Include="ViewModel\LapOtherCell.designer.cs">
+      <DependentUpon>LapOtherCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

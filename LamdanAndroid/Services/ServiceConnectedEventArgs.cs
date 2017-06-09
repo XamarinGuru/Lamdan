@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Android.OS;
 
 namespace goheja.Services

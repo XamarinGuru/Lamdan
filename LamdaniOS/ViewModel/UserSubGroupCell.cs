@@ -1,13 +1,17 @@
-using Foundation;
+﻿using Foundation;
 using System;
 using UIKit;
 using PortableLibrary;
 using SDWebImage;
+using CoreGraphics;
 
 namespace location2
 {
 	public partial class UserSubGroupCell : UITableViewCell
 	{
+		AthleteInSubGroup _user;
+		BaseViewController _mSuperVC;
+
 		public static readonly NSString Key = new NSString("UserSubGroupCell");
 		public static readonly UINib Nib;
 
@@ -21,61 +25,119 @@ namespace location2
 			// Note: this .ctor should not contain any initialization logic.
 		}
 
-		public void SetCell(AthleteInSubGroup user)
+        public void SetCell(AthleteInSubGroup user, BaseViewController superVC)
+        {
+			_user = user;
+			_mSuperVC = superVC;
+
+            foreach (var subView in scrollView.Subviews)
+                subView.RemoveFromSuperview();
+
+            imgStatus.Image = new UIImage();
+            imgPhoto.Image = UIImage.FromFile("icon_no_avatar.png");
+
+            try
+            {
+                lblName.Text = user.athleteName;
+                if (!string.IsNullOrEmpty(user.userImagURI))
+                {
+                    imgPhoto.SetImage(url: new NSUrl(user.userImagURI));
+                }
+            }
+            catch
+            {
+            }
+
+            var posX = 0;
+            for (var i = 0; i < user.eventsDoneToday.Count; i++)
+            {
+                var eventDoneToday = user.eventsDoneToday[i];
+                var imgTodayDone = new UIImageView(new CGRect(posX, 5, 30, 30));
+                switch (eventDoneToday.eventType)
+                {
+                    case "1":
+                        imgTodayDone.Image = UIImage.FromFile("icon_bike.png");
+                        break;
+                    case "2":
+                        imgTodayDone.Image = UIImage.FromFile("icon_run.png");
+                        break;
+                    case "3":
+                        imgTodayDone.Image = UIImage.FromFile("icon_swim.png");
+                        break;
+                    case "4":
+                        imgTodayDone.Image = UIImage.FromFile("icon_triathlon.png");
+                        break;
+                    case "5":
+                        imgTodayDone.Image = UIImage.FromFile("icon_other.png");
+                        break;
+                }
+                imgTodayDone.ContentMode = UIViewContentMode.ScaleAspectFit;
+                scrollView.AddSubview(imgTodayDone);
+                posX += 40;
+                scrollView.ContentSize = new CGSize(posX, 40);
+
+                var btnActionEventInstruction = new UIButton(imgTodayDone.Frame);
+                scrollView.AddSubview(btnActionEventInstruction);
+                btnActionEventInstruction.Tag = i;
+                btnActionEventInstruction.TouchUpInside += ActionEventInstruction;
+            }
+
+            switch (user.pmcStatus)
+            {
+                case 1:
+                    imgStatus.Image = UIImage.FromFile("icon_circle_green.png");
+                    break;
+                case 2:
+                    imgStatus.Image = UIImage.FromFile("icon_circle_blue.png");
+                    break;
+                case 3:
+                    imgStatus.Image = UIImage.FromFile("icon_circle_red.png");
+                    break;
+                case 4:
+                    imgStatus.Image = UIImage.FromFile("icon_circle_empty.png");
+                    break;
+            }
+        }
+
+		private void ActionEventInstruction(object sender, EventArgs e)
 		{
-			imgStatus.Image = new UIImage();
-			imgPhoto.Image = UIImage.FromFile("icon_no_avatar.png");
+            var fakeUserId = _user.athleteId;
+			var eventId = _user.eventsDoneToday[(int)(sender as UIButton).Tag].eventId;
 
-			try
-			{
-				lblName.Text = user.athleteName;
-				if (!string.IsNullOrEmpty(user.userImagURI))
+			System.Threading.ThreadPool.QueueUserWorkItem(delegate
 				{
-					imgPhoto.SetImage(url: new NSUrl(user.userImagURI));
-				}
-			}
-			catch
-			{
-			}
+					_mSuperVC.ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
 
-			//var eventsDoneToday = user.eventsDoneToday.Split(new char[] { ',' });
-			//for (int i = 0; i < eventsDoneToday.Length; i++)
-			//{
-			//	switch (eventsDoneToday[i])
-			//	{
-			//		case "1":
-			//			img1.Image = UIImage.FromFile("icon_bike.png");
-			//			break;
-			//		case "2":
-			//			img2.Image = UIImage.FromFile("icon_run.png");
-			//			break;
-			//		case "3":
-			//			img3.Image = UIImage.FromFile("icon_swim.png");
-			//			break;
-			//		case "4":
-			//			img4.Image = UIImage.FromFile("icon_triathlon.png");
-			//			break;
-			//		case "5":
-			//			img5.Image = UIImage.FromFile("icon_other.png");
-			//			break;
-			//	}
+					var eventDetail = _mSuperVC.GetEventDetail(eventId);
+					eventDetail._id = eventId;
+					_mSuperVC.HideLoadingView();
 
-			//}
-			switch (user.pmcStatus)
-			{
-				case 1:
-					imgStatus.Image = UIImage.FromFile("icon_circle_green.png");
-					break;
-				case 2:
-					imgStatus.Image = UIImage.FromFile("icon_circle_blue.png");
-					break;
-				case 3:
-					imgStatus.Image = UIImage.FromFile("icon_circle_red.png");
-					break;
-				case 4:
-					imgStatus.Image = UIImage.FromFile("icon_circle_empty.png");
-					break;
-			}
+					var currentUser = AppSettings.CurrentUser;
+
+					if (currentUser.userId == fakeUserId)
+					{
+						currentUser.athleteId = null;
+						AppSettings.isFakeUser = false;
+						AppSettings.fakeUserName = string.Empty;
+					}
+					else
+					{
+						currentUser.athleteId = fakeUserId;
+						AppSettings.isFakeUser = true;
+                        AppSettings.fakeUserName = _user.athleteName;
+					}
+
+					AppSettings.CurrentUser = currentUser;
+
+					InvokeOnMainThread(() =>
+					{
+						UIStoryboard sb = UIStoryboard.FromName("Main", null);
+						EventInstructionController eventInstructionVC = sb.InstantiateViewController("EventInstructionController") as EventInstructionController;
+						eventInstructionVC.selectedEvent = eventDetail;
+						_mSuperVC.NavigationController.PushViewController(eventInstructionVC, true);
+
+					});
+				});
 		}
 
 		override public void LayoutSubviews()

@@ -1,4 +1,4 @@
-using Foundation;
+﻿using Foundation;
 using System;
 using UIKit;
 using PortableLibrary;
@@ -87,7 +87,7 @@ namespace location2
 			public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 			{
 				UserSubGroupCell cell = tableView.DequeueReusableCell("UserSubGroupCell") as UserSubGroupCell;
-				cell.SetCell(_searchAthletes[indexPath.Row]);
+				cell.SetCell(_searchAthletes[indexPath.Row], mSuperVC);
 
 				return cell;
 			}
