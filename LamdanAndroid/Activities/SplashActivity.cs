@@ -45,8 +45,8 @@ namespace goheja
         {
 			if (!IsNetEnable()) return;
 
-            //NotificationManager notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
-            //notificationManager.Notify(1, CreateNotification());
+            NotificationManager notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
+            notificationManager.Notify(1, CreateNotification());
 
 			System.Threading.ThreadPool.QueueUserWorkItem(delegate
 			{
@@ -84,12 +84,13 @@ namespace goheja
             var closeAction = new NotificationCompat.Action(Resource.Drawable.switch_off, "Switch off", dismissIntent);
 
             var builder = new NotificationCompat.Builder(this)
-                                          .SetStyle(textStyle)
-                                          .SetSmallIcon(Resource.Drawable.icon_notification)
-                                          .SetPriority(1)
-                                          .SetContentIntent(contentIntent)
-                                          .SetCategory("tst")
-                                          .AddAction(closeAction);
+                                                .SetContentTitle(ApplicationInfo.LoadLabel(PackageManager) + " on the go")
+                                                .SetContentText("Tap to open")
+                                                .SetSmallIcon(Resource.Drawable.icon_notification)
+                                                .SetPriority(1)
+                                                .SetContentIntent(contentIntent)
+                                                .SetCategory("tst")
+                                                .AddAction(closeAction);
 
             var n = builder.Build();
             n.Flags |= NotificationFlags.NoClear;

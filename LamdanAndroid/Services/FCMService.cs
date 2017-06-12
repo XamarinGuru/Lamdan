@@ -46,10 +46,12 @@ namespace goheja.Services
             intent.PutExtra("FromWhere", "RemoteNotification");
             intent.PutExtra("SelectedEventID", mData["practiceId"]);
             intent.AddFlags(ActivityFlags.ClearTop);
-            var pendingIntent = PendingIntent.GetActivity(this, 0 /* Request code */, intent, PendingIntentFlags.OneShot);
+            var pendingIntent = PendingIntent.GetActivity(this, 0 /* Request code */, intent, PendingIntentFlags.UpdateCurrent);
 
             var defaultSoundUri = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
             var notificationBuilder = new NotificationCompat.Builder(this)
+                                                            .SetContentTitle("Notification from " + mData["senderName"])
+                                                            .SetContentText("Drop down to get detail")
                                                             .SetSmallIcon(Resource.Drawable.icon_remote_notification)
                                                             .SetStyle(textStyle)
                                                             .SetAutoCancel(true)
@@ -58,7 +60,7 @@ namespace goheja.Services
 
             var notificationManager = NotificationManager.FromContext(this);
 
-            notificationManager.Notify(0 /* ID of notification */, notificationBuilder.Build());
+            notificationManager.Notify(DateTime.Now.Millisecond, notificationBuilder.Build());
         }
 	}
 }

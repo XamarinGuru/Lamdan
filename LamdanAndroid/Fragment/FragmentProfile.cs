@@ -76,7 +76,7 @@ namespace goheja
             switchNotification.CheckedChange += UpdateUserNotificationSetting;
 		}
 
-        private async void UpdateUserNotificationSetting(object sender, CompoundButton.CheckedChangeEventArgs e)
+        private void UpdateUserNotificationSetting(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             var currentUser = AppSettings.CurrentUser;
             currentUser.isFcmOn = switchNotification.Checked;
