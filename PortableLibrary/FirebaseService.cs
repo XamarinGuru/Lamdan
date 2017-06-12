@@ -32,8 +32,9 @@ namespace PortableLibrary
 
                 var objNotification = new FBNotification();
                 objNotification.data = nContent;
-                objNotification.to = to;//recipientFCMUserToken;
-                var jsonNotification = JsonConvert.SerializeObject(objNotification);
+                //objNotification.to = to;
+                objNotification.to = recipientFCMUserToken;
+				var jsonNotification = JsonConvert.SerializeObject(objNotification);
 
                 StringContent content = new StringContent(jsonNotification, Encoding.UTF8, "application/json");
 

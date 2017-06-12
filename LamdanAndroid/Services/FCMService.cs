@@ -35,7 +35,7 @@ namespace goheja.Services
 
 
             var textStyle = new NotificationCompat.BigTextStyle();
-            textStyle.SetBigContentTitle("Notification from " + mData["recipientName"]);
+            textStyle.SetBigContentTitle("Notification from " + mData["senderName"]);
             textStyle.BigText("Tap to open");
             textStyle.SetSummaryText(summaryText);
 
