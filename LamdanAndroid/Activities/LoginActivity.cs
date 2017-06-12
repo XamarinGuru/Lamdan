@@ -84,17 +84,17 @@ namespace goheja
 			return isValid;
 		}
 
-		async void ActionLogin(object sender, EventArgs e)
+		void ActionLogin(object sender, EventArgs e)
 		{
 			if (!IsNetEnable()) return;
 
 			if (Validate())
 			{
-				//System.Threading.ThreadPool.QueueUserWorkItem(delegate
-				//{
+				System.Threading.ThreadPool.QueueUserWorkItem(delegate
+				{
 					ShowLoadingView(Constants.MSG_LOGIN);
 
-					var loginUser = await LoginUser(txtEmail.Text, txtPassword.Text);
+					var loginUser = LoginUser(txtEmail.Text, txtPassword.Text);
 
 					HideLoadingView();
 
@@ -104,8 +104,6 @@ namespace goheja
 					}
 					else
 					{
-                        
-
 						Intent nextIntent;
 						if (loginUser.userType == (int)Constants.USER_TYPE.ATHLETE)
 						{
@@ -119,7 +117,7 @@ namespace goheja
 						StartActivityForResult(nextIntent, 0);
 						Finish();
 					}
-				//});
+				});
 			}
 		}
 

@@ -216,7 +216,7 @@ namespace goheja
 			return result;
 		}
 
-		public async Task<LoginUser> LoginUser(string email, string password)
+		public LoginUser LoginUser(string email, string password)
 		{
 			var loginUser = new LoginUser();
 
@@ -231,7 +231,7 @@ namespace goheja
 				AppSettings.CurrentUser = loginUser;
 				AppSettings.DeviceUDID = Android.Provider.Settings.Secure.GetString(this.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
 
-				await FirebaseService.RegisterFCMUser(loginUser);
+				FirebaseService.RegisterFCMUser(loginUser);
 
 				return loginUser;
 			}

@@ -139,9 +139,6 @@
     <Reference Include="Xamarin.Controls.RangeSlider.Android">
       <HintPath>..\..\7_Altermans\Components\rangeslider-1.1.0.3\lib\android\Xamarin.Controls.RangeSlider.Android.dll</HintPath>
     </Reference>
-    <Reference Include="RoundedImageView">
-      <HintPath>..\..\7_Altermans\Components\RoundedImageView-2.2.1\lib\android\RoundedImageView.dll</HintPath>
-    </Reference>
     <Reference Include="AndHUD">
       <HintPath>..\Components\AndHUD-1.3.1\lib\android\AndHUD.dll</HintPath>
     </Reference>
@@ -168,6 +165,9 @@
     </Reference>
     <Reference Include="Xamarin.GooglePlayServices.Maps">
       <HintPath>..\packages\Xamarin.GooglePlayServices.Maps.42.1021.1\lib\MonoAndroid70\Xamarin.GooglePlayServices.Maps.dll</HintPath>
+    </Reference>
+    <Reference Include="RoundedImageView">
+      <HintPath>..\Components\RoundedImageView-2.2.1\lib\android\RoundedImageView.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -416,6 +416,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="UniversalImageLoader">
       <Version>1.9.4.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="RoundedImageView">
+      <Version>2.2.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

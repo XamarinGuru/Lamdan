@@ -163,7 +163,7 @@ namespace goheja
 			return isValid;
 		}
 
-        async void ActionSignUp(object sender, EventArgs eventArgs)
+        void ActionSignUp(object sender, EventArgs eventArgs)
         {
 			if (!IsNetEnable()) return;
 
@@ -173,15 +173,15 @@ namespace goheja
 				{
 					string deviceUDID = Android.Provider.Settings.Secure.GetString(this.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
 
-					//System.Threading.ThreadPool.QueueUserWorkItem(delegate
-					//{
+					System.Threading.ThreadPool.QueueUserWorkItem(delegate
+					{
 						ShowLoadingView(Constants.MSG_SIGNUP);
 
 						var result = RegisterUser(txtFirstname.Text, txtLastname.Text, deviceUDID, txtUsername.Text, txtPassword.Text, txtEmail.Text, int.Parse(txtAge.Text));
 
 						if (result == "user added")
 						{
-							var loginUser = await LoginUser(txtEmail.Text, txtPassword.Text);
+							var loginUser = LoginUser(txtEmail.Text, txtPassword.Text);
 
 							HideLoadingView();
 
@@ -210,7 +210,7 @@ namespace goheja
                             HideLoadingView();
 							ShowMessageBox(null, result);
 						}
-					//});
+					});
 				}
             }
             catch (Exception ex)
