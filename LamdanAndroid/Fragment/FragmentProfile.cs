@@ -17,18 +17,19 @@ namespace goheja
     {
         ImageView imgProfile;
 		TextView lblUsername, lblEmail, lblPhone;
+        Switch switchNotification;
 
         byte[] bitmapByteData = { 0 };
 
 		RootMemberModel MemberModel { get; set; }
-		SwipeTabActivity rootActivity;
+        BaseActivity rootActivity;
 
 		View mView;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
 			MemberModel = new RootMemberModel();
-			rootActivity = this.Activity as SwipeTabActivity;
+			rootActivity = this.Activity as BaseActivity;
 
 			return inflater.Inflate(Resource.Layout.fProfile, container, false);
         }
@@ -69,9 +70,24 @@ namespace goheja
 			mView.FindViewById<LinearLayout>(Resource.Id.ActionSyncDevice).Click += ActionSyncDevice;
 			mView.FindViewById<LinearLayout>(Resource.Id.ActionChangePassword).Click += ActionChangePassword;
 			mView.FindViewById<LinearLayout>(Resource.Id.ActionSignOut).Click += ActionSignOut;
+
+            switchNotification = mView.FindViewById<Switch>(Resource.Id.switchNotification);
+            switchNotification.Checked = AppSettings.CurrentUser.isFcmOn;
+            switchNotification.CheckedChange += UpdateUserNotificationSetting;
 		}
 
-		private void SetInputBinding()
+        private async void UpdateUserNotificationSetting(object sender, CompoundButton.CheckedChangeEventArgs e)
+        {
+            var currentUser = AppSettings.CurrentUser;
+            currentUser.isFcmOn = switchNotification.Checked;
+            AppSettings.CurrentUser = currentUser;
+
+            //rootActivity.ShowLoadingView("");
+            //await FirebaseService.RegisterFCMUser(currentUser);
+            //rootActivity.HideLoadingView();
+        }
+
+        private void SetInputBinding()
 		{
 			if (MemberModel.rootMember == null) return;
 

@@ -25,7 +25,7 @@ namespace goheja.Services
 
             var currentUser = AppSettings.CurrentUser;
             currentUser.fcmToken = token;
-            currentUser.osType = Constants.OS_TYPE.Android;
+            //currentUser.osType = Constants.OS_TYPE.Android;
             AppSettings.CurrentUser = currentUser;
 
             await FirebaseService.RegisterFCMUser(currentUser);

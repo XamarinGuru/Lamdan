@@ -7,6 +7,7 @@ namespace PortableLibrary.Model
     {
         public string recipientID { get; set; }
         public string senderName { get; set; }
+        public string practiceId { get; set; }
         public string practiceType { get; set; }
         public string practiceName { get; set; }
         public string practiceDate { get; set; }

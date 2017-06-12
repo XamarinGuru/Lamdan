@@ -18,6 +18,7 @@ namespace goheja
 	[Activity(Label = "EventInstructionActivity", ScreenOrientation = ScreenOrientation.Portrait)]
 	public class EventInstructionActivity : BaseActivity
 	{
+        ScrollView scrollView;
         TextView btnEdit;
         TextView lblPlannedDistance, lblPlannedDuration, lblPlannedLoad, lblPlannedAvgSpeed, lblPlannedAcent, lblPlannedAvgHr, lblPlannedCalories, lblPlannedAvgPower, lblPlannedLeveledPower;
         EditText editPerformedDistance, editPerformedDuration, editPerformedLoad;
@@ -41,6 +42,10 @@ namespace goheja
 			if (!IsNetEnable()) return;
 
             InitUISettings();
+
+			var fromWhere = Intent.GetStringExtra("FromWhere");
+            if (fromWhere.Equals("RemoteNotification"))
+                scrollView.Post(() => scrollView.FullScroll(FocusSearchDirection.Down));
         }
 
         protected override void OnResume()
@@ -52,6 +57,7 @@ namespace goheja
 
         void ResetUISettings()
         {
+            var fromWhere = Intent.GetStringExtra("FromWhere");
 			//var selectedEvent = AppSettings.selectedEvent;
             var selectedEventID = Intent.GetStringExtra("SelectedEventID");
 			try
@@ -87,6 +93,8 @@ namespace goheja
 
 		void InitUISettings()
 		{
+            scrollView = FindViewById<ScrollView>(Resource.Id.scrollView);
+
             btnEdit = FindViewById<TextView>(Resource.Id.ActionEdit);
             btnEdit.SetTextColor(GROUP_COLOR);
             var imgEdit = FindViewById<ImageView>(Resource.Id.imgEdit);

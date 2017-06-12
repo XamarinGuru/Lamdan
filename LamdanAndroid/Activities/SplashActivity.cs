@@ -45,8 +45,8 @@ namespace goheja
         {
 			if (!IsNetEnable()) return;
 
-            NotificationManager notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
-            notificationManager.Notify(1, CreateNotification());
+            //NotificationManager notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
+            //notificationManager.Notify(1, CreateNotification());
 
 			System.Threading.ThreadPool.QueueUserWorkItem(delegate
 			{

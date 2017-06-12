@@ -227,6 +227,7 @@ namespace goheja
 				loginUser = JsonConvert.DeserializeObject<LoginUser>(jsonUser);
 
 				loginUser.fcmToken = FirebaseInstanceId.Instance.Token;
+                loginUser.isFcmOn = true;
 				loginUser.osType = Constants.OS_TYPE.Android;
 				AppSettings.CurrentUser = loginUser;
 				AppSettings.DeviceUDID = Android.Provider.Settings.Secure.GetString(this.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
@@ -742,6 +743,7 @@ namespace goheja
 			var notificationContent = new FBNotificationContent();
             notificationContent.recipientID = AppSettings.CurrentUser.athleteId;
             notificationContent.senderName = userObj.userName;
+            notificationContent.practiceId = AppSettings.selectedEvent._id;
             notificationContent.practiceType = GetTypeStrFromID(AppSettings.selectedEvent.type);
             notificationContent.practiceName = AppSettings.selectedEvent.title;
             notificationContent.practiceDate = String.Format("{0:f}", AppSettings.selectedEvent.StartDateTime());

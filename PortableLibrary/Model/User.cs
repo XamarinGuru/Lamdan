@@ -15,6 +15,7 @@ namespace PortableLibrary
 		public string athleteId { get; set; }
 		public int userType { get; set; }
         public string fcmToken { get; set; }
+        public bool isFcmOn { get; set; }
         public OS_TYPE osType { get; set; }
 		//public bool isFakeUser { get; set; }
 	}

@@ -9,7 +9,7 @@
     <ScrollView
         android:minWidth="25px"
         android:minHeight="25px"
-        android:id="@+id/scrollView1"
+        android:id="@+id/scrollView"
         android:scrollIndicators="none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -27,7 +27,7 @@
                 android:layout_height="30dp"
                 android:id="@+id/linearLayout22"
                 android:gravity="bottom">
-                <TextView
+                <TextView xmlns:tools="http://schemas.android.com/tools"
                     android:text="CALENDAR"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -36,7 +36,6 @@
                     android:textColor="#ffffffff"
                     android:textStyle="bold"
                     android:layout_marginLeft="10dp"
-                    xmlns:tools="http://schemas.android.com/tools"
                     tools:visibility="gone" />
             </LinearLayout>
             <LinearLayout
