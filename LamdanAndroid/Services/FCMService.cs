@@ -31,11 +31,7 @@ namespace goheja.Services
 
         void SendNotification(IDictionary<string, string> mData)
         {
-            var summaryText =   "Practice Type : " + mData["practiceType"] + Environment.NewLine +
-                                "Practice Name : " + mData["practiceName"] + Environment.NewLine +
-                                "Practice Date : " + mData["practiceDate"] + Environment.NewLine +
-                                mData["description"];
-
+            var msg =   mData["description"].Length > 100 ? mData["description"].Substring(0, 100) : mData["description"];
 
             var textStyle = new NotificationCompat.InboxStyle();
             textStyle.SetBigContentTitle("Notification from " + mData["senderName"]);
@@ -43,7 +39,7 @@ namespace goheja.Services
             textStyle.AddLine("Practice Name : " + mData["practiceName"]);
             textStyle.AddLine("Practice Date : " + mData["practiceDate"]);
             textStyle.AddLine(" ");
-			textStyle.AddLine(mData["description"]);
+			textStyle.AddLine(msg);
             textStyle.SetSummaryText("Tap to open");
 
             var intent = new Intent(this, typeof(EventInstructionActivity));

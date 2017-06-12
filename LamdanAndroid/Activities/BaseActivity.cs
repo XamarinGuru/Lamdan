@@ -724,7 +724,7 @@ namespace goheja
 
                 if (AppSettings.isFakeUser)
                 {
-                    SendNotification();
+                    SendNotification(commentText);
                 }
 				
 			}
@@ -736,7 +736,7 @@ namespace goheja
 			return result;
 		}
 
-        async void SendNotification()
+        async void SendNotification(string msg)
         {
             var userObj = GetUserObject(AppSettings.CurrentUser.userId);
 
@@ -747,7 +747,7 @@ namespace goheja
             notificationContent.practiceType = GetTypeStrFromID(AppSettings.selectedEvent.type);
             notificationContent.practiceName = AppSettings.selectedEvent.title;
             notificationContent.practiceDate = String.Format("{0:f}", AppSettings.selectedEvent.StartDateTime());
-            notificationContent.description = AppSettings.selectedEvent.eventData;
+            notificationContent.description = msg;
 			notificationContent.osType = Constants.OS_TYPE.Android;
 
 			await FirebaseService.SendNotification(notificationContent, FirebaseInstanceId.Instance.Token);

@@ -15,14 +15,25 @@ namespace PortableLibrary
 {
 	public static class FirebaseService
 	{
-		public static HttpClient _httpClient = new HttpClient();
+        public static HttpClient _httpClient;
 
         public static FirebaseClient _firebase = new FirebaseClient(Constants.URL_FBDB_BASE);
 
+        public static HttpClient GetHttpClientInstance()
+        {
+            if (_httpClient == null)
+            {
+                _httpClient = new HttpClient();
+				_httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+				_httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "key=" + Constants.FCM_SERVER_KEY);
+            }
+
+            return _httpClient;
+        }
+
 		public static async Task SendNotification(FBNotificationContent nContent, string to)
         {
-			_httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-			_httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "key=" + Constants.FCM_SERVER_KEY);
+            var httpClient = GetHttpClientInstance();
 
             try
             {
@@ -38,7 +49,7 @@ namespace PortableLibrary
 
                 StringContent content = new StringContent(jsonNotification, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync(Constants.URL_FCM_BASE, content);
+                var response = await httpClient.PostAsync(Constants.URL_FCM_BASE, content);
                 var result = response.Content.ReadAsStringAsync().Result;
             }
             catch (Exception ex)
