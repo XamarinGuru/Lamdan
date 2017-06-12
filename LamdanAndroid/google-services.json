@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "25070199035",
+    "firebase_url": "https://lamdan-b8a73.firebaseio.com",
+    "project_id": "lamdan-b8a73",
+    "storage_bucket": "lamdan-b8a73.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25070199035:android:c120130f188cfdb0",
+        "android_client_info": {
+          "package_name": "goheja.gohejalamdanteam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "25070199035-42d5ash1q2auimk9055ou7n8u74hmifp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRwANjHJ2IHFbLNZ1TtZX4Wl2q4LxWPiQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

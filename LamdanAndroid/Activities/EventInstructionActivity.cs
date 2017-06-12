@@ -38,11 +38,9 @@ namespace goheja
 
             LicenseManager.Key = License.Key;
 
-			var selectedEvent = AppSettings.selectedEvent;
-
 			if (!IsNetEnable()) return;
 
-            InitUISettings(selectedEvent);
+            InitUISettings();
         }
 
         protected override void OnResume()
@@ -54,21 +52,21 @@ namespace goheja
 
         void ResetUISettings()
         {
-			var selectedEvent = AppSettings.selectedEvent;
-
+			//var selectedEvent = AppSettings.selectedEvent;
+            var selectedEventID = Intent.GetStringExtra("SelectedEventID");
 			try
 			{
 				System.Threading.ThreadPool.QueueUserWorkItem(delegate
 				{
 					ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
 
-					var eventDetail = GetEventDetail(selectedEvent._id);
+					var eventDetail = GetEventDetail(selectedEventID);
 
-					var reportData = GetEventReport(selectedEvent._id);
-					var eventComment = GetComments(selectedEvent._id);
+					var reportData = GetEventReport(selectedEventID);
+					var eventComment = GetComments(selectedEventID);
 
 					AppSettings.selectedEvent = eventDetail;
-					AppSettings.selectedEvent._id = selectedEvent._id;
+					AppSettings.selectedEvent._id = selectedEventID;
 					AppSettings.currentEventReport = reportData;
 
 					RunOnUiThread(() =>
@@ -87,7 +85,7 @@ namespace goheja
 			}
         }
 
-		void InitUISettings(GoHejaEvent selectedEvent)
+		void InitUISettings()
 		{
             btnEdit = FindViewById<TextView>(Resource.Id.ActionEdit);
             btnEdit.SetTextColor(GROUP_COLOR);
@@ -145,7 +143,7 @@ namespace goheja
                         var pDistance = ConvertToFloat(editPerformedDistance.Text);
                         var pLoad = ConvertToFloat(editPerformedLoad.Text);
 
-                        UpdateMemberNotes(string.Empty, authorID, AppSettings.selectedEvent._id, string.Empty, selectedEvent.attended, pDuration.ToString(), pDistance.ToString(), pLoad.ToString(), AppSettings.selectedEvent.type);
+                        UpdateMemberNotes(string.Empty, authorID, AppSettings.selectedEvent._id, string.Empty, AppSettings.selectedEvent.attended, pDuration.ToString(), pDistance.ToString(), pLoad.ToString(), AppSettings.selectedEvent.type);
 
                         HideLoadingView();
 

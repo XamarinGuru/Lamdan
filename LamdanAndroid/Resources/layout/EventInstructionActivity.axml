@@ -35,7 +35,9 @@
                     android:textSize="10dp"
                     android:textColor="#ffffffff"
                     android:textStyle="bold"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_marginLeft="10dp"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    tools:visibility="gone" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="vertical"

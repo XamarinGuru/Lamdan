@@ -15,7 +15,28 @@
 	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
 	<uses-permission android:name="android.permission.READ_CALENDAR" />
 	<uses-permission android:name="android.permission.WRITE_CALENDAR" />
-	<application android:icon="@drawable/icon" android:hardwareAccelerated="false" android:largeHeap="true" android:label="Lamdan"></application>
+	<application android:icon="@drawable/icon" android:hardwareAccelerated="false" android:largeHeap="true" android:label="Lamdan">
+		<!-- START Manual Firebase Additions -->
+		<receiver android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver" android:exported="false" />
+		<receiver android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver" android:exported="true" android:permission="com.google.android.c2dm.permission.SEND">
+			<intent-filter>
+				<action android:name="com.google.android.c2dm.intent.RECEIVE" />
+				<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+				<category android:name="${applicationId}" />
+			</intent-filter>
+		</receiver>
+
+		<meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/icon_notification" />
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--<meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />-->
+		
+		<!-- END Manual Firebase Additions -->
+	</application>
 	<activity android:name="MainActivity" android:screenOrientation="landscape" android:launchMode="singleInstance" android:noHistory="true"></activity>
 	<activity android:name="EditProfileActivity" android:windowSoftInputMode="adjustPan"></activity>
 </manifest>

@@ -130,16 +130,16 @@ namespace goheja
             var fakeUserId = tags[0];
             var eventId = tags[1];
 
-            System.Threading.ThreadPool.QueueUserWorkItem(delegate
-                {
-                    mSuperActivity.ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
+            //System.Threading.ThreadPool.QueueUserWorkItem(delegate
+                //{
+                    //mSuperActivity.ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
 
-                    var eventDetail = mSuperActivity.GetEventDetail(eventId);
+                    //var eventDetail = mSuperActivity.GetEventDetail(eventId);
 
-                    AppSettings.selectedEvent = eventDetail;
-                    AppSettings.selectedEvent._id = eventId;
+                    //AppSettings.selectedEvent = eventDetail;
+                    //AppSettings.selectedEvent._id = eventId;
 
-                    mSuperActivity.HideLoadingView();
+                    //mSuperActivity.HideLoadingView();
 
 
                     var currentUser = AppSettings.CurrentUser;
@@ -165,9 +165,10 @@ namespace goheja
 
                     var nextIntent = new Intent(mSuperActivity, typeof(EventInstructionActivity));
                     nextIntent.PutExtra("FromWhere", "CoachList");
+                    nextIntent.PutExtra("SelectedEventID", eventId);
                     mSuperActivity.StartActivityForResult(nextIntent, 0);
 
-                });
+                //});
         }
 
         public void PerformSearch(string strSearch)
@@ -325,16 +326,16 @@ namespace goheja
             var fakeUserId = tags[0];
             var eventId = tags[1];
 
-            System.Threading.ThreadPool.QueueUserWorkItem(delegate
-                {
-                    mSuperActivity.ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
+            //System.Threading.ThreadPool.QueueUserWorkItem(delegate
+                //{
+                    //mSuperActivity.ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
 
-                    var eventDetail = mSuperActivity.GetEventDetail(eventId);
+                    //var eventDetail = mSuperActivity.GetEventDetail(eventId);
 
-                    AppSettings.selectedEvent = eventDetail;
-                    AppSettings.selectedEvent._id = eventId;
+                    //AppSettings.selectedEvent = eventDetail;
+                    //AppSettings.selectedEvent._id = eventId;
 
-                    mSuperActivity.HideLoadingView();
+                    //mSuperActivity.HideLoadingView();
 
 
                     var currentUser = AppSettings.CurrentUser;
@@ -358,11 +359,11 @@ namespace goheja
 
                     AppSettings.CurrentUser = currentUser;
 
-                    var nextIntent = new Intent(mSuperActivity, typeof(EventInstructionActivity));
-                    nextIntent.PutExtra("FromWhere", "CoachList");
-                    mSuperActivity.StartActivityForResult(nextIntent, 0);
-
-                });
+					var nextIntent = new Intent(mSuperActivity, typeof(EventInstructionActivity));
+					nextIntent.PutExtra("FromWhere", "CoachList");
+					nextIntent.PutExtra("SelectedEventID", eventId);
+					mSuperActivity.StartActivityForResult(nextIntent, 0);
+                //});
         }
 
 		public void PerformSearch(string strSearch)

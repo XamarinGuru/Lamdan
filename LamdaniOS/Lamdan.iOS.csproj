@@ -142,14 +142,23 @@
     <Reference Include="Calabash">
       <HintPath>..\packages\Xamarin.TestCloud.Agent.0.20.1\lib\Xamarin.iOS10\Calabash.dll</HintPath>
     </Reference>
+    <Reference Include="SDWebImage">
+      <HintPath>..\packages\Xamarin.SDWebImage.3.7.5\lib\Xamarin.iOS\SDWebImage.dll</HintPath>
+    </Reference>
     <Reference Include="BTProgressHUD">
       <HintPath>..\Components\btprogresshud-1.20\lib\ios-unified\BTProgressHUD.dll</HintPath>
     </Reference>
-    <Reference Include="XCalendar">
-      <HintPath>..\Components\XCalendar-1.1\lib\ios-unified\XCalendar.dll</HintPath>
+    <Reference Include="Xuni.iOS.Core">
+      <HintPath>..\packages\Xuni.iOS.Core.2.3.20171.185\lib\Xamarin.iOS10\Xuni.iOS.Core.dll</HintPath>
     </Reference>
-    <Reference Include="SDWebImage">
-      <HintPath>..\packages\Xamarin.SDWebImage.3.7.5\lib\Xamarin.iOS\SDWebImage.dll</HintPath>
+    <Reference Include="Xuni.iOS.ChartCore">
+      <HintPath>..\packages\Xuni.iOS.ChartCore.2.3.20171.185\lib\Xamarin.iOS10\Xuni.iOS.ChartCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Xuni.iOS.FlexChart">
+      <HintPath>..\packages\Xuni.iOS.FlexChart.2.3.20171.185\lib\Xamarin.iOS10\Xuni.iOS.FlexChart.dll</HintPath>
+    </Reference>
+    <Reference Include="Xuni.iOS.Calendar">
+      <HintPath>..\packages\Xuni.iOS.Calendar.2.3.20171.185\lib\Xamarin.iOS10\Xuni.iOS.Calendar.dll</HintPath>
     </Reference>
     <Reference Include="Xuni.iOS.Core">
       <HintPath>..\packages\Xuni.iOS.Core.2.3.20171.185\lib\Xamarin.iOS10\Xuni.iOS.Core.dll</HintPath>
@@ -498,10 +507,6 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="googleiosmaps">
       <Version>2.1.0.0</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
-    <XamarinComponentReference Include="XCalendar">
-      <Version>1.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
     <XamarinComponentReference Include="sdwebimage">

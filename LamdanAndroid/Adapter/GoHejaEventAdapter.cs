@@ -109,9 +109,12 @@ namespace goheja
 			var index = ((LinearLayout)sender).Tag;
 			var selectedEvent = _events[(int)index];
 
-			AppSettings.selectedEvent = selectedEvent;
+			//AppSettings.selectedEvent = selectedEvent;
 
-			mSuperActivity.StartActivityForResult(new Intent(mSuperActivity, typeof(EventInstructionActivity)), 1);
+			var nextIntent = new Intent(mSuperActivity, typeof(EventInstructionActivity));
+			nextIntent.PutExtra("FromWhere", "CalendarList");
+            nextIntent.PutExtra("SelectedEventID", selectedEvent._id);
+			mSuperActivity.StartActivityForResult(nextIntent, 1);
 			mSuperActivity.OverridePendingTransition(Resource.Animation.fromLeft, Resource.Animation.toRight);
 		}
 	}

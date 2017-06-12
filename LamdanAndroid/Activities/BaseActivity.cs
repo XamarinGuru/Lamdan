@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -14,6 +15,7 @@ using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
 using AndroidHUD;
+using Firebase.Iid;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PortableLibrary;
@@ -214,7 +216,7 @@ namespace goheja
 			return result;
 		}
 
-		public LoginUser LoginUser(string email, string password)
+		public async Task<LoginUser> LoginUser(string email, string password)
 		{
 			var loginUser = new LoginUser();
 
@@ -223,6 +225,14 @@ namespace goheja
 				var objUser = mTrackSvc.mobLogin(email, password, Constants.SPEC_GROUP_TYPE);
 				var jsonUser = FormatJsonType(objUser.ToString());
 				loginUser = JsonConvert.DeserializeObject<LoginUser>(jsonUser);
+
+				loginUser.fcmToken = FirebaseInstanceId.Instance.Token;
+				loginUser.osType = Constants.OS_TYPE.Android;
+				AppSettings.CurrentUser = loginUser;
+				AppSettings.DeviceUDID = Android.Provider.Settings.Secure.GetString(this.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
+
+				await FirebaseService.RegisterFCMUser(loginUser);
+
 				return loginUser;
 			}
 			catch
@@ -358,15 +368,15 @@ namespace goheja
 			return null;
 		}
 
-		public RootMember GetUserObject()
+        public RootMember GetUserObject(string userId = null)
 		{
 			RootMember result = new RootMember();
 
-			string userID = GetUserID();
+            userId = userId == null ? GetUserID() : userId;
 
 			try
 			{
-				var objUser = mTrackSvc.getUsrObject(userID, Constants.SPEC_GROUP_TYPE);
+				var objUser = mTrackSvc.getUsrObject(userId, Constants.SPEC_GROUP_TYPE);
 				var jsonUser = FormatJsonType(objUser.ToString());
 				result = JsonConvert.DeserializeObject<RootMember>(jsonUser);
 			}
@@ -700,13 +710,22 @@ namespace goheja
 			return comment;
 		}
 
-		public object SetComment(string author, string authorId, string commentText, string eventId)
+		public object SetComment(string commentText)
 		{
 			object result = new object();
 
 			try
 			{
-				result = mTrackSvc.setComments(author, authorId, commentText, eventId, Constants.SPEC_GROUP_TYPE);
+                var author = string.Empty;// MemberModel.firstname + " " + MemberModel.lastname;
+				var authorId = AppSettings.CurrentUser.userId;
+
+				result = mTrackSvc.setComments(author, authorId, commentText, AppSettings.selectedEvent._id, Constants.SPEC_GROUP_TYPE);
+
+                if (AppSettings.isFakeUser)
+                {
+                    SendNotification();
+                }
+				
 			}
 			catch (Exception ex)
 			{
@@ -715,6 +734,22 @@ namespace goheja
 
 			return result;
 		}
+
+        async void SendNotification()
+        {
+            var userObj = GetUserObject(AppSettings.CurrentUser.userId);
+
+			var notificationContent = new FBNotificationContent();
+            notificationContent.recipientID = AppSettings.CurrentUser.athleteId;
+            notificationContent.senderName = userObj.userName;
+            notificationContent.practiceType = GetTypeStrFromID(AppSettings.selectedEvent.type);
+            notificationContent.practiceName = AppSettings.selectedEvent.title;
+            notificationContent.practiceDate = String.Format("{0:f}", AppSettings.selectedEvent.StartDateTime());
+            notificationContent.description = AppSettings.selectedEvent.eventData;
+			notificationContent.osType = Constants.OS_TYPE.Android;
+
+			await FirebaseService.SendNotification(notificationContent, FirebaseInstanceId.Instance.Token);
+        }
 
 		public void UpdateMemberNotes(string notes, string userID, string eventId, string username, string attended, string duration, string distance, string trainScore, string type)
 		{

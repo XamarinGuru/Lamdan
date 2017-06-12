@@ -84,17 +84,17 @@ namespace goheja
 			return isValid;
 		}
 
-		void ActionLogin(object sender, EventArgs e)
+		async void ActionLogin(object sender, EventArgs e)
 		{
 			if (!IsNetEnable()) return;
 
 			if (Validate())
 			{
-				System.Threading.ThreadPool.QueueUserWorkItem(delegate
-				{
+				//System.Threading.ThreadPool.QueueUserWorkItem(delegate
+				//{
 					ShowLoadingView(Constants.MSG_LOGIN);
 
-					var loginUser = LoginUser(txtEmail.Text, txtPassword.Text);
+					var loginUser = await LoginUser(txtEmail.Text, txtPassword.Text);
 
 					HideLoadingView();
 
@@ -104,8 +104,7 @@ namespace goheja
 					}
 					else
 					{
-						AppSettings.CurrentUser = loginUser;
-						AppSettings.DeviceUDID = Android.Provider.Settings.Secure.GetString(this.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
+                        
 
 						Intent nextIntent;
 						if (loginUser.userType == (int)Constants.USER_TYPE.ATHLETE)
@@ -120,7 +119,7 @@ namespace goheja
 						StartActivityForResult(nextIntent, 0);
 						Finish();
 					}
-				});
+				//});
 			}
 		}
 

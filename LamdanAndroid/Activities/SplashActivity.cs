@@ -1,12 +1,13 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Support.V4.App;
-using Android.Text;
 using System.Threading.Tasks;
 using Android.Content.PM;
 using PortableLibrary;
 using Com.GrapeCity.Xuni.Core;
+using Firebase.Iid;
+using System.Net;
+using Android.Support.V4.App;
 
 namespace goheja
 {
@@ -24,6 +25,8 @@ namespace goheja
         protected override void OnResume()
         {
             base.OnResume();
+
+            ConfigureFireBase();
 
             Task startupWork = new Task(() =>
             {
@@ -65,30 +68,47 @@ namespace goheja
 				StartActivityForResult(nextIntent, 0);
 				Finish();
 			});
-
         }
 
         public Notification CreateNotification()
         {
-			var contentIntent = PendingIntent.GetActivity(this, 0, new Intent(this, typeof(SplashActivity)), PendingIntentFlags.UpdateCurrent);
-			var builder = new NotificationCompat.Builder(this)
-			                                    .SetContentTitle(ApplicationInfo.LoadLabel(PackageManager) + " on the go")
-			                                    .SetSmallIcon(Resource.Drawable.icon_notification).SetPriority(1)
-			                                    .SetContentIntent(contentIntent)
-			                                    .SetCategory("tst")
-			                                    .SetStyle(new NotificationCompat.BigTextStyle().BigText(Html.FromHtml("Tap to Open")))
-			                                    .SetContentText(Html.FromHtml("Tap to Open"));
-			
+            var contentIntent = PendingIntent.GetActivity(this, 0, new Intent(this, typeof(SplashActivity)), PendingIntentFlags.UpdateCurrent);
+
+            var textStyle = new NotificationCompat.BigTextStyle();
+            textStyle.SetBigContentTitle(ApplicationInfo.LoadLabel(PackageManager) + " on the go");
+            textStyle.BigText("Tap to open");
+
             var clossIntent = new Intent(this, typeof(CloseApplicationActivity));
             clossIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask | ActivityFlags.ClearTop);
             var dismissIntent = PendingIntent.GetActivity(this, 0, clossIntent, PendingIntentFlags.CancelCurrent);
-            var action = new NotificationCompat.Action(Resource.Drawable.switch_off, "Switch off", dismissIntent);
-            builder.AddAction(action);
+            var closeAction = new NotificationCompat.Action(Resource.Drawable.switch_off, "Switch off", dismissIntent);
+
+            var builder = new NotificationCompat.Builder(this)
+                                          .SetStyle(textStyle)
+                                          .SetSmallIcon(Resource.Drawable.icon_notification)
+                                          .SetPriority(1)
+                                          .SetContentIntent(contentIntent)
+                                          .SetCategory("tst")
+                                          .AddAction(closeAction);
 
             var n = builder.Build();
             n.Flags |= NotificationFlags.NoClear;
             return n;
         }
+
+		private void ConfigureFireBase()
+		{
+            #if DEBUG
+			Task.Run(() =>
+			{
+				var instanceId = FirebaseInstanceId.Instance;
+				instanceId.DeleteInstanceId();
+				Android.Util.Log.Debug("TAG", "{0} {1}", instanceId?.Token?.ToString(), instanceId.GetToken(GetString(Resource.String.gcm_defaultSenderId), Firebase.Messaging.FirebaseMessaging.InstanceIdScope));
+			});
+			// For debug mode only - will accept the HTTPS certificate of Test/Dev server, as the HTTPS certificate is invalid /not trusted
+			ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) => true;
+            #endif
+		}
     }
 }
 

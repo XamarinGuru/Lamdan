@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using static PortableLibrary.Constants;
 
 namespace PortableLibrary
 {
@@ -14,6 +14,8 @@ namespace PortableLibrary
 		public string userId { get; set; }
 		public string athleteId { get; set; }
 		public int userType { get; set; }
+        public string fcmToken { get; set; }
+        public OS_TYPE osType { get; set; }
 		//public bool isFakeUser { get; set; }
 	}
 

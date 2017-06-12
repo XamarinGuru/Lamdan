@@ -55,14 +55,11 @@ namespace goheja
 
 			if (!IsNetEnable()) return;
 
-			var author = MemberModel.firstname + " " + MemberModel.lastname;
-			var authorID = AppSettings.CurrentUser.userId;
-
 			System.Threading.ThreadPool.QueueUserWorkItem(delegate
 			{
 				ShowLoadingView(Constants.MSG_SAVE_COMMENT);
 
-				var response = SetComment(string.Empty, authorID, txtComment.Text, AppSettings.selectedEvent._id);
+				var response = SetComment(txtComment.Text);
 
 				HideLoadingView();
 
