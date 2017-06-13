@@ -24,7 +24,7 @@ namespace location2
 			base.AwakeFromNib();
 		}
 
-		public nfloat SetView(Content comment)
+		public nfloat SetView(Comment comment)
 		{
 			var deltaSecs = float.Parse(comment.date) / 1000;
 			var commentDate = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(deltaSecs).ToLocalTime();

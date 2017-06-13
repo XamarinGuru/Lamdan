@@ -31,20 +31,29 @@ namespace PortableLibrary
             return _httpClient;
         }
 
-		public static async Task SendNotification(FBNotificationContent nContent, string to)
+		public static async Task SendNotification(FBNotificationContent nContent, List<string> recipientIDs)
         {
             var httpClient = GetHttpClientInstance();
 
             try
             {
-                var recipientFCMUserToken = await GetFCMUserToken(nContent.recipientID, nContent.osType);
+                List<string> registration_ids = new List<string>();
+                foreach (var recipientID in recipientIDs)
+                {
+                    if (string.IsNullOrEmpty(recipientID)) continue;
 
-                if (recipientFCMUserToken == null) return;
+                    var registration_id = await GetFCMUserToken(recipientID, nContent.osType);
+
+                    if (string.IsNullOrEmpty(registration_id)) continue;
+
+                    registration_ids.Add(registration_id);
+                }
+
+                if (registration_ids.Count == 0) return;
 
                 var objNotification = new FBNotification();
                 objNotification.data = nContent;
-                //objNotification.to = to;
-                objNotification.to = recipientFCMUserToken;
+                objNotification.registration_ids = registration_ids;
 				var jsonNotification = JsonConvert.SerializeObject(objNotification);
 
                 StringContent content = new StringContent(jsonNotification, Encoding.UTF8, "application/json");

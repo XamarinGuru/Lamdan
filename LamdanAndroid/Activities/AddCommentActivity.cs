@@ -1,7 +1,6 @@
 ﻿
 using System;
 using Android.App;
-using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
@@ -35,7 +34,6 @@ namespace goheja
 
 				HideLoadingView();
 			});
-
 		}
 
 		void InitUISettings()
@@ -59,7 +57,7 @@ namespace goheja
 			{
 				ShowLoadingView(Constants.MSG_SAVE_COMMENT);
 
-				var response = SetComment(txtComment.Text);
+                var response = AddComment(txtComment.Text);
 
 				HideLoadingView();
 

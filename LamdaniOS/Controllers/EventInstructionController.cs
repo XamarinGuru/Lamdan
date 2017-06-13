@@ -231,7 +231,7 @@ namespace location2
             tableView.ReloadData();
         }
 
-		void InitBindingEventComments(Comment comments)
+		void InitBindingEventComments(Comments comments)
 		{
 			foreach (var subView in contentComment.Subviews)
 				subView.RemoveFromSuperview();

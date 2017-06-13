@@ -33,7 +33,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Model\Gauge.cs" />
     <Compile Include="Model\GoHejaEvent.cs" />
-    <Compile Include="Model\Comment.cs" />
+    <Compile Include="Model\Comments.cs" />
     <Compile Include="Model\EventTotal.cs" />
     <Compile Include="Model\EventPoints.cs" />
     <Compile Include="Model\EventTracks.cs" />

@@ -663,13 +663,13 @@ namespace location2
 			return PATH_COLORS[index % 3];
 		}
 
-		public Comment GetComments(string eventID, string type = "1")
+		public Comments GetComments(string eventID, string type = "1")
 		{
-			var comment = new Comment();
+			var comment = new Comments();
 			try
 			{
 				var commentObject = mTrackSvc.getComments(eventID, "1", Constants.SPEC_GROUP_TYPE);
-				comment = JsonConvert.DeserializeObject<Comment>(commentObject.ToString());
+				comment = JsonConvert.DeserializeObject<Comments>(commentObject.ToString());
 			}
 			catch (Exception ex)
 			{

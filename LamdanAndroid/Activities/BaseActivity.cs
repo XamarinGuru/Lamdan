@@ -266,6 +266,25 @@ namespace goheja
 			return SortUsers(result);
 		}
 
+        public List<string> GetCoachIDs()
+        {
+            var result = new List<string>();
+
+            try
+            {
+                var jsonCoachIDs = mTrackSvc.getCoachesMob(Constants.SPEC_GROUP_TYPE);
+                var arrCoachIDs = jsonCoachIDs.Split(new char[] { ',' });
+
+                result = new List<string>(arrCoachIDs);
+            }
+            catch (Exception ex)
+            {
+                ShowTrackMessageBox(ex.Message);
+            }
+
+            return result;
+        }
+
 		public SubGroups GetSubGroups(string groupId)
 		{
 			var result = new SubGroups();
@@ -695,13 +714,13 @@ namespace goheja
 			return PATH_COLORS[index % 3];
 		}
 
-		public Comment GetComments(string eventID, string type = "1")
+		public Comments GetComments(string eventID, string type = "1")
 		{
-			var comment = new Comment();
+			var comment = new Comments();
 			try
 			{
 				var commentObject = mTrackSvc.getComments(eventID, "1", Constants.SPEC_GROUP_TYPE);
-				comment = JsonConvert.DeserializeObject<Comment>(commentObject.ToString());
+				comment = JsonConvert.DeserializeObject<Comments>(commentObject.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -711,22 +730,21 @@ namespace goheja
 			return comment;
 		}
 
-		public object SetComment(string commentText)
+		public Comment AddComment(string commentText)
 		{
-			object result = new object();
+			Comment result = new Comment();
 
 			try
 			{
-                var author = string.Empty;// MemberModel.firstname + " " + MemberModel.lastname;
+				var author = string.Empty;// MemberModel.firstname + " " + MemberModel.lastname;
 				var authorId = AppSettings.CurrentUser.userId;
 
-				result = mTrackSvc.setComments(author, authorId, commentText, AppSettings.selectedEvent._id, Constants.SPEC_GROUP_TYPE);
+                var commentResponseObject = mTrackSvc.setCommentsMob(author, authorId, commentText, AppSettings.selectedEvent._id, Constants.SPEC_GROUP_TYPE);
+                result = JsonConvert.DeserializeObject<Comment>(commentResponseObject.ToString());
 
-                if (AppSettings.isFakeUser)
-                {
-                    SendNotification(commentText);
-                }
-				
+                if (result != null)
+					SendNotification(result);
+
 			}
 			catch (Exception ex)
 			{
@@ -736,21 +754,31 @@ namespace goheja
 			return result;
 		}
 
-        async void SendNotification(string msg)
+        async void SendNotification(Comment comment)
         {
-            var userObj = GetUserObject(AppSettings.CurrentUser.userId);
+            //var userObj = GetUserObject(AppSettings.CurrentUser.userId);
 
 			var notificationContent = new FBNotificationContent();
-            notificationContent.recipientID = AppSettings.CurrentUser.athleteId;
-            notificationContent.senderName = userObj.userName;
-            notificationContent.practiceId = AppSettings.selectedEvent._id;
+            notificationContent.senderName = comment.author;//userObj.userName;
+            notificationContent.practiceId = comment.eventId;
+            notificationContent.commentId = comment.commentId;
+			notificationContent.description = comment.commentText;
             notificationContent.practiceType = GetTypeStrFromID(AppSettings.selectedEvent.type);
             notificationContent.practiceName = AppSettings.selectedEvent.title;
             notificationContent.practiceDate = String.Format("{0:f}", AppSettings.selectedEvent.StartDateTime());
-            notificationContent.description = msg;
 			notificationContent.osType = Constants.OS_TYPE.Android;
 
-			await FirebaseService.SendNotification(notificationContent, FirebaseInstanceId.Instance.Token);
+            var recipientIDs = new List<string>();
+			if (AppSettings.isFakeUser)
+			{
+                recipientIDs.Add(AppSettings.CurrentUser.athleteId);
+			}
+            else
+            {
+                recipientIDs = GetCoachIDs();
+            }
+
+			await FirebaseService.SendNotification(notificationContent, recipientIDs);
         }
 
 		public void UpdateMemberNotes(string notes, string userID, string eventId, string username, string attended, string duration, string distance, string trainScore, string type)

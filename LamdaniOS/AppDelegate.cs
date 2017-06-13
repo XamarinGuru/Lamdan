@@ -1,4 +1,4 @@
-﻿using Foundation;
+﻿﻿using Foundation;
 using UIKit;
 using System;
 using System.Threading;
@@ -8,11 +8,19 @@ using PortableLibrary;
 using System.Collections.Generic;
 using Google.Maps;
 
+using Firebase.InstanceID;
+using Firebase.Analytics;
+using Firebase.CloudMessaging;
+
+using UserNotifications;
+
 namespace location2
 {
 	[Register ("AppDelegate")]
-	public class AppDelegate : UIApplicationDelegate
+	public class AppDelegate : UIApplicationDelegate, IUNUserNotificationCenterDelegate, IMessagingDelegate
 	{
+        //public event EventHandler<UserInfoEventArgs> NotificationReceived;
+
 		public static LocationHelper MyLocationHelper = new LocationHelper();
 
 		private nint bgThread = -1;
@@ -35,32 +43,186 @@ namespace location2
 
 			MapServices.ProvideAPIKey(PortableLibrary.Constants.GOOGLE_MAP_API_KEY);
 
+			// Monitor token generation
+			InstanceId.Notifications.ObserveTokenRefresh(TokenRefreshNotification);
+
+			// Register your app for remote notifications.
+			if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+			{
+				// iOS 10 or later
+				var authOptions = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound;
+				UNUserNotificationCenter.Current.RequestAuthorization(authOptions, (granted, error) =>
+				{
+					Console.WriteLine(granted);
+				});
+
+				// For iOS 10 display notification (sent via APNS)
+				UNUserNotificationCenter.Current.Delegate = this;
+
+				// For iOS 10 data message (sent via FCM)
+				Messaging.SharedInstance.RemoteMessageDelegate = this;
+			}
+			else
+			{
+				// iOS 9 or before
+				var allNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound;
+				var settings = UIUserNotificationSettings.GetSettingsForTypes(allNotificationTypes, null);
+				UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+			}
+
+			UIApplication.SharedApplication.RegisterForRemoteNotifications();
+
+            App.Configure();
+
+            ConnectToFCM();
+
 			return true;
 		}
-
-		public override void OnResignActivation (UIApplication application)
+		public override void WillEnterForeground(UIApplication application)
 		{
-			// Invoked when the application is about to move from active to inactive state.
-			// This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) 
-			// or when the user quits the application and it begins the transition to the background state.
-			// Games should use this method to pause the game.
+			//ConnectToFCM (Window.RootViewController);
 		}
 
-		public override void DidEnterBackground(UIApplication application)
-		{
-			if (AppSettings.CurrentUser == null || baseVC == null)
-				return;
+        public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
+        {
+            base.ReceivedLocalNotification(application, notification);
+        }
 
-			App.Current.EventStore.RequestAccess(EKEntityType.Event,
-				(bool granted, NSError e) =>
+
+
+		// To receive notifications in foregroung on iOS 9 and below.
+		// To receive notifications in background in any iOS version
+		public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+		{
+			Console.WriteLine("WillPresentNotification===" + userInfo);
+			// If you are receiving a notification message while your app is in the background,
+			// this callback will not be fired 'till the user taps on the notification launching the application.
+
+			// If you disable method swizzling, you'll need to call this method. 
+			// This lets FCM track message delivery and analytics, which is performed
+			// automatically with method swizzling enabled.
+			//Messaging.GetInstance ().AppDidReceiveMessage (userInfo);
+
+			//if (NotificationReceived == null)
+			//  return;
+
+			//var e = new UserInfoEventArgs { UserInfo = userInfo };
+			//NotificationReceived(this, e);
+		}
+
+
+		// You'll need this method if you set "FirebaseAppDelegateProxyEnabled": NO in GoogleService-Info.plist
+		//public override void RegisteredForRemoteNotifications (UIApplication application, NSData deviceToken)
+		//{
+		//  InstanceId.SharedInstance.SetApnsToken (deviceToken, ApnsTokenType.Sandbox);
+		//}
+
+		// To receive notifications in foreground on iOS 10 devices.
+		[Export("userNotificationCenter:willPresentNotification:withCompletionHandler:")]
+		public void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
+		{
+			Console.WriteLine("WillPresentNotification===" + notification.Request.Content.UserInfo);
+			//if (NotificationReceived == null)
+			//  return;
+
+			//var e = new UserInfoEventArgs { UserInfo = notification.Request.Content.UserInfo };
+			//NotificationReceived(this, e);
+		}
+		#region Workaround for handling notifications in background for iOS 10
+		[Export("userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:")]
+		public void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
+		{
+			Console.WriteLine("DidReceiveNotificationResponse===" + response.Notification.Request.Content.UserInfo);
+			//var notification = new UILocalNotification();
+			//if (NotificationReceived == null)
+			//  return;
+
+			//var e = new UserInfoEventArgs { UserInfo = response.Notification.Request.Content.UserInfo };
+			//NotificationReceived(this, e);
+		}
+		#endregion
+		// Receive data message on iOS 10 devices.
+		public void ApplicationReceivedRemoteMessage(RemoteMessage remoteMessage)
+		{
+			Console.WriteLine("ApplicationReceivedRemoteMessage===" + remoteMessage.AppData);
+			var notification = new UILocalNotification();
+			notification.AlertAction = "go to Lamdan";
+			notification.AlertTitle = "title";
+			notification.AlertBody = "body";
+			notification.FireDate = NSDate.FromTimeIntervalSinceNow(5);
+			notification.AlertLaunchImage = "icon_notification.png";
+			notification.SoundName = UILocalNotification.DefaultSoundName;
+			UIApplication.SharedApplication.ScheduleLocalNotification(notification);
+		}
+
+		//////////////////
+		////////////////// WORKAROUND
+		//////////////////
+
+		
+
+		
+
+		
+
+		void TokenRefreshNotification(object sender, NSNotificationEventArgs e)
+		{
+			var refreshedToken = InstanceId.SharedInstance.Token;
+
+			ConnectToFCM();
+
+			// TODO: If necessary send token to application server.
+		}
+
+		public static void ConnectToFCM()
+		{
+			Messaging.SharedInstance.Connect(error =>
+			{
+				if (error != null)
 				{
-					InvokeOnMainThread(() =>
-					{
-						if (granted)
-							UpdateCalendarTimer();
-					});
-				});
+					Console.WriteLine($"Token: {InstanceId.SharedInstance.Token}");
+				}
+				else
+				{
+					Console.WriteLine($"Token: {InstanceId.SharedInstance.Token}");
+				}
+			});
 		}
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+        public override void DidEnterBackground(UIApplication application)
+        {
+            if (AppSettings.CurrentUser == null || baseVC == null)
+                return;
+
+            //Use this method to release shared resources, save user data, invalidate timers and store the application state.
+            // If your application supports background exection this method is called instead of WillTerminate when the user quits.
+
+            //Messaging.SharedInstance.Disconnect();
+            //Console.WriteLine("Disconnected from FCM");
+
+            DeviceCalendar.Current.EventStore.RequestAccess(EKEntityType.Event,
+                (bool granted, NSError e) =>
+                {
+                    InvokeOnMainThread(() =>
+                    {
+                        if (granted)
+                            UpdateCalendarTimer();
+                    });
+                });
+        }
 
 		private void UpdateCalendarTimer()
 		{
@@ -82,7 +244,7 @@ namespace location2
 				NSError error;
 
 				////remove existing descending events from now in "goHeja Events" calendar of device.
-				var calendars = App.Current.EventStore.GetCalendars(EKEntityType.Event);
+				var calendars = DeviceCalendar.Current.EventStore.GetCalendars(EKEntityType.Event);
 				foreach (var calendar in calendars)
 				{
 					if (calendar.Title == PortableLibrary.Constants.DEVICE_CALENDAR_TITLE)
@@ -91,8 +253,8 @@ namespace location2
 
 						EKCalendar[] calendarArray = new EKCalendar[1];
 						calendarArray[0] = calendar;
-						NSPredicate pEvents = App.Current.EventStore.PredicateForEvents(NSDate.Now.AddSeconds(-(3600 * 10000)), NSDate.Now.AddSeconds(3600 * 10000), calendarArray);
-						EKEvent[] allEvents = App.Current.EventStore.EventsMatching(pEvents);
+						NSPredicate pEvents = DeviceCalendar.Current.EventStore.PredicateForEvents(NSDate.Now.AddSeconds(-(3600 * 10000)), NSDate.Now.AddSeconds(3600 * 10000), calendarArray);
+						EKEvent[] allEvents = DeviceCalendar.Current.EventStore.EventsMatching(pEvents);
 						if (allEvents == null)
 							continue;
 						foreach (var pEvent in allEvents)
@@ -102,17 +264,17 @@ namespace location2
 							DateTime startNow = new DateTime(now.Year, now.Month, now.Day);
 							var startString = baseVC.ConvertDateTimeToNSDate(startNow);
 							if (pEvent.StartDate.Compare(startString) == NSComparisonResult.Descending)
-								App.Current.EventStore.RemoveEvent(pEvent, EKSpan.ThisEvent, true, out pE);
+								DeviceCalendar.Current.EventStore.RemoveEvent(pEvent, EKSpan.ThisEvent, true, out pE);
 						}
 					}
 				}
 
 				if (goHejaCalendar == null)
 				{
-					goHejaCalendar = EKCalendar.Create(EKEntityType.Event, App.Current.EventStore);
+					goHejaCalendar = EKCalendar.Create(EKEntityType.Event, DeviceCalendar.Current.EventStore);
 					EKSource goHejaSource = null;
 
-					foreach (EKSource source in App.Current.EventStore.Sources)
+					foreach (EKSource source in DeviceCalendar.Current.EventStore.Sources)
 					{
 						if (source.SourceType == EKSourceType.CalDav && source.Title == "iCloud")
 						{
@@ -122,7 +284,7 @@ namespace location2
 					}
 					if (goHejaSource == null)
 					{
-						foreach (EKSource source in App.Current.EventStore.Sources)
+						foreach (EKSource source in DeviceCalendar.Current.EventStore.Sources)
 						{
 							if (source.SourceType == EKSourceType.Local)
 							{
@@ -139,7 +301,7 @@ namespace location2
 					goHejaCalendar.Source = goHejaSource;
 				}
 
-				App.Current.EventStore.SaveCalendar(goHejaCalendar, true, out error);
+				DeviceCalendar.Current.EventStore.SaveCalendar(goHejaCalendar, true, out error);
 
 				if (error == null)
 					AddEvents();
@@ -168,7 +330,7 @@ namespace location2
 
 			foreach (var goHejaEvent in eventsData)
 			{
-				EKEvent newEvent = EKEvent.FromStore(App.Current.EventStore);
+				EKEvent newEvent = EKEvent.FromStore(DeviceCalendar.Current.EventStore);
 
 				var startDate = goHejaEvent.StartDateTime();
 				var endDate = goHejaEvent.EndDateTime();
@@ -230,22 +392,8 @@ namespace location2
 				newEvent.Calendar = goHejaCalendar;
 
 				NSError e;
-				App.Current.EventStore.SaveEvent(newEvent, EKSpan.ThisEvent, out e);
+				DeviceCalendar.Current.EventStore.SaveEvent(newEvent, EKSpan.ThisEvent, out e);
 			}
-		}
-
-
-
-		public override void WillEnterForeground(UIApplication application)
-		{
-			// Called as part of the transiton from background to active state.
-			// Here you can undo many of the changes made on entering the background.
-		}
-
-		public override void OnActivated(UIApplication application)
-		{
-			// Restart any tasks that were paused (or not yet started) while the application was inactive. 
-			// If the application was previously in the background, optionally refresh the user interface.
 		}
 
 		public override void WillTerminate(UIApplication application)
@@ -255,6 +403,8 @@ namespace location2
 				UIApplication.SharedApplication.EndBackgroundTask(bgThread);
 			}
 		}
+
+		
 	}
 
 }

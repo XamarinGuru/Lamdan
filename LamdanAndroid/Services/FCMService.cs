@@ -16,9 +16,9 @@ namespace goheja.Services
 		public override void OnMessageReceived(RemoteMessage message)
 		{
             var mData = message.Data;
-			Debug.WriteLine("recipientID: " + mData["recipientID"]);
 			Debug.WriteLine("senderName: " + mData["senderName"]);
             Debug.WriteLine("practiceId: " + mData["practiceId"]);
+            Debug.WriteLine("commentId: " + mData["commentId"]);
 			Debug.WriteLine("practiceType: " + mData["practiceType"]);
             Debug.WriteLine("practiceName: " + mData["practiceName"]);
             Debug.WriteLine("practiceDate: " + mData["practiceDate"]);
@@ -37,16 +37,29 @@ namespace goheja.Services
             textStyle.SetBigContentTitle("Notification from " + mData["senderName"]);
             textStyle.AddLine("Practice Type : " + mData["practiceType"]);
             textStyle.AddLine("Practice Name : " + mData["practiceName"]);
-            textStyle.AddLine("Practice Date : " + mData["practiceDate"]);
+            textStyle.AddLine("Practice Date : " + String.Format("{0:t}", mData["practiceDate"]));
             textStyle.AddLine(" ");
 			textStyle.AddLine(msg);
             textStyle.SetSummaryText("Tap to open");
 
+
+
             var intent = new Intent(this, typeof(EventInstructionActivity));
             intent.PutExtra("FromWhere", "RemoteNotification");
             intent.PutExtra("SelectedEventID", mData["practiceId"]);
+            intent.PutExtra("commentId", mData["commentId"]);
             intent.AddFlags(ActivityFlags.ClearTop);
-            var pendingIntent = PendingIntent.GetActivity(this, 0 /* Request code */, intent, PendingIntentFlags.UpdateCurrent);
+
+
+
+			Android.App.TaskStackBuilder stackBuilder = Android.App.TaskStackBuilder.Create(this);
+			stackBuilder.AddParentStack(Java.Lang.Class.FromType(typeof(EventInstructionActivity)));
+			stackBuilder.AddNextIntent(intent);
+
+			PendingIntent pendingIntent = stackBuilder.GetPendingIntent(0, PendingIntentFlags.OneShot);
+
+
+            //var pendingIntent = PendingIntent.GetActivity(this, 0 /* Request code */, intent, PendingIntentFlags.UpdateCurrent);
 
             var defaultSoundUri = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
             var notificationBuilder = new NotificationCompat.Builder(this)

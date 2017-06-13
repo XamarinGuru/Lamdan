@@ -57,8 +57,6 @@ namespace goheja
 
         void ResetUISettings()
         {
-            var fromWhere = Intent.GetStringExtra("FromWhere");
-			//var selectedEvent = AppSettings.selectedEvent;
             var selectedEventID = Intent.GetStringExtra("SelectedEventID");
 			try
 			{
@@ -332,26 +330,32 @@ namespace goheja
 			adapter.NotifyDataSetChanged();
 		}
 
-		void InitBindingEventComments(Comment comments)
+		void InitBindingEventComments(Comments comments)
 		{
 			if (comments == null) return;
 
 			try
 			{
-				var contentComment = FindViewById<LinearLayout>(Resource.Id.contentComment);
-				contentComment.RemoveAllViews();
-				foreach (var comment in comments.comments)
-				{
-					var commentView = LayoutInflater.From(this).Inflate(Resource.Layout.item_Comment, null);
+				FindViewById<TextView>(Resource.Id.lblCommentTitle).Text = "COMMENT" + " (" + comments.comments.Count + ")";
 
-					var deltaSecs = float.Parse(comment.date) / 1000;
-					var commentDate = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(deltaSecs).ToLocalTime();
+                var contentComment = FindViewById<LinearLayout>(Resource.Id.contentComment);
+                contentComment.RemoveAllViews();
+                foreach (var comment in comments.comments)
+                {
+                    var commentView = LayoutInflater.From(this).Inflate(Resource.Layout.item_Comment, null);
 
-					FindViewById<TextView>(Resource.Id.lblCommentTitle).Text = "COMMENT" + " (" + comments.comments.Count + ")";
+                    var deltaSecs = float.Parse(comment.date) / 1000;
+                    var commentDate = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(deltaSecs).ToLocalTime();
+
 					commentView.FindViewById<TextView>(Resource.Id.lblAuthorName).Text = comment.author;
 					commentView.FindViewById<TextView>(Resource.Id.lblCommentDate).Text = String.Format("{0:t}", commentDate) + " | " + String.Format("{0:d}", commentDate);
 					commentView.FindViewById<TextView>(Resource.Id.lblComment).Text = comment.commentText;
 					contentComment.AddView(commentView);
+
+					var fromWhere = Intent.GetStringExtra("FromWhere");
+                    var commentId = Intent.GetStringExtra("commentId");
+                    if (fromWhere.Equals("RemoteNotification") && commentId.Equals(comment.commentId))
+                        commentView.FindViewById<TextView>(Resource.Id.lblComment).SetTextColor(Color.Blue);
 				}
 			}
 			catch (Exception ex)
