@@ -20,25 +20,6 @@
             android:id="@+id/goals"
             android:gravity="center">
             <LinearLayout
-                android:orientation="horizontal"
-                android:minWidth="25px"
-                android:minHeight="25px"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:id="@+id/linearLayout22"
-                android:gravity="bottom">
-                <TextView xmlns:tools="http://schemas.android.com/tools"
-                    android:text="CALENDAR"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btnBack"
-                    android:textSize="10dp"
-                    android:textColor="#ffffffff"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="10dp"
-                    tools:visibility="gone" />
-            </LinearLayout>
-            <LinearLayout
                 android:orientation="vertical"
                 android:minWidth="25px"
                 android:minHeight="25px"

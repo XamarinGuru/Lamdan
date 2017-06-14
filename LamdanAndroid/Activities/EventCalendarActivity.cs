@@ -259,27 +259,27 @@ namespace goheja
 		{
 			if (keyCode == Keycode.Back)
 			{
-                BackAction();
+                ActionBackCancel();
 			}
 
 			return base.OnKeyDown(keyCode, e);
 		}
 
-		void BackAction()
-		{
-			var fromWhere = Intent.GetStringExtra("FromWhere");
+		//void BackAction()
+		//{
+		//	var fromWhere = Intent.GetStringExtra("FromWhere");
 
-			if (!string.IsNullOrEmpty(fromWhere) && fromWhere.Equals("CoachList"))
-			{
-                var nextIntent = new Intent(this, typeof(SwipeTabActivity));
-				nextIntent.PutExtra("FromWhere", "CoachList");
-				StartActivityForResult(nextIntent, 0);
-				Finish();
-			}
-			else
-			{
-				ActionBackCancel();
-			}
-		}
+		//	if (!string.IsNullOrEmpty(fromWhere) && fromWhere.Equals("CoachList"))
+		//	{
+  //              var nextIntent = new Intent(this, typeof(SwipeTabActivity));
+		//		nextIntent.PutExtra("FromWhere", "CoachList");
+		//		StartActivityForResult(nextIntent, 0);
+		//		Finish();
+		//	}
+		//	else
+		//	{
+		//		ActionBackCancel();
+		//	}
+		//}
 	}
 }

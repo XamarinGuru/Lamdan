@@ -32,6 +32,8 @@ namespace PortableLibrary
 
 		public static double[] LOCATION_ISURAEL = { 31.0461, 34.8516 };
 
+        public const string COLOR_NEW_NOTIFICATION = "83DF13";
+
 		public const string MSG_TRACK_ERROR = 
 			"MOB error reported\n " +
 			"Date time: {0}\n " +

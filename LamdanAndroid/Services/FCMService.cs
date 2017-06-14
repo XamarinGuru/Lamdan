@@ -6,6 +6,7 @@ using Android.Content;
 using Android.Media;
 using Android.Support.V4.App;
 using Firebase.Messaging;
+using PortableLibrary;
 
 namespace goheja.Services
 {
@@ -16,6 +17,7 @@ namespace goheja.Services
 		public override void OnMessageReceived(RemoteMessage message)
 		{
             var mData = message.Data;
+            Debug.WriteLine("senderId: " + mData["senderId"]);
 			Debug.WriteLine("senderName: " + mData["senderName"]);
             Debug.WriteLine("practiceId: " + mData["practiceId"]);
             Debug.WriteLine("commentId: " + mData["commentId"]);
@@ -47,13 +49,24 @@ namespace goheja.Services
             var intent = new Intent(this, typeof(EventInstructionActivity));
             intent.PutExtra("FromWhere", "RemoteNotification");
             intent.PutExtra("SelectedEventID", mData["practiceId"]);
+			intent.PutExtra("senderId", mData["senderId"]);
             intent.PutExtra("commentId", mData["commentId"]);
             intent.AddFlags(ActivityFlags.ClearTop);
 
 
 
 			Android.App.TaskStackBuilder stackBuilder = Android.App.TaskStackBuilder.Create(this);
-			stackBuilder.AddParentStack(Java.Lang.Class.FromType(typeof(EventInstructionActivity)));
+
+            if (AppSettings.CurrentUser.userType == (int)Constants.USER_TYPE.ATHLETE)
+			{
+				stackBuilder.AddNextIntentWithParentStack(new Intent(this, typeof(SwipeTabActivity)));
+			}
+			else
+			{
+                stackBuilder.AddNextIntentWithParentStack(new Intent(this, typeof(CoachHomeActivity)));
+			}
+            //stackBuilder.AddNextIntentWithParentStack(new Intent(this, typeof(SwipeTabActivity)));
+            //stackBuilder.AddNextIntentWithParentStack(new Intent(this, typeof(EventCalendarActivity)));
 			stackBuilder.AddNextIntent(intent);
 
 			PendingIntent pendingIntent = stackBuilder.GetPendingIntent(0, PendingIntentFlags.OneShot);
@@ -63,6 +76,8 @@ namespace goheja.Services
 
             var defaultSoundUri = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
             var notificationBuilder = new NotificationCompat.Builder(this)
+                                                            .SetGroup("Lamdan_Notifications")
+                                                            .SetGroupSummary(true)
                                                             .SetContentTitle("Notification from " + mData["senderName"])
                                                             .SetContentText("Drop down to get detail")
                                                             .SetSmallIcon(Resource.Drawable.icon_remote_notification)

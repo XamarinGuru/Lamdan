@@ -5,6 +5,7 @@ namespace PortableLibrary.Model
 {
     public class FBNotificationContent
     {
+        public string senderId { get; set; }
         public string senderName { get; set; }
         public string practiceId { get; set; }
         public string commentId { get; set; }

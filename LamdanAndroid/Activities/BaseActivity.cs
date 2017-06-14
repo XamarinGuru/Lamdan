@@ -759,6 +759,7 @@ namespace goheja
             //var userObj = GetUserObject(AppSettings.CurrentUser.userId);
 
 			var notificationContent = new FBNotificationContent();
+            notificationContent.senderId = comment.authorId;
             notificationContent.senderName = comment.author;//userObj.userName;
             notificationContent.practiceId = comment.eventId;
             notificationContent.commentId = comment.commentId;

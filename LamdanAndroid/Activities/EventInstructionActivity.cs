@@ -43,9 +43,9 @@ namespace goheja
 
             InitUISettings();
 
-			var fromWhere = Intent.GetStringExtra("FromWhere");
-            if (fromWhere.Equals("RemoteNotification"))
-                scrollView.Post(() => scrollView.FullScroll(FocusSearchDirection.Down));
+			//var fromWhere = Intent.GetStringExtra("FromWhere");
+            //if (fromWhere.Equals("RemoteNotification"))
+                //scrollView.Post(() => scrollView.FullScroll(FocusSearchDirection.Down));
         }
 
         protected override void OnResume()
@@ -167,9 +167,6 @@ namespace goheja
 				SetActiveTab(1);
 			};
 
-			FindViewById(Resource.Id.btnBack).Click += delegate (object sender, System.EventArgs e) {
-                BackAction();
-			};
 			FindViewById(Resource.Id.ActionLocation).Click += delegate (object sender, System.EventArgs e)
 			{
 				var activity = new Intent(this, typeof(LocationActivity));
@@ -334,6 +331,10 @@ namespace goheja
 		{
 			if (comments == null) return;
 
+			var fromWhere = Intent.GetStringExtra("FromWhere");
+			var commentId = Intent.GetStringExtra("commentId");
+			var senderId = Intent.GetStringExtra("senderId");
+
 			try
 			{
 				FindViewById<TextView>(Resource.Id.lblCommentTitle).Text = "COMMENT" + " (" + comments.comments.Count + ")";
@@ -350,12 +351,30 @@ namespace goheja
 					commentView.FindViewById<TextView>(Resource.Id.lblAuthorName).Text = comment.author;
 					commentView.FindViewById<TextView>(Resource.Id.lblCommentDate).Text = String.Format("{0:t}", commentDate) + " | " + String.Format("{0:d}", commentDate);
 					commentView.FindViewById<TextView>(Resource.Id.lblComment).Text = comment.commentText;
+                    commentView.FindViewById<TextView>(Resource.Id.lblCommentDate).SetTextColor(Color.White);
+                    commentView.FindViewById<ImageView>(Resource.Id.imgNewSymbol).Visibility = ViewStates.Gone;
 					contentComment.AddView(commentView);
 
-					var fromWhere = Intent.GetStringExtra("FromWhere");
-                    var commentId = Intent.GetStringExtra("commentId");
-                    if (fromWhere.Equals("RemoteNotification") && commentId.Equals(comment.commentId))
-                        commentView.FindViewById<TextView>(Resource.Id.lblComment).SetTextColor(Color.Blue);
+                    if (!string.IsNullOrEmpty(fromWhere) && fromWhere.Equals("RemoteNotification") 
+                        && !string.IsNullOrEmpty(commentId) && commentId.Equals(comment.commentId))
+                    {
+                        commentView.FindViewById<TextView>(Resource.Id.lblCommentDate).SetTextColor(Color.ParseColor("#" + Constants.COLOR_NEW_NOTIFICATION));
+                        commentView.FindViewById<ImageView>(Resource.Id.imgNewSymbol).Visibility = ViewStates.Visible; 
+                        scrollView.Post(() => scrollView.FullScroll(FocusSearchDirection.Down));
+
+
+						var currentUser = AppSettings.CurrentUser;
+
+                        if (currentUser.userType == (int)Constants.USER_TYPE.COACH)
+						{
+							currentUser.athleteId = senderId;
+							AppSettings.isFakeUser = true;
+							
+                            AppSettings.CurrentUser = currentUser;
+						}
+                        Intent.RemoveExtra("FromWhere");
+                        Intent.RemoveExtra("commentId");
+                    }
 				}
 			}
 			catch (Exception ex)
@@ -409,22 +428,22 @@ namespace goheja
             return base.OnKeyDown(keyCode, e);
         }
 
-        void BackAction()
-        {
-			var fromWhere = Intent.GetStringExtra("FromWhere");
+   //     void BackAction()
+   //     {
+			//var fromWhere = Intent.GetStringExtra("FromWhere");
 
-            if (!string.IsNullOrEmpty(fromWhere) && fromWhere.Equals("CoachList"))
-			{
-				var nextIntent = new Intent(this, typeof(EventCalendarActivity));
-				nextIntent.PutExtra("FromWhere", "CoachList");
-				StartActivityForResult(nextIntent, 0);
-				Finish();
-			}
-			else
-			{
-				ActionBackCancel();
-			}
-        }
+   //         if (!string.IsNullOrEmpty(fromWhere) && fromWhere.Equals("CoachList"))
+			//{
+			//	var nextIntent = new Intent(this, typeof(EventCalendarActivity));
+			//	nextIntent.PutExtra("FromWhere", "CoachList");
+			//	StartActivityForResult(nextIntent, 0);
+			//	Finish();
+			//}
+			//else
+			//{
+			//	ActionBackCancel();
+			//}
+        //}
 
 		public class MyTouchListener: Java.Lang.Object, View.IOnTouchListener
 		{
