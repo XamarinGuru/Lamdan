@@ -37,5 +37,11 @@ namespace location2
 
 			return viewContent.Frame.Size.Height;
 		}
+
+        public void SetHighlight(BaseViewController baseVC)
+        {
+            lblCommentDate.TextColor = baseVC.FromHexString(PortableLibrary.Constants.COLOR_NEW_NOTIFICATION);
+            imgNewSymbol.Hidden = false;
+        }
     }
 }

@@ -89,6 +89,9 @@ namespace location2
 			subControllers[nCurrentIndex].View.Hidden = false;
 
 			TabBarAnimation(pIndex);
+
+			AppDelegate myDelegate = UIApplication.SharedApplication.Delegate as AppDelegate;
+			myDelegate.navVC = subControllers[nCurrentIndex];
 		}
 
 		public void TabBarAnimation(int pageNumber)

@@ -226,14 +226,15 @@ namespace goheja
 				var jsonUser = FormatJsonType(objUser.ToString());
 				loginUser = JsonConvert.DeserializeObject<LoginUser>(jsonUser);
 
-				loginUser.fcmToken = FirebaseInstanceId.Instance.Token;
+                loginUser.fcmToken = FirebaseInstanceId.Instance.Token;
                 loginUser.isFcmOn = true;
-				loginUser.osType = Constants.OS_TYPE.Android;
-				AppSettings.CurrentUser = loginUser;
-				AppSettings.DeviceUDID = Android.Provider.Settings.Secure.GetString(this.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
+                loginUser.osType = Constants.OS_TYPE.Android;
+                AppSettings.CurrentUser = loginUser;
+                AppSettings.DeviceUDID = Android.Provider.Settings.Secure.GetString(this.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
 
-				FirebaseService.RegisterFCMUser(loginUser);
-
+				if (loginUser.userId != null)
+	    			FirebaseService.RegisterFCMUser(loginUser);
+                
 				return loginUser;
 			}
 			catch
@@ -716,18 +717,19 @@ namespace goheja
 
 		public Comments GetComments(string eventID, string type = "1")
 		{
-			var comment = new Comments();
+			var comments = new Comments();
 			try
 			{
 				var commentObject = mTrackSvc.getComments(eventID, "1", Constants.SPEC_GROUP_TYPE);
-				comment = JsonConvert.DeserializeObject<Comments>(commentObject.ToString());
+				comments = JsonConvert.DeserializeObject<Comments>(commentObject.ToString());
+                comments.comments.Reverse();
 			}
 			catch (Exception ex)
 			{
 				//ShowTrackMessageBox(ex.Message);
 				return null;
 			}
-			return comment;
+			return comments;
 		}
 
 		public Comment AddComment(string commentText)
@@ -756,9 +758,7 @@ namespace goheja
 
         async void SendNotification(Comment comment)
         {
-            //var userObj = GetUserObject(AppSettings.CurrentUser.userId);
-
-			var notificationContent = new FBNotificationContent();
+			var notificationContent = new FCMDataNotification();
             notificationContent.senderId = comment.authorId;
             notificationContent.senderName = comment.author;//userObj.userName;
             notificationContent.practiceId = comment.eventId;

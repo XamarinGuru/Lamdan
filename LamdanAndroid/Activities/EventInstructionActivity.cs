@@ -42,10 +42,6 @@ namespace goheja
 			if (!IsNetEnable()) return;
 
             InitUISettings();
-
-			//var fromWhere = Intent.GetStringExtra("FromWhere");
-            //if (fromWhere.Equals("RemoteNotification"))
-                //scrollView.Post(() => scrollView.FullScroll(FocusSearchDirection.Down));
         }
 
         protected override void OnResume()
@@ -185,7 +181,6 @@ namespace goheja
 				var activity = new Intent(this, typeof(AddCommentActivity));
 				StartActivityForResult(activity, 1);
 			};
-			FindViewById(Resource.Id.ActionAddComment).SetBackgroundColor(GROUP_COLOR);
 
 			ActionAdjustTrainning.Visibility = AppSettings.isFakeUser? ViewStates.Gone : ViewStates.Visible;
 			FindViewById(Resource.Id.contentEditBtn).Visibility = AppSettings.isFakeUser? ViewStates.Gone : ViewStates.Visible;
@@ -329,7 +324,10 @@ namespace goheja
 
 		void InitBindingEventComments(Comments comments)
 		{
-			if (comments == null) return;
+			var contentComment = FindViewById<LinearLayout>(Resource.Id.contentComment);
+			contentComment.RemoveAllViews();
+
+			if (comments == null || comments.comments.Count == 0) return;
 
 			var fromWhere = Intent.GetStringExtra("FromWhere");
 			var commentId = Intent.GetStringExtra("commentId");
@@ -339,8 +337,6 @@ namespace goheja
 			{
 				FindViewById<TextView>(Resource.Id.lblCommentTitle).Text = "COMMENT" + " (" + comments.comments.Count + ")";
 
-                var contentComment = FindViewById<LinearLayout>(Resource.Id.contentComment);
-                contentComment.RemoveAllViews();
                 foreach (var comment in comments.comments)
                 {
                     var commentView = LayoutInflater.From(this).Inflate(Resource.Layout.item_Comment, null);
@@ -360,8 +356,7 @@ namespace goheja
                     {
                         commentView.FindViewById<TextView>(Resource.Id.lblCommentDate).SetTextColor(Color.ParseColor("#" + Constants.COLOR_NEW_NOTIFICATION));
                         commentView.FindViewById<ImageView>(Resource.Id.imgNewSymbol).Visibility = ViewStates.Visible; 
-                        scrollView.Post(() => scrollView.FullScroll(FocusSearchDirection.Down));
-
+                        scrollView.ScrollTo(0, scrollView.Bottom);
 
 						var currentUser = AppSettings.CurrentUser;
 
@@ -427,23 +422,6 @@ namespace goheja
 
             return base.OnKeyDown(keyCode, e);
         }
-
-   //     void BackAction()
-   //     {
-			//var fromWhere = Intent.GetStringExtra("FromWhere");
-
-   //         if (!string.IsNullOrEmpty(fromWhere) && fromWhere.Equals("CoachList"))
-			//{
-			//	var nextIntent = new Intent(this, typeof(EventCalendarActivity));
-			//	nextIntent.PutExtra("FromWhere", "CoachList");
-			//	StartActivityForResult(nextIntent, 0);
-			//	Finish();
-			//}
-			//else
-			//{
-			//	ActionBackCancel();
-			//}
-        //}
 
 		public class MyTouchListener: Java.Lang.Object, View.IOnTouchListener
 		{

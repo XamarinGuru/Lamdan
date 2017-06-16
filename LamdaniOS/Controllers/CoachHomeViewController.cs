@@ -21,6 +21,9 @@ namespace location2
 
 			InitUISettings();
 
+			AppDelegate myDelegate = UIApplication.SharedApplication.Delegate as AppDelegate;
+			myDelegate.baseVC = this;
+
 			if (!IsNetEnable()) return;
 
             System.Threading.ThreadPool.QueueUserWorkItem(delegate
@@ -44,6 +47,23 @@ namespace location2
 		{
 			base.ViewWillAppear(animated);
 			NavigationController.NavigationBar.Hidden = true;
+		}
+
+		public override void ViewDidAppear(bool animated)
+		{
+			base.ViewDidAppear(animated);
+
+			AppDelegate myDelegate = UIApplication.SharedApplication.Delegate as AppDelegate;
+			if (myDelegate._userInfo != null)
+			{
+				EventInstructionController eventInstructionVC = Storyboard.InstantiateViewController("EventInstructionController") as EventInstructionController;
+				eventInstructionVC.eventID = myDelegate._userInfo["practiceId"].ToString();
+				eventInstructionVC.isNotification = true;
+				eventInstructionVC.commentID = myDelegate._userInfo["commentId"].ToString();
+				NavigationController.PushViewController(eventInstructionVC, true);
+
+				myDelegate._userInfo = null;
+			}
 		}
 
 		void InitUISettings()

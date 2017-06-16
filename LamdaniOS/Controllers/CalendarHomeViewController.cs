@@ -69,12 +69,23 @@ namespace location2
 
 			lblFakeUserName.Hidden = !AppSettings.isFakeUser;
 			lblFakeUserName.Text = string.Format(Constants.MSG_FAKE_USER_VIEW, AppSettings.fakeUserName);
-			//btnBack.Hidden = AppSettings.CurrentUser.userType == (int)Constants.USER_TYPE.COACH ? false : true;
 		}
 
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
+
+			AppDelegate myDelegate = UIApplication.SharedApplication.Delegate as AppDelegate;
+			if (myDelegate._userInfo != null)
+			{
+				EventInstructionController eventInstructionVC = Storyboard.InstantiateViewController("EventInstructionController") as EventInstructionController;
+				eventInstructionVC.eventID = myDelegate._userInfo["practiceId"].ToString();
+				eventInstructionVC.isNotification = true;
+				eventInstructionVC.commentID = myDelegate._userInfo["commentId"].ToString();
+				NavigationController.PushViewController(eventInstructionVC, true);
+
+				myDelegate._userInfo = null;
+			}
 
 			InitPerformanceGraph();
 			InitGaugeData();

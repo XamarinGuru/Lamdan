@@ -1564,7 +1564,14 @@
                         android:textColor="#ffffffff"
                         android:textSize="13dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="30dp" />
+                    <ImageView
+                        android:src="@drawable/icon_add_comment"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/ActionAddComment" />
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="vertical"
@@ -1581,17 +1588,8 @@
                     android:minHeight="25px"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/contentComment" />
-                <Button
-                    android:text="ADD COMMENT"
-                    android:id="@+id/ActionAddComment"
-                    android:background="#ffe5a109"
-                    android:textColor="#ffffffff"
-                    android:textSize="12dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:textStyle="bold" />
+                    android:id="@+id/contentComment"
+                    android:layout_marginBottom="30dp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

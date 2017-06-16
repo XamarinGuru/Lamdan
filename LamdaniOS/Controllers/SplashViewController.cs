@@ -35,7 +35,9 @@ namespace location2
 				{
 					var tabVC = Storyboard.InstantiateViewController("CoachHomeViewController") as CoachHomeViewController;
 					nextVC = new UINavigationController(tabVC);
-					//nextVC = Storyboard.InstantiateViewController("CoachHomeViewController") as CoachHomeViewController;
+
+					AppDelegate myDelegate = UIApplication.SharedApplication.Delegate as AppDelegate;
+					myDelegate.navVC = nextVC as UINavigationController;
 				}
 			}
 

@@ -11,6 +11,7 @@ using CoreLocation;
 using CoreGraphics;
 using System.Runtime.CompilerServices;
 using PortableLibrary.Model;
+using Firebase.InstanceID;
 
 namespace location2
 {
@@ -68,7 +69,22 @@ namespace location2
 		}
 
 		// Show the alert view
-		protected void ShowMessageBox(string title, string message, string cancelButton, string[] otherButtons, Action successHandler)
+		public void ShowMessageBox(string title, string message, bool isFinish = false)
+		{
+			InvokeOnMainThread(() =>
+			{
+				var alertView = new UIAlertView(title, message, null, "Ok", null);
+				alertView.Clicked += (sender, e) =>
+				{
+					if (isFinish)
+						CloseApplication();
+				};
+				alertView.Show();
+				//ShowMessageBox(title, message, "Ok", null, null); 
+			});
+		}
+
+		public void ShowMessageBox(string title, string message, string cancelButton, string[] otherButtons, Action successHandler)
 		{
 			var alertView = new UIAlertView(title, message, null, cancelButton, otherButtons);
 			alertView.Clicked += (sender, e) =>
@@ -85,7 +101,7 @@ namespace location2
 			alertView.Show();
 		}
 
-		protected void ShowMessageBox1(string title, string message, string cancelButton, string[] otherButtons, Action successHandler)
+		public void ShowMessageBox1(string title, string message, string cancelButton, string[] otherButtons, Action successHandler)
 		{
 			InvokeOnMainThread(() =>
 			{
@@ -95,7 +111,26 @@ namespace location2
 					successHandler();
 				};
 				alertView.Show();
+			});
+		}
 
+        public void ShowMessageBox(string title, string message, string cancelButton, string[] otherButtons, Action<NSDictionary> successHandler, NSDictionary data)
+		{
+			InvokeOnMainThread(() =>
+			{
+				var alertView = new UIAlertView(title, message, null, cancelButton, otherButtons);
+				alertView.Clicked += (sender, e) =>
+				{
+					if (e.ButtonIndex == 0)
+					{
+						return;
+					}
+					if (successHandler != null)
+					{
+						successHandler(data);
+					}
+				};
+				alertView.Show();
 			});
 		}
 
@@ -113,20 +148,7 @@ namespace location2
 			});
 		}
 
-		protected void ShowMessageBox(string title, string message, bool isFinish = false)
-		{
-			InvokeOnMainThread(() =>
-			{
-				var alertView = new UIAlertView(title, message, null, "Ok", null);
-				alertView.Clicked += (sender, e) =>
-				{
-					if (isFinish)
-						CloseApplication();
-				};
-				alertView.Show();
-				//ShowMessageBox(title, message, "Ok", null, null); 
-			});
-		}
+		
 
 		protected bool TextFieldShouldReturn(UITextField textField)
 		{
@@ -201,6 +223,16 @@ namespace location2
 				var objUser = mTrackSvc.mobLogin(email, password, Constants.SPEC_GROUP_TYPE);
 				var jsonUser = FormatJsonType(objUser.ToString());
 				loginUser = JsonConvert.DeserializeObject<LoginUser>(jsonUser);
+
+				loginUser.fcmToken = InstanceId.SharedInstance.Token;
+				loginUser.isFcmOn = true;
+                loginUser.osType = Constants.OS_TYPE.iOS;
+				AppSettings.CurrentUser = loginUser;
+				AppSettings.DeviceUDID = UIDevice.CurrentDevice.IdentifierForVendor.AsString();
+
+				if (loginUser.userId != null)
+					FirebaseService.RegisterFCMUser(loginUser);
+                
 				return loginUser;
 			}
 			catch
@@ -231,6 +263,25 @@ namespace location2
 			}
 
 			return SortUsers(result);
+		}
+
+		public List<string> GetCoachIDs()
+		{
+			var result = new List<string>();
+
+			try
+			{
+				var jsonCoachIDs = mTrackSvc.getCoachesMob(Constants.SPEC_GROUP_TYPE);
+				var arrCoachIDs = jsonCoachIDs.Split(new char[] { ',' });
+
+				result = new List<string>(arrCoachIDs);
+			}
+			catch (Exception ex)
+			{
+				ShowTrackMessageBox(ex.Message);
+			}
+
+			return result;
 		}
 
 		public SubGroups GetSubGroups(string groupId)
@@ -665,27 +716,35 @@ namespace location2
 
 		public Comments GetComments(string eventID, string type = "1")
 		{
-			var comment = new Comments();
+			var comments = new Comments();
 			try
 			{
 				var commentObject = mTrackSvc.getComments(eventID, "1", Constants.SPEC_GROUP_TYPE);
-				comment = JsonConvert.DeserializeObject<Comments>(commentObject.ToString());
+				comments = JsonConvert.DeserializeObject<Comments>(commentObject.ToString());
+                comments.comments.Reverse();
 			}
 			catch (Exception ex)
 			{
 				//ShowTrackMessageBox(ex.Message);
 				return null;
 			}
-			return comment;
+			return comments;
 		}
 
-		public object SetComment(string author, string authorId, string commentText, string eventId)
+        public Comment AddComment(string commentText, GoHejaEvent selectedEvent)
 		{
-			object result = new object();
+			Comment result = new Comment();
 
 			try
 			{
-				result = mTrackSvc.setComments(author, authorId, commentText, eventId, Constants.SPEC_GROUP_TYPE);
+				var author = string.Empty;// MemberModel.firstname + " " + MemberModel.lastname;
+				var authorId = AppSettings.CurrentUser.userId;
+
+				var commentResponseObject = mTrackSvc.setCommentsMob(author, authorId, commentText, selectedEvent._id, Constants.SPEC_GROUP_TYPE);
+				result = JsonConvert.DeserializeObject<Comment>(commentResponseObject.ToString());
+
+				if (result != null)
+					SendNotification(result, selectedEvent);
 			}
 			catch (Exception ex)
 			{
@@ -693,6 +752,32 @@ namespace location2
 			}
 
 			return result;
+		}
+
+		async void SendNotification(Comment comment, GoHejaEvent selectedEvent)
+		{
+			var notificationContent = new FCMDataNotification();
+			notificationContent.senderId = comment.authorId;
+			notificationContent.senderName = comment.author;//userObj.userName;
+			notificationContent.practiceId = comment.eventId;
+			notificationContent.commentId = comment.commentId;
+			notificationContent.description = comment.commentText;
+			notificationContent.practiceType = GetTypeStrFromID(selectedEvent.type);
+			notificationContent.practiceName = selectedEvent.title;
+			notificationContent.practiceDate = String.Format("{0:f}", selectedEvent.StartDateTime());
+			notificationContent.osType = Constants.OS_TYPE.Android;
+
+			var recipientIDs = new List<string>();
+			if (AppSettings.isFakeUser)
+			{
+				recipientIDs.Add(AppSettings.CurrentUser.athleteId);
+			}
+			else
+			{
+				recipientIDs = GetCoachIDs();
+			}
+
+			await FirebaseService.SendNotification(notificationContent, recipientIDs);
 		}
 
 		public void UpdateMemberNotes(string notes, string userID, string eventId, string username, string attended, string duration, string distance, string trainScore, string type)

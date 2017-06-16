@@ -7,28 +7,28 @@ using CoreGraphics;
 
 namespace location2
 {
-	public partial class UserSubGroupCell : UITableViewCell
-	{
-		AthleteInSubGroup _user;
-		BaseViewController _mSuperVC;
+    public partial class UserSubGroupCell : UITableViewCell
+    {
+        AthleteInSubGroup _user;
+        BaseViewController _mSuperVC;
 
-		public static readonly NSString Key = new NSString("UserSubGroupCell");
-		public static readonly UINib Nib;
+        public static readonly NSString Key = new NSString("UserSubGroupCell");
+        public static readonly UINib Nib;
 
-		static UserSubGroupCell()
-		{
-			Nib = UINib.FromName("UserSubGroupCell", NSBundle.MainBundle);
-		}
+        static UserSubGroupCell()
+        {
+            Nib = UINib.FromName("UserSubGroupCell", NSBundle.MainBundle);
+        }
 
-		protected UserSubGroupCell(IntPtr handle) : base(handle)
-		{
-			// Note: this .ctor should not contain any initialization logic.
-		}
+        protected UserSubGroupCell(IntPtr handle) : base(handle)
+        {
+            // Note: this .ctor should not contain any initialization logic.
+        }
 
         public void SetCell(AthleteInSubGroup user, BaseViewController superVC)
         {
-			_user = user;
-			_mSuperVC = superVC;
+            _user = user;
+            _mSuperVC = superVC;
 
             foreach (var subView in scrollView.Subviews)
                 subView.RemoveFromSuperview();
@@ -99,56 +99,48 @@ namespace location2
             }
         }
 
-		private void ActionEventInstruction(object sender, EventArgs e)
-		{
+        private void ActionEventInstruction(object sender, EventArgs e)
+        {
             var fakeUserId = _user.athleteId;
-			var eventId = _user.eventsDoneToday[(int)(sender as UIButton).Tag].eventId;
+            var eventId = _user.eventsDoneToday[(int)(sender as UIButton).Tag].eventId;
 
-			System.Threading.ThreadPool.QueueUserWorkItem(delegate
-				{
-					_mSuperVC.ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
+            var currentUser = AppSettings.CurrentUser;
 
-					var eventDetail = _mSuperVC.GetEventDetail(eventId);
-					eventDetail._id = eventId;
-					_mSuperVC.HideLoadingView();
+            if (currentUser.userId == fakeUserId)
+            {
+                currentUser.athleteId = null;
+                AppSettings.isFakeUser = false;
+                AppSettings.fakeUserName = string.Empty;
+            }
+            else
+            {
+                currentUser.athleteId = fakeUserId;
+                AppSettings.isFakeUser = true;
+                AppSettings.fakeUserName = _user.athleteName;
+            }
 
-					var currentUser = AppSettings.CurrentUser;
+            AppSettings.CurrentUser = currentUser;
 
-					if (currentUser.userId == fakeUserId)
-					{
-						currentUser.athleteId = null;
-						AppSettings.isFakeUser = false;
-						AppSettings.fakeUserName = string.Empty;
-					}
-					else
-					{
-						currentUser.athleteId = fakeUserId;
-						AppSettings.isFakeUser = true;
-                        AppSettings.fakeUserName = _user.athleteName;
-					}
+            InvokeOnMainThread(() =>
+            {
+                UIStoryboard sb = UIStoryboard.FromName("Main", null);
+                EventInstructionController eventInstructionVC = sb.InstantiateViewController("EventInstructionController") as EventInstructionController;
+                eventInstructionVC.eventID = eventId;
+                eventInstructionVC.isNotification = false;
+                _mSuperVC.NavigationController.PushViewController(eventInstructionVC, true);
 
-					AppSettings.CurrentUser = currentUser;
+            });
+        }
 
-					InvokeOnMainThread(() =>
-					{
-						UIStoryboard sb = UIStoryboard.FromName("Main", null);
-						EventInstructionController eventInstructionVC = sb.InstantiateViewController("EventInstructionController") as EventInstructionController;
-						eventInstructionVC.selectedEvent = eventDetail;
-						_mSuperVC.NavigationController.PushViewController(eventInstructionVC, true);
+        override public void LayoutSubviews()
+        {
+            base.LayoutSubviews();
 
-					});
-				});
-		}
-
-		override public void LayoutSubviews()
-		{
-			base.LayoutSubviews();
-
-			imgPhoto.LayoutIfNeeded();
-			imgPhoto.Layer.CornerRadius = imgPhoto.Frame.Size.Width / 2;
-			imgPhoto.Layer.MasksToBounds = true;
-			imgPhoto.Layer.BorderWidth = 1;
-			imgPhoto.Layer.BorderColor = UIColor.Gray.CGColor;
-		}
-	}
+            imgPhoto.LayoutIfNeeded();
+            imgPhoto.Layer.CornerRadius = imgPhoto.Frame.Size.Width / 2;
+            imgPhoto.Layer.MasksToBounds = true;
+            imgPhoto.Layer.BorderWidth = 1;
+            imgPhoto.Layer.BorderColor = UIColor.Gray.CGColor;
+        }
+    }
 }

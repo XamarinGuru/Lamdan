@@ -10,9 +10,12 @@ namespace location2
 {
     public partial class EventInstructionController : BaseViewController
     {
-		public GoHejaEvent selectedEvent;
+		public string eventID;
+        public bool isNotification;
+        public string commentID;
+        
+        GoHejaEvent selectedEvent;
         ReportData reportData;
-		string eventID;
 
 		float fDistance = 0;
 		float fDuration = 0;
@@ -41,8 +44,6 @@ namespace location2
 			NavigationController.NavigationBar.BackgroundColor = UIColor.Clear;
 			NavigationController.NavigationBar.ShadowImage = new UIImage();
 
-			eventID = selectedEvent._id;
-
 			if (!IsNetEnable()) return;
 
 			InitUISettings();
@@ -63,10 +64,10 @@ namespace location2
                 {
                     ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
 
-                    selectedEvent = GetEventDetail(selectedEvent._id);
+                    selectedEvent = GetEventDetail(eventID);
                     selectedEvent._id = eventID;
-                    reportData = GetEventReport(selectedEvent._id);
-                    var eventComment = GetComments(selectedEvent._id);
+                    reportData = GetEventReport(eventID);
+                    var eventComment = GetComments(eventID);
 
                     InvokeOnMainThread(() =>
                     {
@@ -94,7 +95,6 @@ namespace location2
             SetEditPerformField();
 
 			btnAdjust.BackgroundColor = GROUP_COLOR;
-			btnAddComment.BackgroundColor = GROUP_COLOR;
 
             heightAdjust.Constant = AppSettings.isFakeUser ? 0 : 100;
             contentEditBtnHeight.Constant = AppSettings.isFakeUser ? 0 : 30;
@@ -236,6 +236,8 @@ namespace location2
 			foreach (var subView in contentComment.Subviews)
 				subView.RemoveFromSuperview();
 
+            if (comments == null || comments.comments.Count == 0) return;
+
 			lblCommentTitle.Text = "COMMENT" + " (" + comments.comments.Count + ")";
 
 			nfloat posY = 0;
@@ -243,10 +245,22 @@ namespace location2
 			{
 				CommentView cv = CommentView.Create();
 				var height = cv.SetView(comment);
+
 				cv.Frame = new CGRect(0, posY, contentComment.Frame.Size.Width, height);
 				contentComment.AddSubview(cv);
-
+				
 				posY += height;
+
+				if (isNotification && !string.IsNullOrEmpty(commentID) && commentID.Equals(comment.commentId))
+				{
+                    var bottomOffset = new CGPoint(0, posY);
+                    scrollView.SetContentOffset(bottomOffset, true);
+
+					cv.SetHighlight(this);
+					
+					isNotification = false;
+					commentID = null;
+				}
 			}
 
 			heightCommentContent.Constant = posY;

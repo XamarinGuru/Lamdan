@@ -1364,6 +1364,52 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="setCommentsMob">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="athour" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="authorId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="commentText" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="eventId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="specGroup" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="setCommentsMobResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="setCommentsMobResult" nillable="true" type="xs:anyType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getCoaches">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="specGroup" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getCoachesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/MongoDB.Bson" minOccurs="0" name="getCoachesResult" nillable="true" type="q9:ArrayOfArrayOfBsonElement" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getCoachesMob">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="specGroup" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getCoachesMobResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="getCoachesMobResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="setCommentsCoach">
     <xs:complexType>
       <xs:sequence>
@@ -1411,6 +1457,21 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="getUserPmcResult" nillable="true" type="xs:anyType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUserPmcDesk">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="specGroup" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUserPmcDeskResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="getUserPmcDeskResult" nillable="true" type="xs:anyType" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1602,7 +1663,7 @@
   <xs:element name="removeMultiFromGroup">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="athList" nillable="true" type="q9:ArrayOfstring" />
+        <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="athList" nillable="true" type="q10:ArrayOfstring" />
         <xs:element minOccurs="0" name="groupId" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="specGroup" nillable="true" type="xs:string" />
       </xs:sequence>
@@ -1786,7 +1847,7 @@
   <xs:element name="getAllathForGroupResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="getAllathForGroupResult" nillable="true" type="q10:ArrayOfstring" />
+        <xs:element xmlns:q11="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="getAllathForGroupResult" nillable="true" type="q11:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1815,7 +1876,7 @@
   <xs:element name="getNearestEventResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/MongoDB.Bson" minOccurs="0" name="getNearestEventResult" nillable="true" type="q11:ArrayOfArrayOfBsonElement" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/MongoDB.Bson" minOccurs="0" name="getNearestEventResult" nillable="true" type="q12:ArrayOfArrayOfBsonElement" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1832,7 +1893,7 @@
   <xs:element name="getBestResultsForAthResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q12="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="getBestResultsForAthResult" nillable="true" type="q12:ArrayOfstring" />
+        <xs:element xmlns:q13="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="getBestResultsForAthResult" nillable="true" type="q13:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1886,7 +1947,7 @@
   <xs:element name="getEventInfoResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q13="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="getEventInfoResult" nillable="true" type="q13:ArrayOfstring" />
+        <xs:element xmlns:q14="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="getEventInfoResult" nillable="true" type="q14:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

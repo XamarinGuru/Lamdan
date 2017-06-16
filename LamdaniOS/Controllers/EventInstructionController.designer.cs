@@ -1,4 +1,4 @@
-﻿// WARNING
+// WARNING
 //
 // This file has been generated automatically by Visual Studio from the outlets and
 // actions declared in your storyboard file.
@@ -17,10 +17,6 @@ namespace location2
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIView bgBtnAdjustTraning { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton btnAddComment { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -212,6 +208,10 @@ namespace location2
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIScrollView scrollView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIView tabLapsBorder { get; set; }
 
         [Outlet]
@@ -247,11 +247,6 @@ namespace location2
             if (bgBtnAdjustTraning != null) {
                 bgBtnAdjustTraning.Dispose ();
                 bgBtnAdjustTraning = null;
-            }
-
-            if (btnAddComment != null) {
-                btnAddComment.Dispose ();
-                btnAddComment = null;
             }
 
             if (btnAdjust != null) {
@@ -487,6 +482,11 @@ namespace location2
             if (lblTotalName8 != null) {
                 lblTotalName8.Dispose ();
                 lblTotalName8 = null;
+            }
+
+            if (scrollView != null) {
+                scrollView.Dispose ();
+                scrollView = null;
             }
 
             if (tabLapsBorder != null) {

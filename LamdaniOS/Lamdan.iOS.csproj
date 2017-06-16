@@ -43,7 +43,7 @@
     <AssemblyName>Nitro</AssemblyName>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchFloat32>true</MtouchFloat32>
-    <CodesignProvision>Lamdan-pro</CodesignProvision>
+    <CodesignProvision>lamdan-pro</CodesignProvision>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -330,9 +330,6 @@
     <Compile Include="ViewModel\UserSubGroupCell.designer.cs">
       <DependentUpon>UserSubGroupCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="Web References\trackSvc\Reference.cs">
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
     <Compile Include="ViewModel\LapBikeOrRunCell.cs" />
     <Compile Include="ViewModel\LapBikeOrRunCell.designer.cs">
       <DependentUpon>LapBikeOrRunCell.cs</DependentUpon>
@@ -350,6 +347,9 @@
       <DependentUpon>LapOtherCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\DeviceCalendar.cs" />
+    <Compile Include="Web References\trackSvc\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -494,6 +494,9 @@
     <BundleResource Include="Resources\icon_circle_green.png" />
     <BundleResource Include="Resources\icon_circle_red.png" />
     <BundleResource Include="GoogleService-Info.plist" />
+    <BundleResource Include="Resources\icon_add_comment.png" />
+    <BundleResource Include="Resources\icon_new_notification.png" />
+    <BundleResource Include="Resources\icon_no_avatar.png" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References" />

@@ -67,7 +67,7 @@ namespace location2
 
 				InvokeOnMainThread(() =>
 				{
-					var response = SetComment(author, authorID, txtComment.Text, selectedEvent._id);
+					var response = AddComment(txtComment.Text, selectedEvent);
 
 					HideLoadingView();
 					NavigationController.PopViewController(true);

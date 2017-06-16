@@ -33,7 +33,7 @@ namespace goheja.Services
 
         void SendNotification(IDictionary<string, string> mData)
         {
-            var msg =   mData["description"].Length > 100 ? mData["description"].Substring(0, 100) : mData["description"];
+            var msg = mData["description"].Length > 100 ? mData["description"].Substring(0, 100) : mData["description"];
 
             var textStyle = new NotificationCompat.InboxStyle();
             textStyle.SetBigContentTitle("Notification from " + mData["senderName"]);
@@ -41,54 +41,46 @@ namespace goheja.Services
             textStyle.AddLine("Practice Name : " + mData["practiceName"]);
             textStyle.AddLine("Practice Date : " + String.Format("{0:t}", mData["practiceDate"]));
             textStyle.AddLine(" ");
-			textStyle.AddLine(msg);
+            textStyle.AddLine(msg);
             textStyle.SetSummaryText("Tap to open");
-
-
 
             var intent = new Intent(this, typeof(EventInstructionActivity));
             intent.PutExtra("FromWhere", "RemoteNotification");
             intent.PutExtra("SelectedEventID", mData["practiceId"]);
-			intent.PutExtra("senderId", mData["senderId"]);
+            intent.PutExtra("senderId", mData["senderId"]);
             intent.PutExtra("commentId", mData["commentId"]);
             intent.AddFlags(ActivityFlags.ClearTop);
 
-
-
-			Android.App.TaskStackBuilder stackBuilder = Android.App.TaskStackBuilder.Create(this);
+            Android.App.TaskStackBuilder stackBuilder = Android.App.TaskStackBuilder.Create(this);
 
             if (AppSettings.CurrentUser.userType == (int)Constants.USER_TYPE.ATHLETE)
-			{
-				stackBuilder.AddNextIntentWithParentStack(new Intent(this, typeof(SwipeTabActivity)));
-			}
-			else
-			{
+                stackBuilder.AddNextIntentWithParentStack(new Intent(this, typeof(SwipeTabActivity)));
+            else
                 stackBuilder.AddNextIntentWithParentStack(new Intent(this, typeof(CoachHomeActivity)));
-			}
             //stackBuilder.AddNextIntentWithParentStack(new Intent(this, typeof(SwipeTabActivity)));
             //stackBuilder.AddNextIntentWithParentStack(new Intent(this, typeof(EventCalendarActivity)));
-			stackBuilder.AddNextIntent(intent);
+            stackBuilder.AddNextIntent(intent);
 
-			PendingIntent pendingIntent = stackBuilder.GetPendingIntent(0, PendingIntentFlags.OneShot);
+            var id = DateTime.Now.Millisecond;
 
-
-            //var pendingIntent = PendingIntent.GetActivity(this, 0 /* Request code */, intent, PendingIntentFlags.UpdateCurrent);
+            PendingIntent pendingIntent = stackBuilder.GetPendingIntent(id, PendingIntentFlags.UpdateCurrent);
 
             var defaultSoundUri = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
+
             var notificationBuilder = new NotificationCompat.Builder(this)
-                                                            .SetGroup("Lamdan_Notifications")
-                                                            .SetGroupSummary(true)
                                                             .SetContentTitle("Notification from " + mData["senderName"])
                                                             .SetContentText("Drop down to get detail")
                                                             .SetSmallIcon(Resource.Drawable.icon_remote_notification)
                                                             .SetStyle(textStyle)
                                                             .SetAutoCancel(true)
                                                             .SetSound(defaultSoundUri)
-                                                            .SetContentIntent(pendingIntent);
-
-            var notificationManager = NotificationManager.FromContext(this);
-
-            notificationManager.Notify(DateTime.Now.Millisecond, notificationBuilder.Build());
+                                                            .SetContentIntent(pendingIntent)
+                                                            //.SetGroup("Lamdan_Notifications")
+                                                            //.SetGroupSummary(true)
+                                                            ;
+            
+            var notificationManager = NotificationManagerCompat.From(this);
+            notificationManager.Notify(id, notificationBuilder.Build());
         }
 	}
 }

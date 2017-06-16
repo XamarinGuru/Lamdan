@@ -254,7 +254,8 @@ namespace location2
 				var selectedEvent = goHejaEvents[indexPath.Row];
 				UIStoryboard sb = UIStoryboard.FromName("Main", null);
 				EventInstructionController eventInstructionVC = sb.InstantiateViewController("EventInstructionController") as EventInstructionController;
-				eventInstructionVC.selectedEvent = selectedEvent;
+                eventInstructionVC.eventID = selectedEvent._id;
+                eventInstructionVC.isNotification = false;
 				eventCalendarVC.NavigationController.PushViewController(eventInstructionVC, true);
 			}
 		}

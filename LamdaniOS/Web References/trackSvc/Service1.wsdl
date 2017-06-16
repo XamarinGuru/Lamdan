@@ -507,6 +507,24 @@
   <wsdl:message name="IService1_setComments_OutputMessage">
     <wsdl:part name="parameters" element="tns:setCommentsResponse" />
   </wsdl:message>
+  <wsdl:message name="IService1_setCommentsMob_InputMessage">
+    <wsdl:part name="parameters" element="tns:setCommentsMob" />
+  </wsdl:message>
+  <wsdl:message name="IService1_setCommentsMob_OutputMessage">
+    <wsdl:part name="parameters" element="tns:setCommentsMobResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_getCoaches_InputMessage">
+    <wsdl:part name="parameters" element="tns:getCoaches" />
+  </wsdl:message>
+  <wsdl:message name="IService1_getCoaches_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getCoachesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_getCoachesMob_InputMessage">
+    <wsdl:part name="parameters" element="tns:getCoachesMob" />
+  </wsdl:message>
+  <wsdl:message name="IService1_getCoachesMob_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getCoachesMobResponse" />
+  </wsdl:message>
   <wsdl:message name="IService1_setCommentsCoach_InputMessage">
     <wsdl:part name="parameters" element="tns:setCommentsCoach" />
   </wsdl:message>
@@ -524,6 +542,12 @@
   </wsdl:message>
   <wsdl:message name="IService1_getUserPmc_OutputMessage">
     <wsdl:part name="parameters" element="tns:getUserPmcResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_getUserPmcDesk_InputMessage">
+    <wsdl:part name="parameters" element="tns:getUserPmcDesk" />
+  </wsdl:message>
+  <wsdl:message name="IService1_getUserPmcDesk_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getUserPmcDeskResponse" />
   </wsdl:message>
   <wsdl:message name="IService1_getGaugesForMonth_InputMessage">
     <wsdl:part name="parameters" element="tns:getGaugesForMonth" />
@@ -1062,6 +1086,18 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/setComments" message="tns:IService1_setComments_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService1/setCommentsResponse" message="tns:IService1_setComments_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="setCommentsMob">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/setCommentsMob" message="tns:IService1_setCommentsMob_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/setCommentsMobResponse" message="tns:IService1_setCommentsMob_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getCoaches">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/getCoaches" message="tns:IService1_getCoaches_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/getCoachesResponse" message="tns:IService1_getCoaches_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getCoachesMob">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/getCoachesMob" message="tns:IService1_getCoachesMob_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/getCoachesMobResponse" message="tns:IService1_getCoachesMob_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="setCommentsCoach">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/setCommentsCoach" message="tns:IService1_setCommentsCoach_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService1/setCommentsCoachResponse" message="tns:IService1_setCommentsCoach_OutputMessage" />
@@ -1073,6 +1109,10 @@
     <wsdl:operation name="getUserPmc">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/getUserPmc" message="tns:IService1_getUserPmc_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService1/getUserPmcResponse" message="tns:IService1_getUserPmc_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getUserPmcDesk">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/getUserPmcDesk" message="tns:IService1_getUserPmcDesk_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/getUserPmcDeskResponse" message="tns:IService1_getUserPmcDesk_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="getGaugesForMonth">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/getGaugesForMonth" message="tns:IService1_getGaugesForMonth_InputMessage" />
@@ -1960,6 +2000,33 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="setCommentsMob">
+      <soap:operation soapAction="http://tempuri.org/IService1/setCommentsMob" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCoaches">
+      <soap:operation soapAction="http://tempuri.org/IService1/getCoaches" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCoachesMob">
+      <soap:operation soapAction="http://tempuri.org/IService1/getCoachesMob" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="setCommentsCoach">
       <soap:operation soapAction="http://tempuri.org/IService1/setCommentsCoach" style="document" />
       <wsdl:input>
@@ -1980,6 +2047,15 @@
     </wsdl:operation>
     <wsdl:operation name="getUserPmc">
       <soap:operation soapAction="http://tempuri.org/IService1/getUserPmc" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserPmcDesk">
+      <soap:operation soapAction="http://tempuri.org/IService1/getUserPmcDesk" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

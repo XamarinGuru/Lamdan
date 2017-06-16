@@ -383,6 +383,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <AndroidResource Include="Resources\drawable\icon_new_notification.png" />
+    <AndroidResource Include="Resources\drawable\icon_add_comment.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PortableLibrary.Model
 {
-    public class FBNotificationContent
+    public class FCMDataNotification
     {
         public string senderId { get; set; }
         public string senderName { get; set; }
@@ -16,6 +16,17 @@ namespace PortableLibrary.Model
         public Constants.OS_TYPE osType { get; set; }
     }
 
+    public class FCMDisplayNotification
+    {
+        public FCMDisplayNotification(string title, string body)
+        {
+            this.title = title;
+            this.body = body;
+        }
+        public string title { get; set; }
+        public string body { get; set; }
+    }
+
     public class FBNotification
     {
         public FBNotification()
@@ -25,7 +36,9 @@ namespace PortableLibrary.Model
         }
 
 		public List<string> registration_ids { get; set; }
-        public FBNotificationContent data { get; set; }
+        public FCMDataNotification data { get; set; }
+        public FCMDisplayNotification notification { get; set; }
+
         public bool content_available { get; set; }
         public string priority { get; set; }
     }

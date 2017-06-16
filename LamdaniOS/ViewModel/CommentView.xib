@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -12,29 +17,36 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uE4-pW-apU" misplaced="YES">
-                    <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="181"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sagiv Daniel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ukc-RB-vE7" misplaced="YES">
-                            <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sagiv Daniel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ukc-RB-vE7">
+                            <rect key="frame" x="0.0" y="15" width="88" height="18"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_new_notification.png" translatesAutoresizingMaskIntoConstraints="NO" id="RGd-Ld-5lC" misplaced="YES" hidden="YES">
+                            <rect key="frame" x="196" y="14" width="20" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="K8q-k4-R9z"/>
+                                <constraint firstAttribute="width" secondItem="RGd-Ld-5lC" secondAttribute="height" multiplier="1:1" id="iDg-db-W8g"/>
+                            </constraints>
+                        </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6:06 PM | 1/21/2017" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wo1-oW-Ypx" misplaced="YES">
-                            <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                            <rect key="frame" x="226" y="16" width="129" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.72336632010000002" green="0.72336632010000002" blue="0.72336632010000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V5k-Hg-akG" misplaced="YES">
-                            <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                            <rect key="frame" x="0.0" y="45" width="375" height="126"/>
                             <string key="text">Monday, January 23, 2017 1:00 AMMonday, January 23, 2017 1:00 AMMonday, January 23, 2017 1:00 AMMonday, January 23, 2017 1:00 AMMonday, January 23, 2017 1:00 AMMonday, January 23, 2017 1:00 AMMonday, January 23, 2017 1:00 AMMonday, January 23, 2017 1:00 AMMonday, January 23, 2017 1:00 AMMonday, January 23, 2017 1:00 AM</string>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UKR-0b-YYU" misplaced="YES">
-                            <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                            <rect key="frame" x="0.0" y="180" width="375" height="1"/>
                             <color key="backgroundColor" red="0.11372549019607843" green="0.11372549019607843" blue="0.11372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="wgG-6R-9Nr"/>
@@ -52,7 +64,9 @@
                         <constraint firstAttribute="bottom" secondItem="UKR-0b-YYU" secondAttribute="bottom" id="dXk-js-WjV"/>
                         <constraint firstAttribute="trailing" secondItem="wo1-oW-Ypx" secondAttribute="trailing" constant="20" id="dt7-Ou-agc"/>
                         <constraint firstItem="ukc-RB-vE7" firstAttribute="top" secondItem="uE4-pW-apU" secondAttribute="top" constant="15" id="jay-1a-Xg6"/>
+                        <constraint firstItem="RGd-Ld-5lC" firstAttribute="centerY" secondItem="wo1-oW-Ypx" secondAttribute="centerY" id="p7L-wl-P8B"/>
                         <constraint firstItem="UKR-0b-YYU" firstAttribute="leading" secondItem="uE4-pW-apU" secondAttribute="leading" id="qke-Zk-oOJ"/>
+                        <constraint firstItem="wo1-oW-Ypx" firstAttribute="leading" secondItem="RGd-Ld-5lC" secondAttribute="trailing" constant="10" id="yUd-Ij-lL0"/>
                         <constraint firstItem="wo1-oW-Ypx" firstAttribute="centerY" secondItem="ukc-RB-vE7" secondAttribute="centerY" id="ywh-cF-mxk"/>
                     </constraints>
                 </view>
@@ -68,10 +82,13 @@
                 <outlet property="lblComment" destination="V5k-Hg-akG" id="name-outlet-V5k-Hg-akG"/>
                 <outlet property="lblCommentDate" destination="wo1-oW-Ypx" id="name-outlet-wo1-oW-Ypx"/>
                 <outlet property="viewContent" destination="uE4-pW-apU" id="name-outlet-uE4-pW-apU"/>
+                <outlet property="imgNewSymbol" destination="RGd-Ld-5lC" id="name-outlet-RGd-Ld-5lC"/>
             </connections>
+            <point key="canvasLocation" x="24.5" y="52.5"/>
         </view>
     </objects>
     <resources>
+        <image name="icon_new_notification.png" width="600" height="600"/>
         <image name="speed.png" width="313" height="313"/>
         <image name="dist.png" width="313" height="313"/>
         <image name="mont.png" width="313" height="313"/>
@@ -86,7 +103,6 @@
         <image name="Default-568h.png" width="320" height="568"/>
         <image name="BG_new.png" width="1080" height="1796"/>
         <image name="edit_icon.png" width="42" height="42"/>
-        <image name="text_icon.png" width="35" height="35"/>
         <image name="button.png" width="984" height="90"/>
         <image name="cell_icon.png" width="28" height="30"/>
         <image name="email_icon.png" width="38" height="25"/>
@@ -95,11 +111,10 @@
         <image name="heja_icon.png" width="72" height="72"/>
         <image name="calen_icon_active.png" width="70" height="67"/>
         <image name="transparent.png" width="200" height="40"/>
-        <image name="resume_active.png" width="170" height="170"/>
-        <image name="resume_inactive.png" width="170" height="170"/>
+        <image name="icon_resume.png" width="170" height="170"/>
+        <image name="icon_pause.png" width="170" height="170"/>
         <image name="stop_active.png" width="170" height="170"/>
-        <image name="go_button.png" width="170" height="170"/>
-        <image name="timer_new.png" width="50" height="57"/>
+        <image name="icon_go.png" width="170" height="170"/>
         <image name="watt_new.png" width="29" height="62"/>
         <image name="speed_new.png" width="58" height="47"/>
         <image name="runRound_new.png" width="260" height="260"/>
@@ -114,7 +129,6 @@
         <image name="icon_bycle_disable.png" width="68" height="62"/>
         <image name="icon_calendar_act.png" width="68" height="62"/>
         <image name="icon_calendar_disable.png" width="68" height="62"/>
-        <image name="user_icon_act.png" width="40" height="35"/>
         <image name="icon_watch.png" width="144" height="144"/>
         <image name="icon_back.png" width="512" height="512"/>
         <image name="pop_up_bg.png" width="500" height="207"/>
@@ -166,7 +180,7 @@
         <image name="icon_07_inactive.png" width="254" height="254"/>
         <image name="icon_07.png" width="254" height="254"/>
         <image name="icon_changepw.png" width="120" height="120"/>
-        <image name="icon_logo_new.png" width="160" height="56"/>
+        <image name="icon_logo_new.png" width="600" height="200"/>
         <image name="no-photo-round.png" width="300" height="300"/>
         <image name="splash_new.png" width="319" height="500"/>
         <image name="icon_map_pin.png" width="35" height="35"/>
@@ -180,5 +194,29 @@
         <image name="pin_T1.png" width="31" height="50"/>
         <image name="pin_T2.png" width="31" height="50"/>
         <image name="pin_west.png" width="31" height="50"/>
+        <image name="pin_pfinish.png" width="31" height="50"/>
+        <image name="pin_pstart.png" width="32" height="50"/>
+        <image name="pin_me.png" width="31" height="50"/>
+        <image name="slider-default_trackBackground.png" width="11" height="9"/>
+        <image name="slider-default7-trackCrossedOver.png" width="6" height="4"/>
+        <image name="slider-default7-trackBackground.png" width="6" height="4"/>
+        <image name="slider-default7-track.png" width="6" height="4"/>
+        <image name="slider-default7-handle.png" width="23" height="23"/>
+        <image name="slider-default7-handle-disabled.png" width="43" height="43"/>
+        <image name="slider-default-trackCrossedOver.png" width="11" height="9"/>
+        <image name="slider-default-trackBackground.png" width="11" height="9"/>
+        <image name="slider-default-track.png" width="11" height="9"/>
+        <image name="slider-default-handle-highlighted.png" width="23" height="23"/>
+        <image name="slider-default-handle-disabled.png" width="23" height="23"/>
+        <image name="bg_performance.png" width="398" height="596"/>
+        <image name="icon_seek_thumb_act.png" width="65" height="65"/>
+        <image name="icon_seek_thumb_dis.png" width="65" height="65"/>
+        <image name="icon_home.png" width="100" height="100"/>
+        <image name="icon_search.png" width="100" height="100"/>
+        <image name="icon_circle_blue.png" width="100" height="100"/>
+        <image name="icon_circle_empty.png" width="100" height="100"/>
+        <image name="icon_circle_green.png" width="100" height="100"/>
+        <image name="icon_circle_red.png" width="100" height="100"/>
+        <image name="icon_add_comment.png" width="100" height="100"/>
     </resources>
 </document>

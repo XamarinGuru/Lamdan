@@ -85,9 +85,6 @@ namespace location2
 						}
 						else
 						{
-							AppSettings.CurrentUser = loginUser;
-							AppSettings.DeviceUDID = UIDevice.CurrentDevice.IdentifierForVendor.AsString();
-
 							UIViewController nextVC;
 							if (loginUser.userType == (int)Constants.USER_TYPE.ATHLETE)
 							{
@@ -97,7 +94,9 @@ namespace location2
 							{
 								var tabVC = Storyboard.InstantiateViewController("CoachHomeViewController") as CoachHomeViewController;
 								nextVC = new UINavigationController(tabVC);
-								//nextVC = Storyboard.InstantiateViewController("CoachHomeViewController") as CoachHomeViewController;
+
+								AppDelegate myDelegate = UIApplication.SharedApplication.Delegate as AppDelegate;
+								myDelegate.navVC = nextVC as UINavigationController;
 							}
 							this.PresentViewController(nextVC, true, null);
 						}
