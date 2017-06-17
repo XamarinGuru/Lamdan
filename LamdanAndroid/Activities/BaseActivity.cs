@@ -779,6 +779,8 @@ namespace goheja
                 recipientIDs = GetCoachIDs();
             }
 
+			recipientIDs.RemoveAll(pID => pID == AppSettings.CurrentUser.userId);
+
 			await FirebaseService.SendNotification(notificationContent, recipientIDs);
         }
 
