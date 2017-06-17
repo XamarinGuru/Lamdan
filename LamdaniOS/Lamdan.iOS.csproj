@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Xamarin.Build.Download.0.4.3\build\Xamarin.Build.Download.props" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.3\build\Xamarin.Build.Download.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -38,8 +37,7 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Distribution: sagiv daniel (ACS2X6ERDY)</CodesignKey>
-    <IpaPackageName>
-    </IpaPackageName>
+    <IpaPackageName></IpaPackageName>
     <AssemblyName>Nitro</AssemblyName>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchFloat32>true</MtouchFloat32>
@@ -72,8 +70,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignKey>iPhone Developer: sagiv daniel (VXWT9CF4J3)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
-    <IpaPackageName>
-    </IpaPackageName>
+    <IpaPackageName></IpaPackageName>
     <AssemblyName>Nitro</AssemblyName>
     <MtouchFloat32>true</MtouchFloat32>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
@@ -213,7 +210,6 @@
     <Compile Include="Controllers\InitViewController.designer.cs">
       <DependentUpon>InitViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AnalyticsViewController.cs" />
     <Compile Include="Controllers\AnalyticsViewController.designer.cs">
       <DependentUpon>AnalyticsViewController.cs</DependentUpon>
     </Compile>
@@ -254,14 +250,6 @@
     <Compile Include="ViewModel\GoHejaEventCell.cs" />
     <Compile Include="ViewModel\GoHejaEventCell.designer.cs">
       <DependentUpon>GoHejaEventCell.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\EventInstructionController.cs" />
-    <Compile Include="Controllers\EventInstructionController.designer.cs">
-      <DependentUpon>EventInstructionController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AdjustTrainningController.cs" />
-    <Compile Include="Controllers\AdjustTrainningController.designer.cs">
-      <DependentUpon>AdjustTrainningController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AddCommentViewController.cs" />
     <Compile Include="Controllers\AddCommentViewController.designer.cs">
@@ -319,6 +307,7 @@
       <DependentUpon>CoachSubGroupViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\CoachAthletesBySubGroupViewController.cs" />
+    <Compile Include="Controllers\AnalyticsViewController.cs" />
     <Compile Include="Controllers\CoachAthletesBySubGroupViewController.designer.cs">
       <DependentUpon>CoachAthletesBySubGroupViewController.cs</DependentUpon>
     </Compile>
@@ -349,6 +338,14 @@
     <Compile Include="Helper\DeviceCalendar.cs" />
     <Compile Include="Web References\trackSvc\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AdjustTrainningController.cs" />
+    <Compile Include="Controllers\AdjustTrainningController.designer.cs">
+      <DependentUpon>AdjustTrainningController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\EventInstructionController.cs" />
+    <Compile Include="Controllers\EventInstructionController.designer.cs">
+      <DependentUpon>..\EventInstructionController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -497,6 +494,9 @@
     <BundleResource Include="Resources\icon_add_comment.png" />
     <BundleResource Include="Resources\icon_new_notification.png" />
     <BundleResource Include="Resources\icon_no_avatar.png" />
+    <BundleResource Include="Resources\icon_send_comment.png" />
+    <BundleResource Include="Resources\icon_checkbox_disable.png" />
+    <BundleResource Include="Resources\icon_checkbox_select.png" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References" />

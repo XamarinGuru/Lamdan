@@ -225,7 +225,7 @@ namespace location2
 				loginUser = JsonConvert.DeserializeObject<LoginUser>(jsonUser);
 
 				loginUser.fcmToken = InstanceId.SharedInstance.Token;
-				loginUser.isFcmOn = true;
+                loginUser.isFcmOn = UIApplication.SharedApplication.IsRegisteredForRemoteNotifications;
                 loginUser.osType = Constants.OS_TYPE.iOS;
 				AppSettings.CurrentUser = loginUser;
 				AppSettings.DeviceUDID = UIDevice.CurrentDevice.IdentifierForVendor.AsString();

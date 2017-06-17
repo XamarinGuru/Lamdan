@@ -40,7 +40,6 @@ namespace goheja
 		{
 			txtComment = FindViewById<EditText>(Resource.Id.txtComment);
 			FindViewById(Resource.Id.ActionAddComment).Click += ActionAddComment;
-			FindViewById(Resource.Id.ActionAddComment).SetBackgroundColor(GROUP_COLOR);
 		}
 
 		void ActionAddComment(object sender, EventArgs e)

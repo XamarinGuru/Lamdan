@@ -17,7 +17,7 @@ namespace goheja
     {
         ImageView imgProfile;
 		TextView lblUsername, lblEmail, lblPhone;
-        Switch switchNotification;
+        CheckBox checkBoxNotification;
 
         byte[] bitmapByteData = { 0 };
 
@@ -71,15 +71,15 @@ namespace goheja
 			mView.FindViewById<LinearLayout>(Resource.Id.ActionChangePassword).Click += ActionChangePassword;
 			mView.FindViewById<LinearLayout>(Resource.Id.ActionSignOut).Click += ActionSignOut;
 
-            switchNotification = mView.FindViewById<Switch>(Resource.Id.switchNotification);
-            switchNotification.Checked = AppSettings.CurrentUser.isFcmOn;
-            switchNotification.CheckedChange += UpdateUserNotificationSetting;
+            checkBoxNotification = mView.FindViewById<CheckBox>(Resource.Id.checkBoxNotification);
+            checkBoxNotification.Checked = AppSettings.CurrentUser.isFcmOn;
+            checkBoxNotification.CheckedChange += UpdateUserNotificationSetting;
 		}
 
         private void UpdateUserNotificationSetting(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             var currentUser = AppSettings.CurrentUser;
-            currentUser.isFcmOn = switchNotification.Checked;
+            currentUser.isFcmOn = checkBoxNotification.Checked;
             AppSettings.CurrentUser = currentUser;
 
             //rootActivity.ShowLoadingView("");

@@ -242,12 +242,15 @@
                         android:layout_marginLeft="10dp"
                         android:textColor="#ffffffff"
                         android:text="NOTIFICATION" />
-                    <Switch
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:id="@+id/switchNotification"
-                        android:layout_marginRight="10dp"
-                        android:thumbTint="#24DBFD" />
+                    <CheckBox
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:id="@+id/checkBoxNotification"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center"
+                        android:background="@drawable/item_CheckBox"
+                        android:button="@null"
+                        android:checked="true" />
                 </LinearLayout>
             </RelativeLayout>
             <RelativeLayout

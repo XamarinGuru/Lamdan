@@ -17,7 +17,6 @@ namespace goheja
 		RootMemberModel MemberModel = new RootMemberModel();
 
 		TextView lblTime, lblDistance, lblTSS;
-		EditText txtComment;
 		SeekBar seekTime, seekDistance, seekTSS;
 		CheckBox attended;
 
@@ -56,7 +55,6 @@ namespace goheja
 			lblTime = FindViewById<TextView>(Resource.Id.lblTime);
 			lblDistance = FindViewById<TextView>(Resource.Id.lblDistance);
 			lblTSS = FindViewById<TextView>(Resource.Id.lblTSS);
-			txtComment = FindViewById<EditText>(Resource.Id.txtComment);
 
 			seekTime = FindViewById<SeekBar>(Resource.Id.ActionTimeChanged);
 			seekDistance = FindViewById<SeekBar>(Resource.Id.ActionDistanceChanged);
@@ -208,7 +206,7 @@ namespace goheja
 
 				var authorID = AppSettings.CurrentUser.userId;
 
-				UpdateMemberNotes(txtComment.Text, authorID, AppSettings.selectedEvent._id, MemberModel.username, attended.Checked ? "1" : "0", lblTime.Text, lblDistance.Text, lblTSS.Text, AppSettings.selectedEvent.type);
+                UpdateMemberNotes(string.Empty, authorID, AppSettings.selectedEvent._id, MemberModel.username, attended.Checked ? "1" : "0", lblTime.Text, lblDistance.Text, lblTSS.Text, AppSettings.selectedEvent.type);
 
 				HideLoadingView();
 

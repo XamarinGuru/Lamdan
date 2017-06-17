@@ -16,6 +16,10 @@ namespace location2
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton btnNotificationSetting { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton changePictureBtn { get; set; }
 
         [Outlet]
@@ -50,6 +54,10 @@ namespace location2
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void ActionEditProfile (UIKit.UIButton sender);
 
+        [Action ("ActionNotificationSetting:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void ActionNotificationSetting (UIKit.UIButton sender);
+
         [Action ("ActionSignOut:")]
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void ActionSignOut (UIKit.UIButton sender);
@@ -64,6 +72,11 @@ namespace location2
 
         void ReleaseDesignerOutlets ()
         {
+            if (btnNotificationSetting != null) {
+                btnNotificationSetting.Dispose ();
+                btnNotificationSetting = null;
+            }
+
             if (changePictureBtn != null) {
                 changePictureBtn.Dispose ();
                 changePictureBtn = null;

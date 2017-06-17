@@ -49,31 +49,7 @@ namespace location2
 			// Monitor token generation
 			InstanceId.Notifications.ObserveTokenRefresh(TokenRefreshNotification);
 
-			// Register your app for remote notifications.
-			if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
-			{
-				// iOS 10 or later
-				var authOptions = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound;
-				UNUserNotificationCenter.Current.RequestAuthorization(authOptions, (granted, error) =>
-				{
-					Console.WriteLine(granted);
-				});
-
-				// For iOS 10 display notification (sent via APNS)
-				UNUserNotificationCenter.Current.Delegate = this;
-
-				// For iOS 10 data message (sent via FCM)
-				Messaging.SharedInstance.RemoteMessageDelegate = this;
-			}
-			else
-			{
-				// iOS 9 or before
-				var allNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound;
-				var settings = UIUserNotificationSettings.GetSettingsForTypes(allNotificationTypes, null);
-				UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
-			}
-
-			UIApplication.SharedApplication.RegisterForRemoteNotifications();
+            RegisterNotificationSettings();
 
             App.Configure();
 
@@ -102,23 +78,50 @@ namespace location2
 		{
 			Console.WriteLine("WillPresentNotification===" + userInfo);
 
-            var nTitle = ((userInfo["aps"] as NSDictionary)["alert"] as NSDictionary)["title"].ToString();
-            switch(application.ApplicationState)
-            {
-                case UIApplicationState.Active:
-					baseVC.ShowMessageBox(null, nTitle, "Cancel", new[] { "Go to detail" }, GoToEventInstruction, userInfo);
-                    break;
-                case UIApplicationState.Background:
-                case UIApplicationState.Inactive:
-                    GoToEventInstruction(userInfo);
-                    break;
-                default:
-                    _userInfo = userInfo;
-                    break;
-            }
+     //       var nTitle = ((userInfo["aps"] as NSDictionary)["alert"] as NSDictionary)["title"].ToString();
+     //       switch(application.ApplicationState)
+     //       {
+     //           case UIApplicationState.Active:
+					//baseVC.ShowMessageBox(null, nTitle, "Cancel", new[] { "Go to detail" }, GoToEventInstruction, userInfo);
+            //        break;
+            //    case UIApplicationState.Background:
+            //    case UIApplicationState.Inactive:
+            //        GoToEventInstruction(userInfo);
+            //        break;
+            //    default:
+            //        _userInfo = userInfo;
+            //        break;
+            //}
 		}
 
-		
+		public void RegisterNotificationSettings()
+        {
+			// Register your app for remote notifications.
+			if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+			{
+				// iOS 10 or later
+				var authOptions = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound;
+				UNUserNotificationCenter.Current.RequestAuthorization(authOptions, (granted, error) =>
+				{
+					Console.WriteLine(granted);
+				});
+
+				// For iOS 10 display notification (sent via APNS)
+				UNUserNotificationCenter.Current.Delegate = this;
+
+				// For iOS 10 data message (sent via FCM)
+				Messaging.SharedInstance.RemoteMessageDelegate = this;
+			}
+			else
+			{
+				// iOS 9 or before
+				var allNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound;
+				var settings = UIUserNotificationSettings.GetSettingsForTypes(allNotificationTypes, null);
+				UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+			}
+
+			UIApplication.SharedApplication.RegisterForRemoteNotifications();
+        }
 
 
 
@@ -130,8 +133,7 @@ namespace location2
             var userInfo = notification.Request.Content.UserInfo;
             var nTitle = ((userInfo["aps"] as NSDictionary)["alert"] as NSDictionary)["title"].ToString();
 
-            //if (UIApplication.SharedApplication.ApplicationState != UIApplicationState.Active)
-                //baseVC.ShowMessageBox(null, nTitle, "Cancel", new[] { "Go to detail" }, GoToEventInstruction, userInfo);
+            baseVC.ShowMessageBox(null, nTitle, "Cancel", new[] { "Go to detail" }, GoToEventInstruction, userInfo);
 		}
 		
         // Workaround for handling notifications in background for iOS 10

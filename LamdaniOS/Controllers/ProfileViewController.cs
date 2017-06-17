@@ -32,10 +32,10 @@ namespace location2
 
 		void InitUISettings()
 		{
-
+            btnNotificationSetting.Selected = AppSettings.CurrentUser.isFcmOn;
 		}
 
-		async public override void ViewWillAppear(bool animated)
+        async public override void ViewWillAppear(bool animated)
 		{
 			base.ViewWillAppear(animated);
 
@@ -108,7 +108,26 @@ namespace location2
 			UIApplication.SharedApplication.OpenUrl(new NSUrl(string.Format(Constants.URL_WATCH, userID, Constants.SPEC_GROUP_TYPE)));
 		}
 
-		partial void ActionSignOut(UIButton sender)
+        partial void ActionNotificationSetting(UIButton sender)
+        {
+			btnNotificationSetting.Selected = !btnNotificationSetting.Selected;
+
+            var currentUser = AppSettings.CurrentUser;
+            currentUser.isFcmOn = btnNotificationSetting.Selected;
+            AppSettings.CurrentUser = currentUser;
+
+            if (currentUser.isFcmOn)
+            {
+                AppDelegate myDelegate = UIApplication.SharedApplication.Delegate as AppDelegate;
+                myDelegate.RegisterNotificationSettings();
+            }
+            else
+            {
+                UIApplication.SharedApplication.UnregisterForRemoteNotifications();
+            }
+        }
+
+        partial void ActionSignOut(UIButton sender)
 		{
 			SignOutUser();
 
@@ -130,7 +149,8 @@ namespace location2
 			}
 			imagePicker.DismissViewControllerAsync(true);
 		}
-		void Handle_Canceled(object sender, EventArgs e)
+
+        void Handle_Canceled(object sender, EventArgs e)
 		{
 			imagePicker.DismissViewControllerAsync(true);
 		}

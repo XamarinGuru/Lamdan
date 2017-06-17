@@ -31,7 +31,7 @@ namespace PortableLibrary.Model
     {
         public FBNotification()
         {
-            content_available = true;
+            //content_available = true;
             priority = "high";
         }
 
@@ -39,7 +39,7 @@ namespace PortableLibrary.Model
         public FCMDataNotification data { get; set; }
         public FCMDisplayNotification notification { get; set; }
 
-        public bool content_available { get; set; }
+        //public bool content_available { get; set; }
         public string priority { get; set; }
     }
 }

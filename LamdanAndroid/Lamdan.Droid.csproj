@@ -15,9 +15,9 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
-    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidTlsProvider></AndroidTlsProvider>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -174,7 +174,6 @@
     <Compile Include="Fragment\FragmentCalendar.cs" />
     <Compile Include="Fragment\FragmentProfile.cs" />
     <Compile Include="Fragment\FragmentEvents.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LocationService.cs" />
     <Compile Include="Services\LocationServiceBinder.cs" />
     <Compile Include="Services\LocationServiceConnection.cs" />
@@ -218,6 +217,7 @@
     <Compile Include="Web References\trackSvc\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\font\Helvetica Neue CE 35 Thin.ttf" />
@@ -318,7 +318,6 @@
     <AndroidResource Include="Resources\Anim\fromRight.axml" />
     <AndroidResource Include="Resources\Anim\toLeft.axml" />
     <AndroidResource Include="Resources\layout\item_Comment.axml" />
-    <AndroidResource Include="Resources\layout\AddCommentActivity.axml" />
     <AndroidResource Include="Resources\layout\AdjustTrainningActivity.axml" />
     <AndroidResource Include="Resources\drawable\icon_whistle.png" />
     <AndroidResource Include="Resources\drawable\icon_delete.png" />
@@ -384,12 +383,15 @@
     </None>
     <AndroidResource Include="Resources\drawable\icon_new_notification.png" />
     <AndroidResource Include="Resources\drawable\icon_add_comment.png" />
+    <AndroidResource Include="Resources\drawable\icon_send_comment.png" />
+    <None Include="Properties\AndroidManifest.xml" />
+    <AndroidResource Include="Resources\layout\AddCommentActivity.axml" />
+    <AndroidResource Include="Resources\drawable\icon_checkbox_disable.png" />
+    <AndroidResource Include="Resources\drawable\icon_checkbox_select.png" />
+    <AndroidResource Include="Resources\drawable\item_CheckBox.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

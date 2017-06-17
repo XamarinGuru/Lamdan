@@ -37,9 +37,9 @@ namespace goheja.Services
 
             var textStyle = new NotificationCompat.InboxStyle();
             textStyle.SetBigContentTitle("Notification from " + mData["senderName"]);
-            textStyle.AddLine("Practice Type : " + mData["practiceType"]);
-            textStyle.AddLine("Practice Name : " + mData["practiceName"]);
-            textStyle.AddLine("Practice Date : " + String.Format("{0:t}", mData["practiceDate"]));
+            textStyle.AddLine("Event Type : " + mData["practiceType"]);
+            textStyle.AddLine("Event Name : " + mData["practiceName"]);
+            textStyle.AddLine("Event Date : " + String.Format("{0:t}", mData["practiceDate"]));
             textStyle.AddLine(" ");
             textStyle.AddLine(msg);
             textStyle.SetSummaryText("Tap to open");
