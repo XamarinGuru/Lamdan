@@ -238,7 +238,8 @@ namespace location2
 
             if (comments == null || comments.comments.Count == 0) return;
 
-			lblCommentTitle.Text = "COMMENT" + " (" + comments.comments.Count + ")";
+var commentTitle = comments.comments.Count > 1 ? "COMMENTS" + " (" + comments.comments.Count + ")" : "COMMENT" + " (" + comments.comments.Count + ")";
+			lblCommentTitle.Text = commentTitle;
 
 			nfloat posY = 0;
 			foreach (var comment in comments.comments)

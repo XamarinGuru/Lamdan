@@ -339,7 +339,8 @@ namespace goheja
 
 			try
 			{
-				FindViewById<TextView>(Resource.Id.lblCommentTitle).Text = "COMMENT" + " (" + comments.comments.Count + ")";
+				var commentTitle = comments.comments.Count > 1 ? "COMMENTS" + " (" + comments.comments.Count + ")" : "COMMENT" + " (" + comments.comments.Count + ")";
+				FindViewById<TextView>(Resource.Id.lblCommentTitle).Text = commentTitle;
 
                 foreach (var comment in comments.comments)
                 {
