@@ -44,7 +44,8 @@ namespace goheja
 
 			InitUISettings();
 
-			CheckCalendarPermission();
+			if (!AppSettings.isFakeUser)
+				CheckCalendarPermission();
 		}
 
 		public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
