@@ -7,6 +7,7 @@ namespace PortableLibrary
 	{
 		public string author { get; set; }
 		public string authorId { get; set; }
+		public string authorUrl { get; set; }
 		public string commentText { get; set; }
 		public string eventId { get; set; }
 		public string commentId { get; set; }

@@ -183,7 +183,6 @@ namespace location2
 
 				HideLoadingView();
 
-
 				InvokeOnMainThread(() =>
 				{
 					if (performanceData == null)

@@ -232,8 +232,6 @@
     <Compile Include="Controllers\SeriousViewController.designer.cs">
       <DependentUpon>SeriousViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="Helper\AppSettings.cs" />
     <Compile Include="Controllers\LoginViewController.cs" />
     <Compile Include="Controllers\LoginViewController.designer.cs">

@@ -60,7 +60,6 @@ namespace goheja
 				else if(AppSettings.CurrentUser.userType == (int)Constants.USER_TYPE.COACH)
 				{
 					AppSettings.isFakeUser = false;
-                    //return base.OnKeyDown(keyCode, e);
                     BackAction();
 				}
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Android.Content;
-using Android.Content.Res;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -130,45 +129,32 @@ namespace goheja
             var fakeUserId = tags[0];
             var eventId = tags[1];
 
-            //System.Threading.ThreadPool.QueueUserWorkItem(delegate
-                //{
-                    //mSuperActivity.ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
+            var currentUser = AppSettings.CurrentUser;
 
-                    //var eventDetail = mSuperActivity.GetEventDetail(eventId);
+            if (currentUser.userId == fakeUserId)
+            {
+                currentUser.athleteId = null;
+                AppSettings.isFakeUser = false;
+                AppSettings.fakeUserName = string.Empty;
+            }
+            else
+            {
+                currentUser.athleteId = fakeUserId;
+                AppSettings.isFakeUser = true;
+                foreach (var tmpUser in _searchAthletes)
+                {
+                    if (tmpUser._id == fakeUserId)
+                        AppSettings.fakeUserName = tmpUser.name;
+                }
+            }
 
-                    //AppSettings.selectedEvent = eventDetail;
-                    //AppSettings.selectedEvent._id = eventId;
+            AppSettings.CurrentUser = currentUser;
 
-                    //mSuperActivity.HideLoadingView();
+            var nextIntent = new Intent(mSuperActivity, typeof(EventInstructionActivity));
+            nextIntent.PutExtra("FromWhere", "CoachList");
+            nextIntent.PutExtra("SelectedEventID", eventId);
+            mSuperActivity.StartActivityForResult(nextIntent, 0);
 
-
-                    var currentUser = AppSettings.CurrentUser;
-
-                    if (currentUser.userId == fakeUserId)
-                    {
-                        currentUser.athleteId = null;
-                        AppSettings.isFakeUser = false;
-                        AppSettings.fakeUserName = string.Empty;
-                    }
-                    else
-                    {
-                        currentUser.athleteId = fakeUserId;
-                        AppSettings.isFakeUser = true;
-                        foreach (var tmpUser in _searchAthletes)
-                        {
-                            if (tmpUser._id == fakeUserId)
-                                AppSettings.fakeUserName = tmpUser.name;
-                        }
-                    }
-
-                    AppSettings.CurrentUser = currentUser;
-
-                    var nextIntent = new Intent(mSuperActivity, typeof(EventInstructionActivity));
-                    nextIntent.PutExtra("FromWhere", "CoachList");
-                    nextIntent.PutExtra("SelectedEventID", eventId);
-                    mSuperActivity.StartActivityForResult(nextIntent, 0);
-
-                //});
         }
 
         public void PerformSearch(string strSearch)
@@ -326,44 +312,31 @@ namespace goheja
             var fakeUserId = tags[0];
             var eventId = tags[1];
 
-            //System.Threading.ThreadPool.QueueUserWorkItem(delegate
-                //{
-                    //mSuperActivity.ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
+            var currentUser = AppSettings.CurrentUser;
 
-                    //var eventDetail = mSuperActivity.GetEventDetail(eventId);
+            if (currentUser.userId == fakeUserId)
+            {
+                currentUser.athleteId = null;
+                AppSettings.isFakeUser = false;
+                AppSettings.fakeUserName = string.Empty;
+            }
+            else
+            {
+                currentUser.athleteId = fakeUserId;
+                AppSettings.isFakeUser = true;
+                foreach (var tmpUser in _searchAthletes)
+                {
+                    if (tmpUser.athleteId == fakeUserId)
+                        AppSettings.fakeUserName = tmpUser.athleteName;
+                }
+            }
 
-                    //AppSettings.selectedEvent = eventDetail;
-                    //AppSettings.selectedEvent._id = eventId;
+            AppSettings.CurrentUser = currentUser;
 
-                    //mSuperActivity.HideLoadingView();
-
-
-                    var currentUser = AppSettings.CurrentUser;
-
-                    if (currentUser.userId == fakeUserId)
-                    {
-                        currentUser.athleteId = null;
-                        AppSettings.isFakeUser = false;
-                        AppSettings.fakeUserName = string.Empty;
-                    }
-                    else
-                    {
-                        currentUser.athleteId = fakeUserId;
-                        AppSettings.isFakeUser = true;
-                        foreach (var tmpUser in _searchAthletes)
-                        {
-                            if (tmpUser.athleteId == fakeUserId)
-                                AppSettings.fakeUserName = tmpUser.athleteName;
-                        }
-                    }
-
-                    AppSettings.CurrentUser = currentUser;
-
-					var nextIntent = new Intent(mSuperActivity, typeof(EventInstructionActivity));
-					nextIntent.PutExtra("FromWhere", "CoachList");
-					nextIntent.PutExtra("SelectedEventID", eventId);
-					mSuperActivity.StartActivityForResult(nextIntent, 0);
-                //});
+            var nextIntent = new Intent(mSuperActivity, typeof(EventInstructionActivity));
+            nextIntent.PutExtra("FromWhere", "CoachList");
+            nextIntent.PutExtra("SelectedEventID", eventId);
+            mSuperActivity.StartActivityForResult(nextIntent, 0);
         }
 
 		public void PerformSearch(string strSearch)

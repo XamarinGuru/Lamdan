@@ -250,10 +250,11 @@ namespace location2
 				contentComment.AddSubview(cv);
 				
 				posY += height;
+				heightCommentContent.Constant = posY;
 
 				if (isNotification && !string.IsNullOrEmpty(commentID) && commentID.Equals(comment.commentId))
 				{
-                    var bottomOffset = new CGPoint(0, posY);
+					var bottomOffset = new CGPoint(0, contentComment.Frame.Y + posY - scrollView.Frame.Size.Height);
                     scrollView.SetContentOffset(bottomOffset, true);
 
 					cv.SetHighlight(this);
@@ -262,8 +263,6 @@ namespace location2
 					commentID = null;
 				}
 			}
-
-			heightCommentContent.Constant = posY;
 		}
 
 		void SetEditPerformField()

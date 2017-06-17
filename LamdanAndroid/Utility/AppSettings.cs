@@ -14,7 +14,6 @@ namespace goheja
 		public static BaseActivity baseVC;
 
 		public static List<GoHejaEvent> currentEventsList;
-		//public static EventTotal currentEventTotal;
         public static ReportData currentEventReport;
 		public static GoHejaEvent selectedEvent;
 

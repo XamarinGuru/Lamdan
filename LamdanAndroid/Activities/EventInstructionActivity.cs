@@ -12,6 +12,7 @@ using Com.GrapeCity.Xuni.Core;
 using goheja.Adapter;
 using PortableLibrary;
 using PortableLibrary.Model;
+using UniversalImageLoader.Core;
 
 namespace goheja
 {
@@ -36,6 +37,9 @@ namespace goheja
 			base.OnCreate(savedInstanceState);
 
 			SetContentView(Resource.Layout.EventInstructionActivity);
+
+			var config = ImageLoaderConfiguration.CreateDefault(ApplicationContext);
+			ImageLoader.Instance.Init(config);
 
             LicenseManager.Key = License.Key;
 
@@ -349,14 +353,21 @@ namespace goheja
 					commentView.FindViewById<TextView>(Resource.Id.lblComment).Text = comment.commentText;
                     commentView.FindViewById<TextView>(Resource.Id.lblCommentDate).SetTextColor(Color.White);
                     commentView.FindViewById<ImageView>(Resource.Id.imgNewSymbol).Visibility = ViewStates.Gone;
+					if (!string.IsNullOrEmpty(comment.authorUrl))
+					{
+						var imgIcon = commentView.FindViewById<ImageView>(Resource.Id.imgProfile);
+						ImageLoader imageLoader = ImageLoader.Instance;
+						imageLoader.DisplayImage(comment.authorUrl, imgIcon);
+					}
+
 					contentComment.AddView(commentView);
 
                     if (!string.IsNullOrEmpty(fromWhere) && fromWhere.Equals("RemoteNotification") 
                         && !string.IsNullOrEmpty(commentId) && commentId.Equals(comment.commentId))
                     {
                         commentView.FindViewById<TextView>(Resource.Id.lblCommentDate).SetTextColor(Color.ParseColor("#" + Constants.COLOR_NEW_NOTIFICATION));
-                        commentView.FindViewById<ImageView>(Resource.Id.imgNewSymbol).Visibility = ViewStates.Visible; 
-                        scrollView.ScrollTo(0, scrollView.Bottom);
+                        commentView.FindViewById<ImageView>(Resource.Id.imgNewSymbol).Visibility = ViewStates.Visible;
+						commentView.FindViewById<LinearLayout>(Resource.Id.footerView).RequestFocus();
 
 						var currentUser = AppSettings.CurrentUser;
 
@@ -374,7 +385,7 @@ namespace goheja
 			}
 			catch (Exception ex)
 			{
-				ShowTrackMessageBox(ex.Message);
+				//ShowTrackMessageBox(ex.Message);
 			}
 		}
 

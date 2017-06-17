@@ -189,8 +189,6 @@
     <Compile Include="Activities\CloseApplicationActivity.cs" />
     <Compile Include="Adapter\TabViewAdapter.cs" />
     <Compile Include="Utility\AppSettings.cs" />
-    <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="Fragment\TimeFormatDialog.cs" />
     <Compile Include="Activities\InitActivity.cs" />
     <Compile Include="Activities\LoginActivity.cs" />

@@ -44,11 +44,7 @@ namespace goheja
 
 			System.Threading.ThreadPool.QueueUserWorkItem(delegate
 			{
-				//rootActivity.ShowLoadingView(Constants.MSG_LOADING_USER_DATA);
-
 				MemberModel.rootMember = rootActivity.GetUserObject();
-
-				//rootActivity.HideLoadingView();
 
 				rootActivity.RunOnUiThread(() =>
 				{

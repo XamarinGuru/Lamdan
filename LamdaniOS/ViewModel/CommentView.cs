@@ -3,6 +3,7 @@ using System;
 using UIKit;
 using ObjCRuntime;
 using PortableLibrary;
+using SDWebImage;
 
 namespace location2
 {
@@ -26,6 +27,19 @@ namespace location2
 
 		public nfloat SetView(Comment comment)
 		{
+			try
+			{
+                imgPhoto.Image = UIImage.FromFile("icon_no_avatar.png");
+                if (!string.IsNullOrEmpty(comment.authorUrl))
+				{
+					imgPhoto.SetImage(url: new NSUrl(comment.authorUrl));
+				}
+			}
+			catch
+			{
+                imgPhoto.Image = UIImage.FromFile("icon_no_avatar.png");
+			}
+
 			var deltaSecs = float.Parse(comment.date) / 1000;
 			var commentDate = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(deltaSecs).ToLocalTime();
 
@@ -43,5 +57,16 @@ namespace location2
             lblCommentDate.TextColor = baseVC.FromHexString(PortableLibrary.Constants.COLOR_NEW_NOTIFICATION);
             imgNewSymbol.Hidden = false;
         }
+
+		override public void LayoutSubviews()
+		{
+			base.LayoutSubviews();
+
+			imgPhoto.LayoutIfNeeded();
+			imgPhoto.Layer.CornerRadius = imgPhoto.Frame.Size.Width / 2;
+			imgPhoto.Layer.MasksToBounds = true;
+			imgPhoto.Layer.BorderWidth = 1;
+			imgPhoto.Layer.BorderColor = UIColor.Gray.CGColor;
+		}
     }
 }

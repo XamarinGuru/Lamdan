@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using CoreGraphics;
 using PortableLibrary;
 using UIKit;
 

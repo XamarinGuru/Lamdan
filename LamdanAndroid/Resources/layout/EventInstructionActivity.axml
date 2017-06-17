@@ -1547,7 +1547,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/viewRun"
-                android:layout_margin="30dp">
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp">
                 <LinearLayout
                     android:orientation="horizontal"
                     android:minWidth="25px"
@@ -1590,6 +1591,13 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/contentComment"
                     android:layout_marginBottom="30dp" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:minWidth="25px"
+                    android:minHeight="25px"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:id="@+id/footerView" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

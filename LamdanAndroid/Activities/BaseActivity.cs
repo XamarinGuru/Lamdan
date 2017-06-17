@@ -235,12 +235,13 @@ namespace goheja
 				if (loginUser.userId != null)
 	    			FirebaseService.RegisterFCMUser(loginUser);
                 
-				return loginUser;
 			}
-			catch
+			catch(Exception ex)
 			{
-				return null;
+                ShowTrackMessageBox(ex.Message);
 			}
+
+			return loginUser;
 		}
 
 		public void SignOutUser()

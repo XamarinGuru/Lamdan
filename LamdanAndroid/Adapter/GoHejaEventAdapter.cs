@@ -109,8 +109,6 @@ namespace goheja
 			var index = ((LinearLayout)sender).Tag;
 			var selectedEvent = _events[(int)index];
 
-			//AppSettings.selectedEvent = selectedEvent;
-
 			var nextIntent = new Intent(mSuperActivity, typeof(EventInstructionActivity));
 			nextIntent.PutExtra("FromWhere", "CalendarList");
             nextIntent.PutExtra("SelectedEventID", selectedEvent._id);
