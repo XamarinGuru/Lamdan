@@ -72,15 +72,15 @@ namespace goheja
             checkBoxNotification.CheckedChange += UpdateUserNotificationSetting;
 		}
 
-        private void UpdateUserNotificationSetting(object sender, CompoundButton.CheckedChangeEventArgs e)
+        async void UpdateUserNotificationSetting(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             var currentUser = AppSettings.CurrentUser;
             currentUser.isFcmOn = checkBoxNotification.Checked;
             AppSettings.CurrentUser = currentUser;
 
-            //rootActivity.ShowLoadingView("");
-            //await FirebaseService.RegisterFCMUser(currentUser);
-            //rootActivity.HideLoadingView();
+            rootActivity.ShowLoadingView("");
+            await FirebaseService.RegisterFCMUser(currentUser);
+            rootActivity.HideLoadingView();
         }
 
         private void SetInputBinding()

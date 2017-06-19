@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
@@ -73,11 +73,11 @@ namespace PortableLibrary
             }
         }
 
-        public static async Task RegisterFCMUser(LoginUser user)
+        public static async Task<bool> RegisterFCMUser(LoginUser user)
         {
             try
             {
-                if (user.fcmToken == null) return;
+                if (user.fcmToken == null || user.userId == null) return false;
 
                 var fcmUsers = await _firebase.Child("FCMUsers").OrderByKey().OnceAsync<LoginUser>();
 
@@ -87,7 +87,7 @@ namespace PortableLibrary
 					{
 						await _firebase.Child("FCMUsers").Child(fcmUser.Key).PutAsync(user);
 						Debug.WriteLine("FCMUser Updated.");
-						return;
+                        return fcmUser.Object.isFcmOn;
 					}
 				}
 
@@ -97,7 +97,7 @@ namespace PortableLibrary
                     {
                         await _firebase.Child("FCMUsers").Child(fcmUser.Key).PutAsync(user);
                         Debug.WriteLine("FCMUser Updated.");
-                        return;
+                        return fcmUser.Object.isFcmOn;
                     }
                 }
 
@@ -108,6 +108,7 @@ namespace PortableLibrary
             {
                 Debug.WriteLine(ex.Message);
             }
+			return true;
         }
 
         public static async Task<Dictionary<string, List<string>>> GetFCMUserTokens(List<string> recipientIDs)
@@ -124,8 +125,8 @@ namespace PortableLibrary
                     foreach (var objUser in users)
                     {
                         var user = objUser.Object;
-                        if (user.userId == redipientID)
-                            switch (user.osType)
+						if (user.userId == redipientID && user.isFcmOn)
+							switch (user.osType)
                             {
                                 case Constants.OS_TYPE.iOS:
                                     fcmiOSTokens.Add(user.fcmToken);
@@ -148,5 +149,29 @@ namespace PortableLibrary
                 {"AndroidTokens", fcmAndroidTokens}
             };
         }
-    }
+
+
+		public static async Task<bool> GetNotificationSetting(LoginUser currentUser)
+		{
+			try
+			{
+				var users = await _firebase.Child("FCMUsers").OrderByKey().OnceAsync<LoginUser>();
+
+				foreach (var objUser in users)
+				{
+					var user = objUser.Object;
+					if (currentUser.userId == user.userId && currentUser.osType == user.osType)
+					{
+						return user.isFcmOn;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				return false;
+			}
+			return false;
+		}
+
+	}
 }

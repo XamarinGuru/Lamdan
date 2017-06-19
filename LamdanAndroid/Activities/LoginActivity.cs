@@ -98,7 +98,7 @@ namespace goheja
 
 					HideLoadingView();
 
-					if (loginUser.userId == null)
+					if (loginUser == null)
 					{
                         ShowMessageBox(null, Constants.MSG_LOGIN_FAIL);
 					}

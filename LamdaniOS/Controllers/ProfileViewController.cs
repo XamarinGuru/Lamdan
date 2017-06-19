@@ -1,7 +1,6 @@
 ﻿using Foundation;
 using System;
 using UIKit;
-using EventKit;
 using GalaSoft.MvvmLight.Helpers;
 using PortableLibrary;
 using System.Threading.Tasks;
@@ -116,16 +115,15 @@ namespace location2
             currentUser.isFcmOn = btnNotificationSetting.Selected;
             AppSettings.CurrentUser = currentUser;
 
-            if (currentUser.isFcmOn)
-            {
-                AppDelegate myDelegate = UIApplication.SharedApplication.Delegate as AppDelegate;
-                myDelegate.RegisterNotificationSettings();
-            }
-            else
-            {
-                UIApplication.SharedApplication.UnregisterForRemoteNotifications();
-            }
-        }
+			InvokeOnMainThread(async () =>
+					{
+						ShowLoadingView(Constants.MSG_LOADING_DATA);
+
+						await FirebaseService.RegisterFCMUser(currentUser);
+
+						HideLoadingView();
+					});
+		}
 
         partial void ActionSignOut(UIButton sender)
 		{

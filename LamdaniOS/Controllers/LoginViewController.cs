@@ -1,4 +1,4 @@
-﻿using Foundation;
+﻿﻿using Foundation;
 using System;
 using UIKit;
 using CoreGraphics;
@@ -69,17 +69,18 @@ namespace location2
 
 			if (Validate())
 			{
+                var strEmail = txtEmail.Text;
+                var strPassword = txtPassword.Text;
+
 				System.Threading.ThreadPool.QueueUserWorkItem(delegate
 				{
 					ShowLoadingView(Constants.MSG_LOGIN);
+					var loginUser = LoginUser(strEmail, strPassword);
+					HideLoadingView();
 
-					InvokeOnMainThread(() =>
-					{
-						var loginUser = LoginUser(txtEmail.Text, txtPassword.Text);
-
-						HideLoadingView();
-
-						if (loginUser.userId == null)
+                    InvokeOnMainThread(() =>
+                    {
+						if (loginUser == null)
 						{
                             ShowMessageBox(null, Constants.MSG_LOGIN_FAIL);
 						}
@@ -102,7 +103,6 @@ namespace location2
 						}
 					});
 				});
-
 			}
 		}
 		partial void ActionForgotPassword(UIButton sender)

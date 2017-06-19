@@ -201,13 +201,14 @@ namespace goheja
 		#region integrate with web reference
 
 		#region USER_MANAGEMENT
-		public string RegisterUser(string fName, string lName, string deviceId, string userName, string psw, string email, int age, bool ageSpecified = true, bool acceptedTerms = true, bool acceptedTermsSpecified = true)
+		public string RegisterUser(string fName, string lName, string userName, string psw, string email, int age, bool ageSpecified = true, bool acceptedTerms = true, bool acceptedTermsSpecified = true)
 		{
 			string result = "";
 
 			try
 			{
-				result = mTrackSvc.insertNewDevice(fName, lName, deviceId, userName, psw, acceptedTerms, acceptedTermsSpecified, email, age, ageSpecified, Constants.SPEC_GROUP_TYPE);
+				string deviceUDID = Android.Provider.Settings.Secure.GetString(this.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
+				result = mTrackSvc.insertNewDevice(fName, lName, deviceUDID, userName, psw, acceptedTerms, acceptedTermsSpecified, email, age, ageSpecified, Constants.SPEC_GROUP_TYPE);
 			}
 			catch(Exception ex)
 			{
@@ -226,22 +227,35 @@ namespace goheja
 				var jsonUser = FormatJsonType(objUser.ToString());
 				loginUser = JsonConvert.DeserializeObject<LoginUser>(jsonUser);
 
-                loginUser.fcmToken = FirebaseInstanceId.Instance.Token;
-                loginUser.isFcmOn = true;
-                loginUser.osType = Constants.OS_TYPE.Android;
-                AppSettings.CurrentUser = loginUser;
-                AppSettings.DeviceUDID = Android.Provider.Settings.Secure.GetString(this.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
+                if (loginUser.userId != null)
+                {
+                    AppSettings.CurrentUser = loginUser;
+                    AppSettings.DeviceUDID = Android.Provider.Settings.Secure.GetString(this.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
 
-				if (loginUser.userId != null)
-	    			FirebaseService.RegisterFCMUser(loginUser);
-                
+                    RegisterFCMUser(loginUser);
+
+                    return loginUser;
+                }
 			}
 			catch(Exception ex)
 			{
                 ShowTrackMessageBox(ex.Message);
 			}
 
-			return loginUser;
+            return null;
+		}
+
+		void RegisterFCMUser(LoginUser user)
+		{
+			user.fcmToken = FirebaseInstanceId.Instance.Token;
+			user.osType = Constants.OS_TYPE.Android;
+
+            System.Threading.ThreadPool.QueueUserWorkItem(async delegate
+            {
+                var isFcmOn = await FirebaseService.RegisterFCMUser(user);
+                user.isFcmOn = isFcmOn;
+                AppSettings.CurrentUser = user;
+            });
 		}
 
 		public void SignOutUser()

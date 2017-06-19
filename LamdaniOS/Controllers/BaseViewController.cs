@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using UIKit;
 using BigTed;
 using Foundation;
@@ -199,13 +199,14 @@ namespace location2
 		#region integrate with web reference
 
 		#region USER_MANAGEMENT
-		public string RegisterUser(string fName, string lName, string deviceId, string userName, string psw, string email, int age, bool ageSpecified = true, bool acceptedTerms = true, bool acceptedTermsSpecified = true)
+		public string RegisterUser(string fName, string lName, string userName, string psw, string email, int age, bool ageSpecified = true, bool acceptedTerms = true, bool acceptedTermsSpecified = true)
 		{
 			string result = "";
 
 			try
 			{
-				result = mTrackSvc.insertNewDevice(fName, lName, deviceId, userName, psw, acceptedTerms, acceptedTermsSpecified, email, age, ageSpecified, Constants.SPEC_GROUP_TYPE);
+                string deviceUDID = UIDevice.CurrentDevice.IdentifierForVendor.AsString();
+				result = mTrackSvc.insertNewDevice(fName, lName, deviceUDID, userName, psw, acceptedTerms, acceptedTermsSpecified, email, age, ageSpecified, Constants.SPEC_GROUP_TYPE);
 			}
 			catch (Exception ex)
 			{
@@ -218,29 +219,42 @@ namespace location2
 		{
 			var loginUser = new LoginUser();
 
-			try
-			{
-				var objUser = mTrackSvc.mobLogin(email, password, Constants.SPEC_GROUP_TYPE);
-				var jsonUser = FormatJsonType(objUser.ToString());
-				loginUser = JsonConvert.DeserializeObject<LoginUser>(jsonUser);
+            try
+            {
+                var objUser = mTrackSvc.mobLogin(email, password, Constants.SPEC_GROUP_TYPE);
+                var jsonUser = FormatJsonType(objUser.ToString());
+                loginUser = JsonConvert.DeserializeObject<LoginUser>(jsonUser);
 
-				loginUser.fcmToken = InstanceId.SharedInstance.Token;
-                loginUser.isFcmOn = UIApplication.SharedApplication.IsRegisteredForRemoteNotifications;
-                loginUser.osType = Constants.OS_TYPE.iOS;
-				AppSettings.CurrentUser = loginUser;
-				AppSettings.DeviceUDID = UIDevice.CurrentDevice.IdentifierForVendor.AsString();
+                if (loginUser.userId != null)
+                {
+                    AppSettings.CurrentUser = loginUser;
+                    AppSettings.DeviceUDID = UIDevice.CurrentDevice.IdentifierForVendor.AsString();
 
-				if (loginUser.userId != null)
-					FirebaseService.RegisterFCMUser(loginUser);
-                
-			}
+                    RegisterFCMUser(loginUser);
+
+                    return loginUser;
+                }
+            }
 			catch(Exception ex)
 			{
                 ShowTrackMessageBox(ex.Message);
 			}
 
-			return loginUser;
+			return null;
 		}
+
+        void RegisterFCMUser(LoginUser user)
+        {
+            user.fcmToken = InstanceId.SharedInstance.Token;
+            user.osType = Constants.OS_TYPE.iOS;
+
+			System.Threading.ThreadPool.QueueUserWorkItem(async delegate
+			{
+				var isFcmOn = await FirebaseService.RegisterFCMUser(user);
+				user.isFcmOn = isFcmOn;
+				AppSettings.CurrentUser = user;
+			});
+        }
 
 		public void SignOutUser()
 		{

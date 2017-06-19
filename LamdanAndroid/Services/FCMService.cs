@@ -27,7 +27,7 @@ namespace goheja.Services
             Debug.WriteLine("description: " + mData["description"]);
             Debug.WriteLine("osType: " + mData["osType"]);
 
-            if (AppSettings.CurrentUser.isFcmOn)
+       //     if (AppSettings.CurrentUser.isFcmOn)
 			    SendNotification(mData);
 		}
 

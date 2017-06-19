@@ -171,13 +171,12 @@ namespace goheja
             {
 				if (Validate())
 				{
-					string deviceUDID = Android.Provider.Settings.Secure.GetString(this.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
 
 					System.Threading.ThreadPool.QueueUserWorkItem(delegate
 					{
 						ShowLoadingView(Constants.MSG_SIGNUP);
 
-						var result = RegisterUser(txtFirstname.Text, txtLastname.Text, deviceUDID, txtUsername.Text, txtPassword.Text, txtEmail.Text, int.Parse(txtAge.Text));
+						var result = RegisterUser(txtFirstname.Text, txtLastname.Text, txtUsername.Text, txtPassword.Text, txtEmail.Text, int.Parse(txtAge.Text));
 
 						if (result == "user added")
 						{
@@ -185,7 +184,7 @@ namespace goheja
 
 							HideLoadingView();
 
-							if (loginUser.userId == null)
+							if (loginUser == null)
 							{
 								ShowMessageBox(null, Constants.MSG_SIGNUP_FAIL);
 							}
