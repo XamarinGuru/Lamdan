@@ -53,7 +53,7 @@ namespace goheja.Services
 
             Android.App.TaskStackBuilder stackBuilder = Android.App.TaskStackBuilder.Create(this);
 
-            if (AppSettings.CurrentUser.userType == (int)Constants.USER_TYPE.ATHLETE)
+            if (AppSettings.CurrentUser.userType == Constants.USER_TYPE.ATHLETE)
                 stackBuilder.AddNextIntentWithParentStack(new Intent(this, typeof(SwipeTabActivity)));
             else
                 stackBuilder.AddNextIntentWithParentStack(new Intent(this, typeof(CoachHomeActivity)));

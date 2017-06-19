@@ -5,6 +5,7 @@ using CoreGraphics;
 using PortableLibrary;
 using System.Collections.Generic;
 using Xuni.iOS.Calendar;
+using System.Threading;
 
 namespace location2
 {
@@ -113,7 +114,7 @@ namespace location2
 			if (!IsNetEnable()) return;
 
 			_events = new List<GoHejaEvent>();
-			System.Threading.ThreadPool.QueueUserWorkItem(delegate
+			ThreadPool.QueueUserWorkItem(delegate
 			{
 				ShowLoadingView(Constants.MSG_LOADING_EVENTS);
 
@@ -175,7 +176,7 @@ namespace location2
 
 		void InitPerformanceData(DateTime date)
 		{
-			System.Threading.ThreadPool.QueueUserWorkItem(delegate
+			ThreadPool.QueueUserWorkItem(delegate
 			{
 				ShowLoadingView(Constants.MSG_LOADING_EVENTS);
 

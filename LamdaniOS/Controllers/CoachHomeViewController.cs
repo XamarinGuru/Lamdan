@@ -4,6 +4,7 @@ using UIKit;
 using System.Collections.Generic;
 using PortableLibrary;
 using System.Linq;
+using System.Threading;
 
 namespace location2
 {
@@ -26,7 +27,7 @@ namespace location2
 
 			if (!IsNetEnable()) return;
 
-            System.Threading.ThreadPool.QueueUserWorkItem(delegate
+            ThreadPool.QueueUserWorkItem(delegate
             {
                 ShowLoadingView(Constants.MSG_LOADING_DATA);
 

@@ -27,7 +27,7 @@ namespace location2
 			var currentUser = AppSettings.CurrentUser;
 			if (currentUser != null)
 			{
-				if (currentUser.userType == (int)Constants.USER_TYPE.ATHLETE)
+				if (currentUser.userType == Constants.USER_TYPE.ATHLETE)
 				{
 					nextVC = Storyboard.InstantiateViewController("MainPageViewController") as MainPageViewController;
 				}

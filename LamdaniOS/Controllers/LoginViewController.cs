@@ -3,6 +3,7 @@ using System;
 using UIKit;
 using CoreGraphics;
 using PortableLibrary;
+using System.Threading;
 
 namespace location2
 {
@@ -72,7 +73,7 @@ namespace location2
                 var strEmail = txtEmail.Text;
                 var strPassword = txtPassword.Text;
 
-				System.Threading.ThreadPool.QueueUserWorkItem(delegate
+                ThreadPool.QueueUserWorkItem(delegate
 				{
 					ShowLoadingView(Constants.MSG_LOGIN);
 					var loginUser = LoginUser(strEmail, strPassword);
@@ -87,7 +88,7 @@ namespace location2
 						else
 						{
 							UIViewController nextVC;
-							if (loginUser.userType == (int)Constants.USER_TYPE.ATHLETE)
+							if (loginUser.userType == Constants.USER_TYPE.ATHLETE)
 							{
 								nextVC = Storyboard.InstantiateViewController("MainPageViewController") as MainPageViewController;
 							}

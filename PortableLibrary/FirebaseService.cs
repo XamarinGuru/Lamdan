@@ -73,7 +73,7 @@ namespace PortableLibrary
             }
         }
 
-        public static async Task<bool> RegisterFCMUser(LoginUser user)
+        public static async Task<bool> RegisterFCMUser(LoginUser user, bool isFCMUpdate = false)
         {
             try
             {
@@ -83,21 +83,14 @@ namespace PortableLibrary
 
 				foreach (var fcmUser in fcmUsers)
 				{
-                    if (fcmUser.Object.fcmToken == user.fcmToken)
+                    if (fcmUser.Object.fcmToken == user.fcmToken || 
+                        (fcmUser.Object.userId == user.userId && fcmUser.Object.osType == user.osType))
 					{
+                        if (!isFCMUpdate) user.isFcmOn = fcmUser.Object.isFcmOn;
+
 						await _firebase.Child("FCMUsers").Child(fcmUser.Key).PutAsync(user);
 						Debug.WriteLine("FCMUser Updated.");
-                        return fcmUser.Object.isFcmOn;
-					}
-				}
-
-                foreach (var fcmUser in fcmUsers)
-                {
-                    if (fcmUser.Object.userId == user.userId && fcmUser.Object.osType == user.osType)
-                    {
-                        await _firebase.Child("FCMUsers").Child(fcmUser.Key).PutAsync(user);
-                        Debug.WriteLine("FCMUser Updated.");
-                        return fcmUser.Object.isFcmOn;
+                        return user.isFcmOn;
                     }
                 }
 

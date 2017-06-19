@@ -106,7 +106,7 @@ namespace goheja
 					else
 					{
 						Intent nextIntent;
-						if (loginUser.userType == (int)Constants.USER_TYPE.ATHLETE)
+						if (loginUser.userType == Constants.USER_TYPE.ATHLETE)
 						{
 							nextIntent = new Intent(this, typeof(SwipeTabActivity));
 						}

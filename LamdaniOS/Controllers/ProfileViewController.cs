@@ -119,7 +119,7 @@ namespace location2
 					{
 						ShowLoadingView(Constants.MSG_LOADING_DATA);
 
-						await FirebaseService.RegisterFCMUser(currentUser);
+						await FirebaseService.RegisterFCMUser(currentUser, true);
 
 						HideLoadingView();
 					});

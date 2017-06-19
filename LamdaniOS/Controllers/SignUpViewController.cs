@@ -4,6 +4,7 @@ using UIKit;
 using CoreGraphics;
 using PortableLibrary;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace location2
 {
@@ -187,7 +188,7 @@ namespace location2
             {
                 try
                 {
-                    System.Threading.ThreadPool.QueueUserWorkItem(delegate
+                    ThreadPool.QueueUserWorkItem(delegate
                     {
                         ShowLoadingView(Constants.MSG_SIGNUP);
 
@@ -215,7 +216,7 @@ namespace location2
 	                            else
 	                            {
 	                                UIViewController nextVC;
-	                                if (loginUser.userType == (int)Constants.USER_TYPE.ATHLETE)
+	                                if (loginUser.userType == Constants.USER_TYPE.ATHLETE)
 	                                {
 	                                    nextVC = Storyboard.InstantiateViewController("MainPageViewController") as MainPageViewController;
 	                                }

@@ -11,9 +11,14 @@ namespace PortableLibrary
 
 	public class LoginUser
 	{
+        public LoginUser()
+        {
+            userType = USER_TYPE.ATHLETE;
+            isFcmOn = true;
+        }
 		public string userId { get; set; }
 		public string athleteId { get; set; }
-		public int userType { get; set; }
+        public USER_TYPE userType { get; set; }
         public string fcmToken { get; set; }
         public bool isFcmOn { get; set; }
         public OS_TYPE osType { get; set; }

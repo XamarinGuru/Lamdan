@@ -8,6 +8,7 @@ using Google.Maps;
 using System.Drawing;
 using CoreGraphics;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace location2
 {
@@ -123,7 +124,7 @@ namespace location2
 
 		void SetNearestEventMarkers()
 		{
-			System.Threading.ThreadPool.QueueUserWorkItem(delegate
+			ThreadPool.QueueUserWorkItem(delegate
 			{
 				ShowLoadingView(PortableLibrary.Constants.MSG_LOADING_ALL_MARKERS);
 
@@ -272,7 +273,7 @@ namespace location2
 				var country = MemberModel.country;
 
 				var userId = GetUserID();
-				System.Threading.ThreadPool.QueueUserWorkItem(delegate
+				ThreadPool.QueueUserWorkItem(delegate
 				{
 					meServ.updateMomgoData(name, loc, _dt, true, AppSettings.DeviceUDID, currspeed, true, userId, country, currdistance, true, currAlt, true, course, true, 0, true, pType.ToString(), PortableLibrary.Constants.SPEC_GROUP_TYPE);
 					Console.Write("location update !!! " + name + "===" + loc + "===" + _dt.ToString() + "\n");
@@ -350,7 +351,7 @@ namespace location2
 					var bearing = float.Parse(_lastLocation.Course.ToString());
 
 					var userId = GetUserID();
-					System.Threading.ThreadPool.QueueUserWorkItem(delegate
+					ThreadPool.QueueUserWorkItem(delegate
 					{
 						meServ.updateMomgoData(name, location, _dt, true, AppSettings.DeviceUDID, speed, true, userId, MemberModel.country, currdistance, true, alt, true, bearing, true, 1, true, pType.ToString(), PortableLibrary.Constants.SPEC_GROUP_TYPE);
 					});
@@ -396,7 +397,7 @@ namespace location2
 				var bearing = float.Parse(_lastLocation.Course.ToString());
 
 				var userId = GetUserID();
-				System.Threading.ThreadPool.QueueUserWorkItem(delegate
+				ThreadPool.QueueUserWorkItem(delegate
 				{
 					meServ.updateMomgoData(name, location, _dt, true, AppSettings.DeviceUDID, speed, true, userId, MemberModel.country, currdistance, true, alt, true, bearing, true, 2, true, pType.ToString(), PortableLibrary.Constants.SPEC_GROUP_TYPE);
 				});

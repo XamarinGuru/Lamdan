@@ -5,9 +5,6 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
-using Firebase.Iid;
-using PortableLibrary;
-using PortableLibrary.Model;
 
 namespace goheja
 {

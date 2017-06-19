@@ -12,6 +12,7 @@ using CoreGraphics;
 using System.Runtime.CompilerServices;
 using PortableLibrary.Model;
 using Firebase.InstanceID;
+using System.Threading;
 
 namespace location2
 {
@@ -192,7 +193,7 @@ namespace location2
 
 		void CloseApplication()
 		{
-			System.Threading.Thread.CurrentThread.Abort();
+			Thread.CurrentThread.Abort();
 		}
 		#endregion
 
@@ -245,11 +246,11 @@ namespace location2
 
         void RegisterFCMUser(LoginUser user)
         {
-            user.fcmToken = InstanceId.SharedInstance.Token;
-            user.osType = Constants.OS_TYPE.iOS;
+            ThreadPool.QueueUserWorkItem(async delegate
+            {
+				user.fcmToken = InstanceId.SharedInstance.Token;
+				user.osType = Constants.OS_TYPE.iOS;
 
-			System.Threading.ThreadPool.QueueUserWorkItem(async delegate
-			{
 				var isFcmOn = await FirebaseService.RegisterFCMUser(user);
 				user.isFcmOn = isFcmOn;
 				AppSettings.CurrentUser = user;

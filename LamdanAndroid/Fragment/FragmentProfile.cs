@@ -80,7 +80,7 @@ namespace goheja
             AppSettings.CurrentUser = currentUser;
 
             rootActivity.ShowLoadingView("");
-            await FirebaseService.RegisterFCMUser(currentUser);
+            await FirebaseService.RegisterFCMUser(currentUser, true);
             rootActivity.HideLoadingView();
         }
 

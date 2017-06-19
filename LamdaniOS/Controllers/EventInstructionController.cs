@@ -5,6 +5,7 @@ using CoreGraphics;
 using PortableLibrary.Model;
 using System.Collections.Generic;
 using Foundation;
+using System.Threading;
 
 namespace location2
 {
@@ -60,7 +61,7 @@ namespace location2
         {
             try
             {
-                System.Threading.ThreadPool.QueueUserWorkItem(delegate
+                ThreadPool.QueueUserWorkItem(delegate
                 {
                     ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
 
@@ -319,7 +320,7 @@ var commentTitle = comments.comments.Count > 1 ? "COMMENTS" + " (" + comments.co
 				var pDistance = ConvertToFloat(editPerformedDistance.Text);
 				var pLoad = ConvertToFloat(editPerformedLoad.Text);
 
-				System.Threading.ThreadPool.QueueUserWorkItem(delegate
+				ThreadPool.QueueUserWorkItem(delegate
 				{
                     UpdateMemberNotes(string.Empty, authorID, selectedEvent._id, string.Empty, selectedEvent.attended, pDuration.ToString(), pDistance.ToString(), pLoad.ToString(), selectedEvent.type);
 

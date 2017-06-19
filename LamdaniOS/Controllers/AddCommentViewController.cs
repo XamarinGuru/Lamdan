@@ -1,6 +1,7 @@
 ﻿using System;
 using UIKit;
 using PortableLibrary;
+using System.Threading;
 
 namespace location2
 {
@@ -30,7 +31,7 @@ namespace location2
 
 			if (!IsNetEnable()) return;
 
-			System.Threading.ThreadPool.QueueUserWorkItem(delegate
+			ThreadPool.QueueUserWorkItem(delegate
 			{
 				ShowLoadingView(Constants.MSG_LOADING_DATA);
 
@@ -53,7 +54,7 @@ namespace location2
 			var author = MemberModel.firstname + " " + MemberModel.lastname;
 			var authorID = AppSettings.CurrentUser.userId;
 
-			System.Threading.ThreadPool.QueueUserWorkItem(delegate
+			ThreadPool.QueueUserWorkItem(delegate
 			{
 				ShowLoadingView(Constants.MSG_SAVE_COMMENT);
 

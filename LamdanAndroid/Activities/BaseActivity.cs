@@ -248,11 +248,11 @@ namespace goheja
 
 		void RegisterFCMUser(LoginUser user)
 		{
-			user.fcmToken = FirebaseInstanceId.Instance.Token;
-			user.osType = Constants.OS_TYPE.Android;
-
             ThreadPool.QueueUserWorkItem(async delegate
             {
+				user.fcmToken = FirebaseInstanceId.Instance.Token;
+				user.osType = Constants.OS_TYPE.Android;
+
                 var isFcmOn = await FirebaseService.RegisterFCMUser(user);
                 user.isFcmOn = isFcmOn;
                 AppSettings.CurrentUser = user;

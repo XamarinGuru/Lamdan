@@ -56,7 +56,7 @@ namespace goheja
 				Intent nextIntent = new Intent(this, typeof(InitActivity));
 				if (currentUser != null)
 				{
-					if (currentUser.userType == (int)Constants.USER_TYPE.ATHLETE)
+					if (currentUser.userType == Constants.USER_TYPE.ATHLETE)
 					{
 						nextIntent = new Intent(this, typeof(SwipeTabActivity));
 					}
