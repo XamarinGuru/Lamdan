@@ -10,6 +10,7 @@ using PortableLibrary;
 using EventArgs = System.EventArgs;
 using Com.GrapeCity.Xuni.ChartCore;
 using Android.Graphics;
+using System.Threading;
 
 namespace goheja
 {
@@ -43,13 +44,8 @@ namespace goheja
 			SetUISettings();
 
 			if (!rootActivity.IsNetEnable()) return;
-		}
 
-		public override void OnResume()
-		{
-			base.OnResume();
-
-			System.Threading.ThreadPool.QueueUserWorkItem(delegate
+			ThreadPool.QueueUserWorkItem(delegate
 			{
 				rootActivity.ShowLoadingView("Loading data...");
 

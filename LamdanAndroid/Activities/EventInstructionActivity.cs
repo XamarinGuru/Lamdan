@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -60,7 +61,7 @@ namespace goheja
             var selectedEventID = Intent.GetStringExtra("SelectedEventID");
 			try
 			{
-				System.Threading.ThreadPool.QueueUserWorkItem(delegate
+				ThreadPool.QueueUserWorkItem(delegate
 				{
 					ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
 
@@ -139,7 +140,7 @@ namespace goheja
 
                 if (btnEdit.Text == "Edit")
                 {
-                    System.Threading.ThreadPool.QueueUserWorkItem(delegate
+                    ThreadPool.QueueUserWorkItem(delegate
                     {
                         ShowLoadingView(Constants.MSG_ADJUST_TRAINING);
 
@@ -435,6 +436,7 @@ namespace goheja
             return base.OnKeyDown(keyCode, e);
         }
 
+        //enable scrolling of listview on scrollview
 		public class MyTouchListener: Java.Lang.Object, View.IOnTouchListener
 		{
             public bool OnTouch(View v, MotionEvent e)

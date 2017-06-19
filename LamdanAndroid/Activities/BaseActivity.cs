@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -250,7 +251,7 @@ namespace goheja
 			user.fcmToken = FirebaseInstanceId.Instance.Token;
 			user.osType = Constants.OS_TYPE.Android;
 
-            System.Threading.ThreadPool.QueueUserWorkItem(async delegate
+            ThreadPool.QueueUserWorkItem(async delegate
             {
                 var isFcmOn = await FirebaseService.RegisterFCMUser(user);
                 user.isFcmOn = isFcmOn;
@@ -775,7 +776,7 @@ namespace goheja
         {
 			var notificationContent = new FCMDataNotification();
             notificationContent.senderId = comment.authorId;
-            notificationContent.senderName = comment.author;//userObj.userName;
+            notificationContent.senderName = comment.author;
             notificationContent.practiceId = comment.eventId;
             notificationContent.commentId = comment.commentId;
 			notificationContent.description = comment.commentText;

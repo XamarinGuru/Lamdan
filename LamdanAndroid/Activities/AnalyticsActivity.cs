@@ -15,6 +15,7 @@ using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Graphics;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace goheja
 {
@@ -74,7 +75,7 @@ namespace goheja
 		Button btnStop;
 		Button btnLapDist;
 
-		Timer _timer = new Timer();
+		System.Timers.Timer _timer = new System.Timers.Timer();
 		int duration = 0;
 		int lapDuration = 0;
 
@@ -203,7 +204,7 @@ namespace goheja
 
 		void SetNearestEventMarkers(Location currentLocation)
 		{
-			System.Threading.ThreadPool.QueueUserWorkItem(delegate
+			ThreadPool.QueueUserWorkItem(delegate
 			{
 				ShowLoadingView(Constants.MSG_LOADING_ALL_MARKERS);
 
@@ -360,7 +361,7 @@ namespace goheja
 			_timer.Elapsed += OnTimedEvent;
 			_timer.Enabled = true;
 		}
-		private void OnTimedEvent(object sender, System.Timers.ElapsedEventArgs e)
+		private void OnTimedEvent(object sender, ElapsedEventArgs e)
 		{
 			if (pState == PRACTICE_STATE.playing)
 			{

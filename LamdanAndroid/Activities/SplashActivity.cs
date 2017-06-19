@@ -8,6 +8,7 @@ using Com.GrapeCity.Xuni.Core;
 using Firebase.Iid;
 using System.Net;
 using Android.Support.V4.App;
+using System.Threading;
 
 namespace goheja
 {
@@ -48,7 +49,7 @@ namespace goheja
             NotificationManager notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
             notificationManager.Notify(1, CreateNotification());
 
-			System.Threading.ThreadPool.QueueUserWorkItem(delegate
+			ThreadPool.QueueUserWorkItem(delegate
 			{
 				var currentUser = AppSettings.CurrentUser;
 

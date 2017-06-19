@@ -1,8 +1,8 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Android.App;
-using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
@@ -176,7 +176,7 @@ namespace goheja
 
 			_events = new List<GoHejaEvent>();
 
-			System.Threading.ThreadPool.QueueUserWorkItem(delegate
+			ThreadPool.QueueUserWorkItem(delegate
 			{
 				ShowLoadingView(Constants.MSG_LOADING_EVENTS);
 
@@ -212,7 +212,7 @@ namespace goheja
 		{
 			try
 			{
-				System.Threading.ThreadPool.QueueUserWorkItem(delegate
+				ThreadPool.QueueUserWorkItem(delegate
 				{
 					ShowLoadingView(Constants.MSG_LOADING_EVENTS);
 
@@ -264,22 +264,5 @@ namespace goheja
 
 			return base.OnKeyDown(keyCode, e);
 		}
-
-		//void BackAction()
-		//{
-		//	var fromWhere = Intent.GetStringExtra("FromWhere");
-
-		//	if (!string.IsNullOrEmpty(fromWhere) && fromWhere.Equals("CoachList"))
-		//	{
-  //              var nextIntent = new Intent(this, typeof(SwipeTabActivity));
-		//		nextIntent.PutExtra("FromWhere", "CoachList");
-		//		StartActivityForResult(nextIntent, 0);
-		//		Finish();
-		//	}
-		//	else
-		//	{
-		//		ActionBackCancel();
-		//	}
-		//}
 	}
 }

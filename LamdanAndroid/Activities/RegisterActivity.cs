@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -171,8 +172,7 @@ namespace goheja
             {
 				if (Validate())
 				{
-
-					System.Threading.ThreadPool.QueueUserWorkItem(delegate
+					ThreadPool.QueueUserWorkItem(delegate
 					{
 						ShowLoadingView(Constants.MSG_SIGNUP);
 
