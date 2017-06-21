@@ -113,7 +113,7 @@ namespace goheja
 
 			var txtFakeUserName = FindViewById<TextView>(Resource.Id.txtFakeUserName);
 			txtFakeUserName.Visibility = AppSettings.isFakeUser ? ViewStates.Visible : ViewStates.Gone;
-			txtFakeUserName.Text = string.Format(Constants.MSG_FAKE_USER_EVENT, AppSettings.fakeUserName);
+			txtFakeUserName.Text = AppSettings.fakeUserName;
 
 
 
