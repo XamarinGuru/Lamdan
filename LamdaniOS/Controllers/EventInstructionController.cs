@@ -72,6 +72,7 @@ namespace location2
 
                     InvokeOnMainThread(() =>
                     {
+                        SetAdjustEnable();
                         InitBindingEventPlanned();
                         InitBindingEventReport();
                         InitBindingEventComments(eventComment);
@@ -96,9 +97,20 @@ namespace location2
             SetEditPerformField();
 
 			btnAdjust.BackgroundColor = GROUP_COLOR;
+		}
 
-            heightAdjust.Constant = AppSettings.isFakeUser ? 0 : 100;
-            contentEditBtnHeight.Constant = AppSettings.isFakeUser ? 0 : 30;
+		void SetAdjustEnable()
+		{
+			if (DateTime.Compare(selectedEvent.StartDateTime(), DateTime.Now) > 0 || AppSettings.isFakeUser)
+			{
+                heightAdjust.Constant = 0;
+				contentEditBtnHeight.Constant = 0;
+			}
+			else
+			{
+				heightAdjust.Constant = 100;
+				contentEditBtnHeight.Constant = 30;
+			}
 		}
 
 		void InitBindingEventPlanned()
@@ -239,7 +251,7 @@ namespace location2
 
             if (comments == null || comments.comments.Count == 0) return;
 
-var commentTitle = comments.comments.Count > 1 ? "COMMENTS" + " (" + comments.comments.Count + ")" : "COMMENT" + " (" + comments.comments.Count + ")";
+            var commentTitle = comments.comments.Count > 1 ? "COMMENTS" + " (" + comments.comments.Count + ")" : "COMMENT" + " (" + comments.comments.Count + ")";
 			lblCommentTitle.Text = commentTitle;
 
 			nfloat posY = 0;

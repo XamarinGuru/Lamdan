@@ -262,13 +262,13 @@ namespace goheja
 				mPChart.Annotations.Add(annoFocused);
 				#endregion
 
-				mPChart.ItemsSource = pData.GetSalesDataList();
+				mPChart.ItemsSource = pData.GetDataList();
 
 				#region custom tooltip
 				mPChart.Tooltip.Content = new MyTooltip(mPChart, this, pData, annoFocused);
 				#endregion
 				mPChart.ZoomMode = ZoomMode.X;
-				mPChart.AxisX.Scale = 1;
+                mPChart.AxisX.Scale = 1;
 			}
 			catch (Exception ex)
 			{

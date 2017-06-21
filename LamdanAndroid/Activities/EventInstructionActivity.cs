@@ -65,18 +65,19 @@ namespace goheja
 				{
 					ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
 
-					var eventDetail = GetEventDetail(selectedEventID);
+					var selectedEvent = GetEventDetail(selectedEventID);
 
 					var reportData = GetEventReport(selectedEventID);
 					var eventComment = GetComments(selectedEventID);
 
-					AppSettings.selectedEvent = eventDetail;
+					AppSettings.selectedEvent = selectedEvent;
 					AppSettings.selectedEvent._id = selectedEventID;
 					AppSettings.currentEventReport = reportData;
 
 					RunOnUiThread(() =>
 					{
-						InitBindingEventPlanned(eventDetail);
+                        SetAdjustEnable(selectedEvent);
+						InitBindingEventPlanned(selectedEvent);
 						InitBindingEventReport(reportData);
 						InitBindingEventComments(eventComment);
 					});
@@ -186,9 +187,20 @@ namespace goheja
 				var activity = new Intent(this, typeof(AddCommentActivity));
 				StartActivityForResult(activity, 1);
 			};
+		}
 
-			ActionAdjustTrainning.Visibility = AppSettings.isFakeUser? ViewStates.Gone : ViewStates.Visible;
-			FindViewById(Resource.Id.contentEditBtn).Visibility = AppSettings.isFakeUser? ViewStates.Gone : ViewStates.Visible;
+		void SetAdjustEnable(GoHejaEvent selectedEvent)
+		{
+			if (DateTime.Compare(selectedEvent.StartDateTime(), DateTime.Now) > 0 || AppSettings.isFakeUser)
+			{
+				FindViewById(Resource.Id.ActionAdjustTrainning).Visibility = ViewStates.Gone;
+				FindViewById(Resource.Id.contentEditBtn).Visibility = ViewStates.Gone;
+			}
+			else
+			{
+				FindViewById(Resource.Id.ActionAdjustTrainning).Visibility = ViewStates.Visible;
+				FindViewById(Resource.Id.contentEditBtn).Visibility = ViewStates.Visible;
+			}
 		}
 
 		void InitBindingEventPlanned(GoHejaEvent selectedEvent)

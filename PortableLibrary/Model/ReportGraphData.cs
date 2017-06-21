@@ -82,7 +82,7 @@ namespace PortableLibrary
 		public CategoryAxis categoryAxis { get; set; }
 		public Export export { get; set; }
 
-		public IList<object> GetSalesDataList()
+		public IList<object> GetDataList()
 		{
 			var list = new List<object>();
 			for (int i = 0; i < dataProvider.Count; i++)

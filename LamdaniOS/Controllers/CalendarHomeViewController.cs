@@ -111,7 +111,7 @@ namespace location2
 			mPChart.ChartType = ChartType.SplineArea;
 			mPChart.BindingX = pData.categoryField;
 			mPChart.IsAnimated = false;
-			mPChart.ItemsSource = pData.GetSalesDataList();
+			mPChart.ItemsSource = pData.GetDataList();
 			mPChart.SymbolSize = 3;
 
 			mPChart.Legend.Position = Position.None;
@@ -184,7 +184,7 @@ namespace location2
 
 				mPChart.Series.Add(cSeries);
 			}
-			mPChart.ItemsSource = pData.GetSalesDataList();
+			mPChart.ItemsSource = pData.GetDataList();
 			if (pData.TodayIndex() != -1)
 			{
 				var start = new XuniPoint(pData.TodayPosition() * mPChart.AxisX.ActualDataMax, mPChart.AxisY.ActualDataMax);

@@ -135,8 +135,8 @@ namespace goheja
 				layout.SetVerticalGravity(GravityFlags.Center);
 				layout.Orientation = Orientation.Vertical;
 				layout.SetPadding(5, 5, 5, 5);
-				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
-				layout.LayoutParameters = linearLayoutParams;
+				//ViewGroup.LayoutParams linearLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
+				//layout.LayoutParameters = linearLayoutParams;
 
 				TextView tv = new TextView(ApplicationContext);
 				tv.Gravity = GravityFlags.Center;
