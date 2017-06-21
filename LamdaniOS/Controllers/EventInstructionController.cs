@@ -90,7 +90,7 @@ namespace location2
 		void InitUISettings()
 		{
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes { ForegroundColor = UIColor.White };
-            NavigationItem.Title = AppSettings.isFakeUser ? string.Format(Constants.MSG_FAKE_USER_EVENT, AppSettings.fakeUserName) : string.Empty;
+            NavigationItem.Title = AppSettings.isFakeUser ? AppSettings.fakeUserName;
 
             SetActiveTab(0);
 
