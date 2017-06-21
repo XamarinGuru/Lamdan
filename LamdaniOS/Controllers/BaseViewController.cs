@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using PortableLibrary.Model;
 using Firebase.InstanceID;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace location2
 {
@@ -257,8 +258,9 @@ namespace location2
 			});
         }
 
-		public void SignOutUser()
+		public async Task SignOutUser()
 		{
+			await FirebaseService.RemoveFCMUser(AppSettings.CurrentUser);
 			AppSettings.CurrentUser = null;
 			AppSettings.DeviceUDID = string.Empty;
 		}

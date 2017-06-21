@@ -89,6 +89,9 @@ namespace location2
 
 		void InitUISettings()
 		{
+            NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes { ForegroundColor = UIColor.White };
+            NavigationItem.Title = AppSettings.isFakeUser ? string.Format(Constants.MSG_FAKE_USER_EVENT, AppSettings.fakeUserName) : string.Empty;
+
             SetActiveTab(0);
 
             btnEdit.SetTitleColor(GROUP_COLOR, UIControlState.Normal);
@@ -266,14 +269,13 @@ namespace location2
 				posY += height;
 				heightCommentContent.Constant = posY;
 
-				if (isNotification && !string.IsNullOrEmpty(commentID) && commentID.Equals(comment.commentId))
+				if (!string.IsNullOrEmpty(commentID) && commentID.Equals(comment.commentId))
 				{
 					var bottomOffset = new CGPoint(0, contentComment.Frame.Y + posY - scrollView.Frame.Size.Height);
                     scrollView.SetContentOffset(bottomOffset, true);
 
 					cv.SetHighlight(this);
 					
-					isNotification = false;
 					commentID = null;
 				}
 			}

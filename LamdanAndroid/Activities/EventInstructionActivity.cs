@@ -95,6 +95,28 @@ namespace goheja
 		{
             scrollView = FindViewById<ScrollView>(Resource.Id.scrollView);
 
+
+
+			var fromWhere = Intent.GetStringExtra("FromWhere");
+
+			var currentUser = AppSettings.CurrentUser;
+            if (!string.IsNullOrEmpty(fromWhere) && fromWhere.Equals("RemoteNotification")
+                && currentUser.userType == (int)Constants.USER_TYPE.COACH)
+            {
+
+                currentUser.athleteId = Intent.GetStringExtra("senderId");
+                AppSettings.isFakeUser = true;
+                AppSettings.fakeUserName = Intent.GetStringExtra("senderName");
+
+                AppSettings.CurrentUser = currentUser;
+            }
+
+			var txtFakeUserName = FindViewById<TextView>(Resource.Id.txtFakeUserName);
+			txtFakeUserName.Visibility = AppSettings.isFakeUser ? ViewStates.Visible : ViewStates.Gone;
+			txtFakeUserName.Text = string.Format(Constants.MSG_FAKE_USER_EVENT, AppSettings.fakeUserName);
+
+
+
             btnEdit = FindViewById<TextView>(Resource.Id.ActionEdit);
             btnEdit.SetTextColor(GROUP_COLOR);
             var imgEdit = FindViewById<ImageView>(Resource.Id.imgEdit);
@@ -346,9 +368,7 @@ namespace goheja
 
 			if (comments == null || comments.comments.Count == 0) return;
 
-			var fromWhere = Intent.GetStringExtra("FromWhere");
 			var commentId = Intent.GetStringExtra("commentId");
-			var senderId = Intent.GetStringExtra("senderId");
 
 			try
 			{
@@ -376,23 +396,12 @@ namespace goheja
 
 					contentComment.AddView(commentView);
 
-                    if (!string.IsNullOrEmpty(fromWhere) && fromWhere.Equals("RemoteNotification") 
-                        && !string.IsNullOrEmpty(commentId) && commentId.Equals(comment.commentId))
+                    if (!string.IsNullOrEmpty(commentId) && commentId.Equals(comment.commentId))
                     {
                         commentView.FindViewById<TextView>(Resource.Id.lblCommentDate).SetTextColor(Color.ParseColor("#" + Constants.COLOR_NEW_NOTIFICATION));
                         commentView.FindViewById<ImageView>(Resource.Id.imgNewSymbol).Visibility = ViewStates.Visible;
 						commentView.FindViewById<LinearLayout>(Resource.Id.footerView).RequestFocus();
 
-						var currentUser = AppSettings.CurrentUser;
-
-                        if (currentUser.userType == (int)Constants.USER_TYPE.COACH)
-						{
-							currentUser.athleteId = senderId;
-							AppSettings.isFakeUser = true;
-							
-                            AppSettings.CurrentUser = currentUser;
-						}
-                        Intent.RemoveExtra("FromWhere");
                         Intent.RemoveExtra("commentId");
                     }
 				}

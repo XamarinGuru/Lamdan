@@ -259,8 +259,9 @@ namespace goheja
             });
 		}
 
-		public void SignOutUser()
+        public async Task SignOutUser()
 		{
+            await FirebaseService.RemoveFCMUser(AppSettings.CurrentUser);
 			AppSettings.CurrentUser = null;
 			AppSettings.DeviceUDID = string.Empty;
 		}

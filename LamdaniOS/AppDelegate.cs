@@ -19,7 +19,7 @@ namespace location2
 	[Register ("AppDelegate")]
 	public class AppDelegate : UIApplicationDelegate, IUNUserNotificationCenterDelegate, IMessagingDelegate
 	{
-        public NSDictionary _userInfo;
+        public NSDictionary _notiInfo;
 
         public static LocationHelper MyLocationHelper = new LocationHelper();
 
@@ -55,43 +55,29 @@ namespace location2
 
             ConnectToFCM();
 
-           
-
-			//if (launchOptions != null)
-			//{
-			//	if (launchOptions.ContainsKey(UIApplication.LaunchOptionsRemoteNotificationKey))
-			//	{
-   //                 var userInfo = launchOptions[UIApplication.LaunchOptionsRemoteNotificationKey] as NSDictionary;
-			//		if (userInfo != null)
-			//		{
-   //                     _userInfo = userInfo;
-			//		}
-			//	}
-			//}
-
 			return true;
 		}
 
 		// To receive notifications in foregroung on iOS 9 and below.
 		// To receive notifications in background in any iOS version
-		public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+		public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary notiInfo, Action<UIBackgroundFetchResult> completionHandler)
 		{
-			Console.WriteLine("WillPresentNotification===" + userInfo);
+			Console.WriteLine("WillPresentNotification===" + notiInfo);
 
-     //       var nTitle = ((userInfo["aps"] as NSDictionary)["alert"] as NSDictionary)["title"].ToString();
-     //       switch(application.ApplicationState)
-     //       {
-     //           case UIApplicationState.Active:
-					//baseVC.ShowMessageBox(null, nTitle, "Cancel", new[] { "Go to detail" }, GoToEventInstruction, userInfo);
-            //        break;
-            //    case UIApplicationState.Background:
-            //    case UIApplicationState.Inactive:
-            //        GoToEventInstruction(userInfo);
-            //        break;
-            //    default:
-            //        _userInfo = userInfo;
-            //        break;
-            //}
+			//       var nTitle = ((notiInfo["aps"] as NSDictionary)["alert"] as NSDictionary)["title"].ToString();
+			//       switch(application.ApplicationState)
+			//       {
+			//           case UIApplicationState.Active:
+			//baseVC.ShowMessageBox(null, nTitle, "Cancel", new[] { "Go to detail" }, NotificationInfoProcess, notiInfo);
+			//        break;
+			//    case UIApplicationState.Background:
+			//    case UIApplicationState.Inactive:
+			//        GoToEventInstruction(notiInfo);
+			//        break;
+			//    default:
+			//        _notiInfo = notiInfo;
+			//        break;
+			//}
 		}
 
 		public void RegisterNotificationSettings()
@@ -130,10 +116,10 @@ namespace location2
 		public void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
 		{
 			Console.WriteLine("WillPresentNotification===" + notification.Request.Content.UserInfo);
-            var userInfo = notification.Request.Content.UserInfo;
-            var nTitle = ((userInfo["aps"] as NSDictionary)["alert"] as NSDictionary)["title"].ToString();
+            var notiInfo = notification.Request.Content.UserInfo;
+            var nTitle = ((notiInfo["aps"] as NSDictionary)["alert"] as NSDictionary)["title"].ToString();
 
-            baseVC.ShowMessageBox(null, nTitle, "Cancel", new[] { "Go to detail" }, GoToEventInstruction, userInfo);
+            baseVC.ShowMessageBox(null, nTitle, "Cancel", new[] { "Go to detail" }, NotificationInfoProcess, notiInfo);
 		}
 		
         // Workaround for handling notifications in background for iOS 10
@@ -141,7 +127,7 @@ namespace location2
 		public void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
 		{
 			Console.WriteLine("DidReceiveNotificationResponse===" + response.Notification.Request.Content.UserInfo);
-			GoToEventInstruction(response.Notification.Request.Content.UserInfo);
+			NotificationInfoProcess(response.Notification.Request.Content.UserInfo);
 		}
 
 		// Workaround for data message for iOS 10
@@ -190,31 +176,37 @@ namespace location2
 			await FirebaseService.RegisterFCMUser(currentUser);
 		}
 
-		void GoToEventInstruction(NSDictionary userInfo)
+		void NotificationInfoProcess(NSDictionary notiInfo)
 		{
 			var currentUser = AppSettings.CurrentUser;
 
 			if (currentUser.userType == (int)PortableLibrary.Constants.USER_TYPE.COACH)
 			{
-                currentUser.athleteId = userInfo["senderId"].ToString();
+                currentUser.athleteId = notiInfo["senderId"].ToString();
 				AppSettings.isFakeUser = true;
+                AppSettings.fakeUserName = notiInfo["senderName"].ToString();
 
 				AppSettings.CurrentUser = currentUser;
 			}
 
-            if (navVC == null)
+			_notiInfo = notiInfo;
+
+            if (navVC != null)
             {
-                _userInfo = userInfo;
-            }
-            else
-            {
-                EventInstructionController eventInstructionVC = _storyboard.InstantiateViewController("EventInstructionController") as EventInstructionController;
-                eventInstructionVC.eventID = userInfo["practiceId"].ToString();
-                eventInstructionVC.isNotification = true;
-                eventInstructionVC.commentID = userInfo["commentId"].ToString();
-                navVC.PushViewController(eventInstructionVC, true);
+                GotoEventInstruction();
             }
 		}
+
+        public void GotoEventInstruction()
+        {
+			EventInstructionController eventInstructionVC = _storyboard.InstantiateViewController("EventInstructionController") as EventInstructionController;
+			eventInstructionVC.eventID = _notiInfo["practiceId"].ToString();
+			eventInstructionVC.isNotification = true;
+			eventInstructionVC.commentID = _notiInfo["commentId"].ToString();
+			navVC.PushViewController(eventInstructionVC, true);
+
+            _notiInfo = null;
+        }
 
 
 

@@ -104,6 +104,32 @@ namespace PortableLibrary
 			return true;
         }
 
+		public static async Task RemoveFCMUser(LoginUser user)
+		{
+			try
+			{
+				if (user.fcmToken == null || user.userId == null) return;
+
+				var fcmUsers = await _firebase.Child("FCMUsers").OrderByKey().OnceAsync<LoginUser>();
+
+				foreach (var fcmUser in fcmUsers)
+				{
+					if (fcmUser.Object.fcmToken == user.fcmToken ||
+						(fcmUser.Object.userId == user.userId && fcmUser.Object.osType == user.osType))
+					{
+                        await _firebase.Child("FCMUsers").Child(fcmUser.Key).DeleteAsync();
+						Debug.WriteLine("FCMUser Removed.");
+						return;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex.Message);
+			}
+			return;
+		}
+
         public static async Task<Dictionary<string, List<string>>> GetFCMUserTokens(List<string> recipientIDs)
         {
             var fcmiOSTokens = new List<string>();

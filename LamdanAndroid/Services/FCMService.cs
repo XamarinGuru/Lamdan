@@ -48,6 +48,7 @@ namespace goheja.Services
             intent.PutExtra("FromWhere", "RemoteNotification");
             intent.PutExtra("SelectedEventID", mData["practiceId"]);
             intent.PutExtra("senderId", mData["senderId"]);
+            intent.PutExtra("senderName", mData["senderName"]);
             intent.PutExtra("commentId", mData["commentId"]);
             intent.AddFlags(ActivityFlags.ClearTop);
 

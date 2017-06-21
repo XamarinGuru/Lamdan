@@ -126,12 +126,19 @@ namespace location2
 		}
 
         partial void ActionSignOut(UIButton sender)
-		{
-			SignOutUser();
+        {
+            InvokeOnMainThread(async () =>
+                    {
+                        ShowLoadingView(Constants.MSG_LOADING_DATA);
 
-			LoginViewController loginVC = Storyboard.InstantiateViewController("LoginViewController") as LoginViewController;
-			this.PresentViewController(loginVC, false, null);
-		}
+                        await SignOutUser();
+
+                        HideLoadingView();
+
+                        LoginViewController loginVC = Storyboard.InstantiateViewController("LoginViewController") as LoginViewController;
+                        this.PresentViewController(loginVC, false, null);
+                    });
+        }
 
 		#endregion
 

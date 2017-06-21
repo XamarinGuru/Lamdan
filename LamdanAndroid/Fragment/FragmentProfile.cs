@@ -80,7 +80,9 @@ namespace goheja
             AppSettings.CurrentUser = currentUser;
 
             rootActivity.ShowLoadingView("");
+
             await FirebaseService.RegisterFCMUser(currentUser, true);
+
             rootActivity.HideLoadingView();
         }
 
@@ -139,9 +141,13 @@ namespace goheja
 			StartActivityForResult(intent, 1);
 		}
 
-		private void ActionSignOut(object sender, EventArgs e)
+		async void ActionSignOut(object sender, EventArgs e)
 		{
-			rootActivity.SignOutUser();
+			rootActivity.ShowLoadingView("");
+
+			await rootActivity.SignOutUser();
+
+            rootActivity.HideLoadingView();
 
 			var activity = new Intent(this.Activity, typeof(LoginActivity));
 			activity.PutExtra("requestCode", "profile");

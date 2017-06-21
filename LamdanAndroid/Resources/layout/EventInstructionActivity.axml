@@ -38,6 +38,27 @@
                     android:gravity="center"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtFakeUserName"
+                        android:textStyle="bold"
+                        android:textColor="#ffffffff"
+                        android:textSize="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:singleLine="true"
+                        android:ellipsize="end" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:minWidth="25px"
+                    android:minHeight="25px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linearLayout23"
+                    android:gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
                     <ImageView
                         android:src="@drawable/icon_bike"
                         android:layout_width="25dp"

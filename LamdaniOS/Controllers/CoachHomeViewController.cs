@@ -55,15 +55,9 @@ namespace location2
 			base.ViewDidAppear(animated);
 
 			AppDelegate myDelegate = UIApplication.SharedApplication.Delegate as AppDelegate;
-			if (myDelegate._userInfo != null)
+			if (myDelegate._notiInfo != null)
 			{
-				EventInstructionController eventInstructionVC = Storyboard.InstantiateViewController("EventInstructionController") as EventInstructionController;
-				eventInstructionVC.eventID = myDelegate._userInfo["practiceId"].ToString();
-				eventInstructionVC.isNotification = true;
-				eventInstructionVC.commentID = myDelegate._userInfo["commentId"].ToString();
-				NavigationController.PushViewController(eventInstructionVC, true);
-
-				myDelegate._userInfo = null;
+				myDelegate.GotoEventInstruction();
 			}
 		}
 
