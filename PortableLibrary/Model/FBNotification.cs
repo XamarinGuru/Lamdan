@@ -23,10 +23,11 @@ namespace PortableLibrary.Model
 			this.title = "Notification from " + data.senderName;
 
 			var msg = data.description.Length > 100 ? data.description.Substring(0, 100) : data.description;
-			this.body = "Event Type : " + data.practiceType + ", " +
-				"Event Name : " + data.practiceName + ", " +
-				"Event Date : " + data.practiceDate + ", " +
-				msg;
+            DateTime dt = DateTime.Parse(data.practiceDate);
+            var da = String.Format("{0:dddd d/M/yyyy}", dt);
+			this.body = "Event Type : " + data.practiceType + "\n" +
+				"Event Name : " + data.practiceName + "\n" +
+				"Event Date : " + String.Format("{0:dddd M/d/yyyy}", dt)  + "\n" + msg;
 		}
 		public string title { get; set; }
 		public string body { get; set; }
