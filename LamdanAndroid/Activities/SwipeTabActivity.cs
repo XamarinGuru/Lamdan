@@ -15,7 +15,7 @@ using Com.GrapeCity.Xuni.Core;
 
 namespace goheja
 {
-	[Activity(Label = "Go-Heja", Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait, LaunchMode = LaunchMode.SingleInstance)]
+	[Activity(Label = "Go-Heja", Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
 	public class SwipeTabActivity : BaseActivity
 	{
 		string[] PermissionsCalendar =

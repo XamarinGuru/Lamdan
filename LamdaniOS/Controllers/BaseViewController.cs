@@ -755,7 +755,7 @@ namespace location2
 
 			try
 			{
-				var author = string.Empty;// MemberModel.firstname + " " + MemberModel.lastname;
+				var author = string.Empty;
 				var authorId = AppSettings.CurrentUser.userId;
 
 				var commentResponseObject = mTrackSvc.setCommentsMob(author, authorId, commentText, selectedEvent._id, Constants.SPEC_GROUP_TYPE);

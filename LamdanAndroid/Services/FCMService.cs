@@ -27,8 +27,7 @@ namespace goheja.Services
             Debug.WriteLine("description: " + mData["description"]);
             Debug.WriteLine("osType: " + mData["osType"]);
 
-       //     if (AppSettings.CurrentUser.isFcmOn)
-			    SendNotification(mData);
+            SendNotification(mData);
 		}
 
         void SendNotification(IDictionary<string, string> mData)
@@ -58,8 +57,7 @@ namespace goheja.Services
                 stackBuilder.AddNextIntentWithParentStack(new Intent(this, typeof(SwipeTabActivity)));
             else
                 stackBuilder.AddNextIntentWithParentStack(new Intent(this, typeof(CoachHomeActivity)));
-            //stackBuilder.AddNextIntentWithParentStack(new Intent(this, typeof(SwipeTabActivity)));
-            //stackBuilder.AddNextIntentWithParentStack(new Intent(this, typeof(EventCalendarActivity)));
+
             stackBuilder.AddNextIntent(intent);
 
             var id = DateTime.Now.Millisecond;
@@ -75,10 +73,7 @@ namespace goheja.Services
                                                             .SetStyle(textStyle)
                                                             .SetAutoCancel(true)
                                                             .SetSound(defaultSoundUri)
-                                                            .SetContentIntent(pendingIntent)
-                                                            //.SetGroup("Lamdan_Notifications")
-                                                            //.SetGroupSummary(true)
-                                                            ;
+                                                            .SetContentIntent(pendingIntent);
             
             var notificationManager = NotificationManagerCompat.From(this);
             notificationManager.Notify(id, notificationBuilder.Build());

@@ -44,36 +44,43 @@ namespace goheja
 
         public void initiatAth()
         {
-			if (!IsNetEnable()) return;
+            if (!IsNetEnable()) return;
 
             NotificationManager notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
             notificationManager.Notify(1, CreateNotification());
 
-			ThreadPool.QueueUserWorkItem(delegate
-			{
-				var currentUser = AppSettings.CurrentUser;
+            ThreadPool.QueueUserWorkItem(delegate
+            {
+                var currentUser = AppSettings.CurrentUser;
 
-				Intent nextIntent = new Intent(this, typeof(InitActivity));
-				if (currentUser != null)
-				{
-					if (currentUser.userType == Constants.USER_TYPE.ATHLETE)
-					{
-						nextIntent = new Intent(this, typeof(SwipeTabActivity));
-					}
-					else if (currentUser.userType == (int)Constants.USER_TYPE.COACH)
-					{
-						nextIntent = new Intent(this, typeof(CoachHomeActivity));
-					}
-				}
+                Intent nextIntent = new Intent(this, typeof(InitActivity));
+                if (currentUser != null)
+                {
+                    if (currentUser.userType == Constants.USER_TYPE.ATHLETE)
+                    {
+                        nextIntent = new Intent(this, typeof(SwipeTabActivity));
+                    }
+                    else if (currentUser.userType == (int)Constants.USER_TYPE.COACH)
+                    {
+                        nextIntent = new Intent(this, typeof(CoachHomeActivity));
+                    }
+                }
 
-				StartActivityForResult(nextIntent, 0);
-				Finish();
-			});
+                StartActivityForResult(nextIntent, 0);
+                Finish();
+            });
         }
 
         public Notification CreateNotification()
         {
-            var contentIntent = PendingIntent.GetActivity(this, 0, new Intent(this, typeof(SplashActivity)), PendingIntentFlags.UpdateCurrent);
+            Intent intent = new Intent(this, typeof(SplashActivity));
+
+            if (AppSettings.CurrentUser != null)
+            {
+                intent = new Intent(this, typeof(NotificationActivity));
+                intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+            }
+            var contentIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.UpdateCurrent);
 
             var textStyle = new NotificationCompat.BigTextStyle();
             textStyle.SetBigContentTitle(ApplicationInfo.LoadLabel(PackageManager) + " on the go");
