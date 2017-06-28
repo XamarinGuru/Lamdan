@@ -184,7 +184,6 @@
     <Compile Include="Activities\RegisterActivity.cs" />
     <Compile Include="Activities\SwipeTabActivity.cs" />
     <Compile Include="Activities\BaseActivity.cs" />
-    <Compile Include="Utility\util.cs" />
     <Compile Include="Services\BackgroundService.cs" />
     <Compile Include="Activities\CloseApplicationActivity.cs" />
     <Compile Include="Adapter\TabViewAdapter.cs" />
@@ -234,7 +233,6 @@
     <AndroidResource Include="Resources\drawable\dist_new.png" />
     <AndroidResource Include="Resources\drawable\edit_icon.png" />
     <AndroidResource Include="Resources\drawable\email_icon.png" />
-    <AndroidResource Include="Resources\drawable\go_button.png" />
     <AndroidResource Include="Resources\drawable\header.png" />
     <AndroidResource Include="Resources\drawable\heart_new.png" />
     <AndroidResource Include="Resources\drawable\home_icon.png" />
@@ -252,12 +250,9 @@
     <AndroidResource Include="Resources\drawable\mont_new.png" />
     <AndroidResource Include="Resources\drawable\ninja.png" />
     <AndroidResource Include="Resources\drawable\pop_up_bg.png" />
-    <AndroidResource Include="Resources\drawable\resume_active.png" />
-    <AndroidResource Include="Resources\drawable\resume_inactive.png" />
     <AndroidResource Include="Resources\drawable\runRound_new.png" />
     <AndroidResource Include="Resources\drawable\speed_new.png" />
     <AndroidResource Include="Resources\drawable\splash.png" />
-    <AndroidResource Include="Resources\drawable\stop_active.png" />
     <AndroidResource Include="Resources\drawable\switch_off.png" />
     <AndroidResource Include="Resources\drawable\timer_new.png" />
     <AndroidResource Include="Resources\drawable\watt_new.png" />
@@ -388,6 +383,9 @@
     <AndroidResource Include="Resources\drawable\icon_checkbox_disable.png" />
     <AndroidResource Include="Resources\drawable\icon_checkbox_select.png" />
     <AndroidResource Include="Resources\drawable\item_CheckBox.axml" />
+    <AndroidResource Include="Resources\drawable\icon_pause.png" />
+    <AndroidResource Include="Resources\drawable\icon_play.png" />
+    <AndroidResource Include="Resources\drawable\icon_stop.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

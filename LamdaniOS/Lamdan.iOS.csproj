@@ -214,8 +214,7 @@
       <DependentUpon>AnalyticsViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ProfileViewController.cs" />
-    <Compile Include="Helper\calculate.cs" />
-    <Compile Include="Helper\reachbility.cs" />
+    <Compile Include="Helper\Reachbility.cs" />
     <Compile Include="Helper\LocationManager.cs" />
     <Compile Include="Controllers\MainPageViewController.cs" />
     <Compile Include="Controllers\MainPageViewController.designer.cs">
@@ -373,10 +372,7 @@
     <BundleResource Include="Resources\heja_icon.png" />
     <BundleResource Include="Resources\calen_icon_active.png" />
     <BundleResource Include="Resources\transparent.png" />
-    <BundleResource Include="Resources\icon_resume.png" />
     <BundleResource Include="Resources\icon_pause.png" />
-    <BundleResource Include="Resources\stop_active.png" />
-    <BundleResource Include="Resources\icon_go.png" />
     <BundleResource Include="Resources\watt_new.png" />
     <BundleResource Include="Resources\speed_new.png" />
     <BundleResource Include="Resources\runRound_new.png" />
@@ -495,6 +491,9 @@
     <BundleResource Include="Resources\icon_send_comment.png" />
     <BundleResource Include="Resources\icon_checkbox_disable.png" />
     <BundleResource Include="Resources\icon_checkbox_select.png" />
+    <BundleResource Include="Resources\icon_play.png" />
+    <BundleResource Include="Resources\icon_stop.png" />
+    <BundleResource Include="Resources\timer_new.png" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References" />

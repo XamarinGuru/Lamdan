@@ -138,6 +138,20 @@ namespace PortableLibrary
             ANOTHER
 		}
 
+		public enum PLAYING_STATE
+		{
+			READY,
+			PLAYING,
+			PAUSE
+		}
+
+        public enum RECORDING_STATE
+        {
+            RECORDING,
+            START,
+            END
+        }
+
 		public enum USER_TYPE
 		{
 			COACH,

@@ -230,7 +230,6 @@ namespace location2
                 if (loginUser.userId != null)
                 {
                     AppSettings.CurrentUser = loginUser;
-                    AppSettings.DeviceUDID = UIDevice.CurrentDevice.IdentifierForVendor.AsString();
 
                     RegisterFCMUser(loginUser);
 
@@ -262,7 +261,6 @@ namespace location2
 		{
 			await FirebaseService.RemoveFCMUser(AppSettings.CurrentUser);
 			AppSettings.CurrentUser = null;
-			AppSettings.DeviceUDID = string.Empty;
 		}
 
 		public List<Athlete> GetAllUsers()
@@ -776,7 +774,7 @@ namespace location2
 		{
 			var notificationContent = new FCMDataNotification();
 			notificationContent.senderId = comment.authorId;
-			notificationContent.senderName = comment.author;//userObj.userName;
+			notificationContent.senderName = comment.author;
 			notificationContent.practiceId = comment.eventId;
 			notificationContent.commentId = comment.commentId;
 			notificationContent.description = comment.commentText;
@@ -812,35 +810,31 @@ namespace location2
 			}
 		}
 
-		public void UpdateMomgoData(string name,
-					string loc,
-					DateTime time,
-					bool timeSpecified,
-					string deviceID,
-					float speed,
-					bool speedSpecified,
-					string athId,
-					string country,
-					float dist,
-					bool distSpecified,
-					float alt,
-					bool altSpecified,
-					float bearing,
-					bool bearingSpecified,
-					int recordType,
-					bool recordTypeSpecified,
-					string eventType,
-					string specGroup)
-		{
-			try
-			{
-				mTrackSvc.updateMomgoData(name, loc, time, true, AppSettings.DeviceUDID, speed, true, athId, country, dist, true, alt, true, bearing, true, 1, true, eventType, specGroup);
-			}
-			catch (Exception ex)
-			{
-				ShowTrackMessageBox(ex.Message);
-			}
-		}
+		List<TRecord> _offlineRecords = new List<TRecord>();
+
+        public void RecordPracticeTrack(TRecord record)
+        {
+            _offlineRecords.Add(record);
+
+            if (IsNetEnable())
+            {
+                foreach (TRecord r in _offlineRecords)
+                {
+                    ThreadPool.QueueUserWorkItem(delegate
+                    {
+                        try
+                        {
+                            mTrackSvc.updateMomgoData(r.fullName, r.loc, r.date, true, r.deviceId, r.speed, true, r.athid, r.country, r.distance, true, r.gainedAlt, true, r.bearinng, true, (int)r.recordType, true, ((int)r.sportType).ToString(), Constants.SPEC_GROUP_TYPE);
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                    });
+                }
+                _offlineRecords.Clear();
+            }
+        }
+
 		#endregion
 
 		public string GetTypeStrFromID(string typeID)
@@ -1169,7 +1163,20 @@ namespace location2
 		}
 
 
-
+		public float DifAlt(float prev, float curr)
+		{
+			try
+			{
+				if ((curr - prev) > 0)
+					return curr - prev;
+				else
+					return 0;
+			}
+			catch
+			{
+				return 0;
+			}
+		}
 
 
 		public UIImage MaxResizeImage(UIImage sourceImage, float maxWidth, float maxHeight)

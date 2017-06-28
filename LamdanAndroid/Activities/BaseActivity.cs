@@ -148,8 +148,6 @@ namespace goheja
 			});
 		}
 
-
-
 		#region error handling
 		public bool IsNetEnable()
 		{
@@ -231,7 +229,6 @@ namespace goheja
                 if (loginUser.userId != null)
                 {
                     AppSettings.CurrentUser = loginUser;
-                    AppSettings.DeviceUDID = Android.Provider.Settings.Secure.GetString(this.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
 
                     RegisterFCMUser(loginUser);
 
@@ -263,7 +260,6 @@ namespace goheja
 		{
             await FirebaseService.RemoveFCMUser(AppSettings.CurrentUser);
 			AppSettings.CurrentUser = null;
-			AppSettings.DeviceUDID = string.Empty;
 		}
 
 		public List<Athlete> GetAllUsers()
@@ -801,47 +797,43 @@ namespace goheja
 			await FirebaseService.SendNotification(notificationContent, recipientIDs);
         }
 
-		public void UpdateMemberNotes(string notes, string userID, string eventId, string username, string attended, string duration, string distance, string trainScore, string type)
-		{
-			try
-			{
-				var response = mTrackSvc.updateMeberNotes(notes, userID, eventId, username, attended, duration, distance, trainScore, type, Constants.SPEC_GROUP_TYPE);
-			}
-			catch (Exception ex)
-			{
-				ShowTrackMessageBox(ex.Message);
-			}
-		}
+        public void UpdateMemberNotes(string notes, string userID, string eventId, string username, string attended, string duration, string distance, string trainScore, string type)
+        {
+            try
+            {
+                var response = mTrackSvc.updateMeberNotes(notes, userID, eventId, username, attended, duration, distance, trainScore, type, Constants.SPEC_GROUP_TYPE);
+            }
+            catch (Exception ex)
+            {
+                ShowTrackMessageBox(ex.Message);
+            }
+        }
 
-		public void UpdateMomgoData(string name,
-					string loc,
-					DateTime time,
-					bool timeSpecified,
-					string deviceID,
-					float speed,
-					bool speedSpecified,
-					string id,
-					string country,
-					float dist,
-					bool distSpecified,
-					float alt,
-					bool altSpecified,
-					float bearing,
-					bool bearingSpecified,
-					int recordType,
-					bool recordTypeSpecified,
-					string eventType,
-					string specGroup)
-		{
-			try
-			{
-				mTrackSvc.updateMomgoDataAsync(name, loc, time, timeSpecified, deviceID, speed, speedSpecified, id, country, dist, distSpecified, alt, altSpecified, bearing, bearingSpecified, recordType, recordTypeSpecified, eventType, specGroup, null);
-			}
-			catch (Exception ex)
-			{
-				ShowTrackMessageBox(ex.Message);
-			}
-		}
+        List<TRecord> _offlineRecords = new List<TRecord>();
+
+        public void RecordPracticeTrack(TRecord record)
+        {
+            _offlineRecords.Add(record);
+
+            if (IsNetEnable())
+            {
+                foreach (TRecord r in _offlineRecords)
+                {
+                    RunOnUiThread(() =>
+                    {
+                        try
+                        {
+                            mTrackSvc.updateMomgoData(r.fullName, r.loc, r.date, true, r.deviceId, r.speed, true, r.athid, r.country, r.distance, true, r.gainedAlt, true, r.bearinng, true, (int)r.recordType, true, ((int)r.sportType).ToString(), Constants.SPEC_GROUP_TYPE);
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                    });
+                }
+                _offlineRecords.Clear();
+            }
+        }
+
 		#endregion
 
 		public string GetTypeStrFromID(string typeID)
@@ -1199,7 +1191,7 @@ namespace goheja
 
 		#endregion
 
-		public float difAlt(float prev, float curr)
+		public float DifAlt(float prev, float curr)
 		{
 			try
 			{

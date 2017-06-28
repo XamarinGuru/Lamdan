@@ -45,20 +45,5 @@ namespace goheja
 				editor.Apply();
 			}
 		}
-
-		private const string deviceUDIDKey = "deviceUDID";
-		public static string DeviceUDID
-		{
-			get
-			{
-				return _appSettings.GetString(deviceUDIDKey, null);
-			}
-			set
-			{
-				ISharedPreferencesEditor editor = _appSettings.Edit();
-				editor.PutString(deviceUDIDKey, value);
-				editor.Apply();
-			}
-		}
 	}
 }
