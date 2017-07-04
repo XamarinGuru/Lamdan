@@ -302,7 +302,7 @@ namespace location2
 		{
 			var rSlider = sender as RangeSliderControl;
 
-			var gZoomLevel = (rSlider.UpperValue - rSlider.LowerValue) / rSlider.MaximumValue;//.GetAbsoluteMaxValue();
+			var gZoomLevel = (rSlider.UpperValue - rSlider.LowerValue) / rSlider.MaximumValue;
 			mPChart.AxisX.Scale = gZoomLevel;
 			var posX = rSlider.LowerValue * pData.dataProvider.Count;
 			mPChart.AxisX.ScrollTo(posX, XuniAxisScrollPosition.Max);

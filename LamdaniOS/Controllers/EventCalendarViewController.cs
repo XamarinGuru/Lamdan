@@ -164,7 +164,7 @@ namespace location2
 				lblNoEvents.Hidden = true;
 			
 			var tblDataSource = new GoHejaEventTableViewSource(eventsByDate, this);
-			this.InvokeOnMainThread(delegate
+			InvokeOnMainThread(delegate
 			{
 				tableView.Source = tblDataSource;
 				tableView.ReloadData();

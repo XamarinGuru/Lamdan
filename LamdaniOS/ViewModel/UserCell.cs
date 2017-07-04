@@ -53,24 +53,28 @@ namespace location2
             {
                 var eventDoneToday = user.eventsDoneToday[i];
                 var imgTodayDone = new UIImageView(new CGRect(posX, 5, 30, 30));
-                switch (eventDoneToday.eventType)
-                {
-                    case "1":
-                        imgTodayDone.Image = UIImage.FromFile("icon_bike.png");
-                        break;
-                    case "2":
-                        imgTodayDone.Image = UIImage.FromFile("icon_run.png");
-                        break;
-                    case "3":
-                        imgTodayDone.Image = UIImage.FromFile("icon_swim.png");
-                        break;
-                    case "4":
-                        imgTodayDone.Image = UIImage.FromFile("icon_triathlon.png");
-                        break;
-                    case "5":
-                        imgTodayDone.Image = UIImage.FromFile("icon_other.png");
-                        break;
-                }
+                var pType = (Constants.EVENT_TYPE)Enum.ToObject(typeof(Constants.EVENT_TYPE), int.Parse(eventDoneToday.eventType));
+				switch (pType)
+				{
+					case Constants.EVENT_TYPE.OTHER:
+						imgTodayDone.Image = UIImage.FromFile("icon_other.png");
+						break;
+					case Constants.EVENT_TYPE.BIKE:
+						imgTodayDone.Image = UIImage.FromFile("icon_bike.png");
+						break;
+					case Constants.EVENT_TYPE.RUN:
+						imgTodayDone.Image = UIImage.FromFile("icon_run.png");
+						break;
+					case Constants.EVENT_TYPE.SWIM:
+						imgTodayDone.Image = UIImage.FromFile("icon_swim.png");
+						break;
+					case Constants.EVENT_TYPE.TRIATHLON:
+						imgTodayDone.Image = UIImage.FromFile("icon_triathlon.png");
+						break;
+					case Constants.EVENT_TYPE.ANOTHER:
+						imgTodayDone.Image = UIImage.FromFile("icon_other.png");
+						break;
+				}
                 imgTodayDone.ContentMode = UIViewContentMode.ScaleAspectFit;
                 scrollView.AddSubview(imgTodayDone);
                 posX += 40;

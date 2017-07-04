@@ -5,7 +5,7 @@ using PortableLibrary;
 
 namespace location2
 {
-    public partial class SplashViewController : UIViewController
+    public partial class SplashViewController : BaseViewController
     {
         public SplashViewController (IntPtr handle) : base (handle)
         {
@@ -22,6 +22,8 @@ namespace location2
 
 		private void GotoMainIfAlreadyLoggedin()
 		{
+            if (!IsNetEnable()) return;
+
 			var nextVC = Storyboard.InstantiateViewController("InitViewController");
 
 			var currentUser = AppSettings.CurrentUser;
@@ -41,7 +43,7 @@ namespace location2
 				}
 			}
 
-			this.PresentViewController(nextVC, false, null);
+			PresentViewController(nextVC, false, null);
 		}
     }
 }

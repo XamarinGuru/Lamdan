@@ -4,7 +4,6 @@ using UIKit;
 using PortableLibrary;
 using System.Collections.Generic;
 using System.Linq;
-using CoreGraphics;
 
 namespace location2
 {

@@ -67,25 +67,29 @@ namespace goheja
 
                 foreach (var eventDoneToday in athletes.eventsDoneToday)
                 {
-                    var imgTodayDone = new ImageView(mSuperActivity.ApplicationContext);
-                    switch (eventDoneToday.eventType)
-                    {
-                        case "1":
-                            imgTodayDone.SetImageResource(Resource.Drawable.icon_bike);
-                            break;
-                        case "2":
-                            imgTodayDone.SetImageResource(Resource.Drawable.icon_run);
-                            break;
-                        case "3":
-                            imgTodayDone.SetImageResource(Resource.Drawable.icon_swim);
-                            break;
-                        case "4":
-                            imgTodayDone.SetImageResource(Resource.Drawable.icon_triathlon);
-                            break;
-                        case "5":
-                            imgTodayDone.SetImageResource(Resource.Drawable.icon_other);
-                            break;
-                    }
+					var imgTodayDone = new ImageView(mSuperActivity.ApplicationContext);
+					var pType = (Constants.EVENT_TYPE)Enum.ToObject(typeof(Constants.EVENT_TYPE), int.Parse(eventDoneToday.eventType));
+					switch (pType)
+					{
+						case Constants.EVENT_TYPE.OTHER:
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_other);
+							break;
+						case Constants.EVENT_TYPE.BIKE:
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_bike);
+							break;
+						case Constants.EVENT_TYPE.RUN:
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_run);
+							break;
+						case Constants.EVENT_TYPE.SWIM:
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_swim);
+							break;
+						case Constants.EVENT_TYPE.TRIATHLON:
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_triathlon);
+							break;
+						case Constants.EVENT_TYPE.ANOTHER:
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_other);
+							break;
+					}
 
                     imgTodayDone.SetX(0);
                     int dimensionInDp = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 30, mSuperActivity.Resources.DisplayMetrics);
@@ -154,7 +158,6 @@ namespace goheja
             nextIntent.PutExtra("FromWhere", "CoachList");
             nextIntent.PutExtra("SelectedEventID", eventId);
             mSuperActivity.StartActivityForResult(nextIntent, 0);
-
         }
 
         public void PerformSearch(string strSearch)
@@ -251,21 +254,25 @@ namespace goheja
 				foreach (var eventDoneToday in athletes.eventsDoneToday)
 				{
 					var imgTodayDone = new ImageView(mSuperActivity.ApplicationContext);
-                    switch (eventDoneToday.eventType)
+                    var pType = (Constants.EVENT_TYPE)Enum.ToObject(typeof(Constants.EVENT_TYPE), int.Parse(eventDoneToday.eventType));
+					switch (pType)
 					{
-						case "1":
+						case Constants.EVENT_TYPE.OTHER:
+							imgTodayDone.SetImageResource(Resource.Drawable.icon_other);
+							break;
+						case Constants.EVENT_TYPE.BIKE:
 							imgTodayDone.SetImageResource(Resource.Drawable.icon_bike);
 							break;
-						case "2":
+						case Constants.EVENT_TYPE.RUN:
 							imgTodayDone.SetImageResource(Resource.Drawable.icon_run);
 							break;
-						case "3":
+						case Constants.EVENT_TYPE.SWIM:
 							imgTodayDone.SetImageResource(Resource.Drawable.icon_swim);
 							break;
-						case "4":
+						case Constants.EVENT_TYPE.TRIATHLON:
 							imgTodayDone.SetImageResource(Resource.Drawable.icon_triathlon);
 							break;
-						case "5":
+						case Constants.EVENT_TYPE.ANOTHER:
 							imgTodayDone.SetImageResource(Resource.Drawable.icon_other);
 							break;
 					}

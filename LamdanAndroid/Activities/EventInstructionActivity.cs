@@ -95,8 +95,6 @@ namespace goheja
 		{
             scrollView = FindViewById<ScrollView>(Resource.Id.scrollView);
 
-
-
 			var fromWhere = Intent.GetStringExtra("FromWhere");
 
 			var currentUser = AppSettings.CurrentUser;
@@ -114,8 +112,6 @@ namespace goheja
 			var txtFakeUserName = FindViewById<TextView>(Resource.Id.txtFakeUserName);
 			txtFakeUserName.Visibility = AppSettings.isFakeUser ? ViewStates.Visible : ViewStates.Gone;
 			txtFakeUserName.Text = AppSettings.fakeUserName;
-
-
 
             btnEdit = FindViewById<TextView>(Resource.Id.ActionEdit);
             btnEdit.SetTextColor(GROUP_COLOR);

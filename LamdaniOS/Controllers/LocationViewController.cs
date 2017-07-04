@@ -5,7 +5,6 @@ using PortableLibrary;
 using Google.Maps;
 using System.Drawing;
 using CoreLocation;
-using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 

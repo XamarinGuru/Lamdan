@@ -146,7 +146,6 @@ namespace location2
 					TrackErrorIntoServer(trackMsg, filePath, lineNumber, caller);
 				};
 				alertView.Show();
-				//ShowMessageBox(title, message, "Ok", null, null); 
 			});
 		}
 

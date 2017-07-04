@@ -16,6 +16,8 @@ namespace goheja
 	{
 		RootMemberModel MemberModel = new RootMemberModel();
 
+        Constants.EVENT_TYPE _pType;
+
 		TextView lblTime, lblDistance, lblTSS;
 		SeekBar seekTime, seekDistance, seekTSS;
 		CheckBox attended;
@@ -95,24 +97,26 @@ namespace goheja
 
 			strType.Text = Constants.PRACTICE_TYPES[int.Parse(AppSettings.selectedEvent.type) - 1];
 
-			switch (AppSettings.selectedEvent.type)
+			_pType = (Constants.EVENT_TYPE)Enum.ToObject(typeof(Constants.EVENT_TYPE), int.Parse(AppSettings.selectedEvent.type));
+
+			switch (_pType)
 			{
-				case "0":
-					imgType.SetImageResource(Resource.Drawable.icon_triathlon);
+				case Constants.EVENT_TYPE.OTHER:
+					imgType.SetImageResource(Resource.Drawable.icon_other);
 					break;
-				case "1":
+				case Constants.EVENT_TYPE.BIKE:
 					imgType.SetImageResource(Resource.Drawable.icon_bike);
 					break;
-				case "2":
+				case Constants.EVENT_TYPE.RUN:
 					imgType.SetImageResource(Resource.Drawable.icon_run);
 					break;
-				case "3":
+				case Constants.EVENT_TYPE.SWIM:
 					imgType.SetImageResource(Resource.Drawable.icon_swim);
 					break;
-				case "4":
+				case Constants.EVENT_TYPE.TRIATHLON:
 					imgType.SetImageResource(Resource.Drawable.icon_triathlon);
 					break;
-				case "5":
+				case Constants.EVENT_TYPE.ANOTHER:
 					imgType.SetImageResource(Resource.Drawable.icon_other);
 					break;
 			}
@@ -141,7 +145,7 @@ namespace goheja
 		{
 			if (e.Event.Action == MotionEventActions.Down)
 			{
-				AdjustDialog myDiag = AdjustDialog.newInstance((TextView)sender, seekDistance, AppSettings.selectedEvent.type == "3" ? 10 : 250);
+                AdjustDialog myDiag = AdjustDialog.newInstance((TextView)sender, seekDistance, _pType == Constants.EVENT_TYPE.SWIM ? 10 : 250);
 				myDiag.Show(FragmentManager, "Diag");
 			}
 		}
@@ -152,11 +156,11 @@ namespace goheja
 			{
                 var reportData = AppSettings.currentEventReport;
 
-				SetupDistanceAdjustPicker(lblDistance, seekDistance, AppSettings.selectedEvent.type == "3" ? 10 : 250);
+				SetupDistanceAdjustPicker(lblDistance, seekDistance, _pType == Constants.EVENT_TYPE.SWIM ? 10 : 250);
 
 				attended.Checked = AppSettings.selectedEvent.attended == "1" ? true : false;
 
-				seekDistance.Max = AppSettings.selectedEvent.type == "3" ? 100 : 2500;
+				seekDistance.Max = _pType == Constants.EVENT_TYPE.SWIM ? 100 : 2500;
 
                 if (reportData == null || reportData.data == null) return;
 
@@ -171,7 +175,7 @@ namespace goheja
 				seekTSS.Progress = (int)(float.Parse(strTss) * 10);
 
 				var valDistance = float.Parse(strTd);
-				if (AppSettings.selectedEvent.type == "3")
+				if (_pType == Constants.EVENT_TYPE.SWIM)
 				{
 					if (valDistance > 10)
 					{

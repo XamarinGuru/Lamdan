@@ -1,7 +1,5 @@
-﻿using Foundation;
-using System;
+﻿using System;
 using UIKit;
-using CoreGraphics;
 using PortableLibrary;
 using System.Collections.Generic;
 using System.Threading;

@@ -40,7 +40,7 @@ namespace location2
 			btnChangePW.BackgroundColor = GROUP_COLOR;
 		}
 
-		private bool Validate()
+		bool Validate()
 		{
 			btnValidPassword.Hidden = false;
 			btnValidPwConfirm.Hidden = false;
@@ -129,11 +129,11 @@ namespace location2
 			}
 		}
 
-		private void KeyBoardDownNotification(NSNotification notification)
+		void KeyBoardDownNotification(NSNotification notification)
 		{
 			if (moveViewUp) { ScrollTheView(false); }
 		}
-		private void ScrollTheView(bool move)
+		void ScrollTheView(bool move)
 		{
 			UIView.BeginAnimations(string.Empty, System.IntPtr.Zero);
 			UIView.SetAnimationDuration(0.3);

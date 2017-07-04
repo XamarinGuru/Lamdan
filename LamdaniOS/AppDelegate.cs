@@ -58,30 +58,8 @@ namespace location2
 			return true;
 		}
 
-		// To receive notifications in foregroung on iOS 9 and below.
-		// To receive notifications in background in any iOS version
-		public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary notiInfo, Action<UIBackgroundFetchResult> completionHandler)
-		{
-			Console.WriteLine("WillPresentNotification===" + notiInfo);
-
-			//       var nTitle = ((notiInfo["aps"] as NSDictionary)["alert"] as NSDictionary)["title"].ToString();
-			//       switch(application.ApplicationState)
-			//       {
-			//           case UIApplicationState.Active:
-			//baseVC.ShowMessageBox(null, nTitle, "Cancel", new[] { "Go to detail" }, NotificationInfoProcess, notiInfo);
-			//        break;
-			//    case UIApplicationState.Background:
-			//    case UIApplicationState.Inactive:
-			//        GoToEventInstruction(notiInfo);
-			//        break;
-			//    default:
-			//        _notiInfo = notiInfo;
-			//        break;
-			//}
-		}
-
 		public void RegisterNotificationSettings()
-        {
+		{
 			// Register your app for remote notifications.
 			if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
 			{
@@ -107,9 +85,14 @@ namespace location2
 			}
 
 			UIApplication.SharedApplication.RegisterForRemoteNotifications();
-        }
+		}
 
-
+		// To receive notifications in foregroung on iOS 9 and below.
+		// To receive notifications in background in any iOS version
+		public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary notiInfo, Action<UIBackgroundFetchResult> completionHandler)
+		{
+			Console.WriteLine("WillPresentNotification===" + notiInfo);
+		}
 
         // Workaround for handling notifications in foreground for iOS 10
         [Export("userNotificationCenter:willPresentNotification:withCompletionHandler:")]
@@ -135,12 +118,6 @@ namespace location2
 		{
 			Console.WriteLine("ApplicationReceivedRemoteMessage===" + remoteMessage.AppData);
 		}
-
-
-
-
-
-
 
 		async void TokenRefreshNotification(object sender, NSNotificationEventArgs e)
 		{
@@ -207,17 +184,6 @@ namespace location2
 
             _notiInfo = null;
         }
-
-
-
-
-
-
-
-
-
-
-
 
         public override void DidEnterBackground(UIApplication application)
         {

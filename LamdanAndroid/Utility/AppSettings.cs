@@ -9,7 +9,7 @@ namespace goheja
 {
 	public static class AppSettings
 	{
-		private static ISharedPreferences _appSettings = Application.Context.GetSharedPreferences("App_settings", FileCreationMode.Private);
+		static ISharedPreferences _appSettings = Application.Context.GetSharedPreferences("App_settings", FileCreationMode.Private);
 
 		public static BaseActivity baseVC;
 

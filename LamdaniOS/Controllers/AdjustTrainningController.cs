@@ -1,7 +1,6 @@
 ﻿using Foundation;
 using System;
 using UIKit;
-using CoreGraphics;
 using PortableLibrary;
 using PortableLibrary.Model;
 using System.Threading;
@@ -12,6 +11,8 @@ namespace location2
     {
 		public GoHejaEvent selectedEvent;
         public ReportData selectedEventReport;
+
+        Constants.EVENT_TYPE _pType;
 
         public AdjustTrainningController() : base()
 		{
@@ -33,12 +34,12 @@ namespace location2
 			var g = new UITapGestureRecognizer(() => View.EndEditing(true));
 			View.AddGestureRecognizer(g);
 
-			InitUISettings();
+            InitUISettings();
 
-			if (!IsNetEnable()) return;
+            if (!IsNetEnable()) return;
 
-			ThreadPool.QueueUserWorkItem(delegate
-			{
+            ThreadPool.QueueUserWorkItem(delegate
+            {
 				ShowLoadingView(Constants.MSG_LOADING_EVENT_DETAIL);
 
 				MemberModel.rootMember = GetUserObject();
@@ -67,27 +68,30 @@ namespace location2
 
 			strType.Text = GetTypeStrFromID(selectedEvent.type);
 
-			switch (selectedEvent.type)
+			_pType = (Constants.EVENT_TYPE)Enum.ToObject(typeof(Constants.EVENT_TYPE), int.Parse(selectedEvent.type));
+
+			switch (_pType)
 			{
-				case "0":
-					imgType.Image = UIImage.FromFile("icon_triathlon.png");
+				case Constants.EVENT_TYPE.OTHER:
+					imgType.Image = UIImage.FromFile("icon_other.png");
 					break;
-				case "1":
+				case Constants.EVENT_TYPE.BIKE:
 					imgType.Image = UIImage.FromFile("icon_bike.png");
 					break;
-				case "2":
+				case Constants.EVENT_TYPE.RUN:
 					imgType.Image = UIImage.FromFile("icon_run.png");
 					break;
-				case "3":
+				case Constants.EVENT_TYPE.SWIM:
 					imgType.Image = UIImage.FromFile("icon_swim.png");
 					break;
-				case "4":
+				case Constants.EVENT_TYPE.TRIATHLON:
 					imgType.Image = UIImage.FromFile("icon_triathlon.png");
 					break;
-				case "5":
+				case Constants.EVENT_TYPE.ANOTHER:
 					imgType.Image = UIImage.FromFile("icon_other.png");
 					break;
 			}
+
             InitBindingEventTotal();
 		}
 
@@ -95,7 +99,7 @@ namespace location2
 		{
 			attended.On = selectedEvent.attended == "1" ? true : false;
 
-			seekDistance.MaxValue = selectedEvent.type == "3" ? 10 : 250;
+			seekDistance.MaxValue = _pType == Constants.EVENT_TYPE.SWIM ? 10 : 250;
 
 			txtTime.ShouldChangeCharacters = ActionChangeSliderValue;
 			txtDistance.ShouldChangeCharacters = ActionChangeSliderValue;
@@ -114,7 +118,7 @@ namespace location2
 			seekTSS.Value = float.Parse(strTss);
 
 			var valDistance = float.Parse(strTd);
-			if (selectedEvent.type == "3")
+			if (_pType == Constants.EVENT_TYPE.SWIM)
 			{
 				if (valDistance > 10)
 				{
@@ -153,7 +157,7 @@ namespace location2
 					seekBar = seekTime;
 					break;
 				case 1:
-					maxValue = selectedEvent.type == "3" ? 10 : 250;
+					maxValue = _pType == Constants.EVENT_TYPE.SWIM ? 10 : 250;
 					seekBar = seekDistance;
 					break;
 				case 2:

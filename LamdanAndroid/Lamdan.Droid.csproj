@@ -218,24 +218,13 @@
     <Compile Include="Activities\NotificationActivity.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\font\Helvetica Neue CE 35 Thin.ttf" />
-    <AndroidAsset Include="Assets\font\arialbd.ttf" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\drawable\active_tab.png" />
-    <AndroidResource Include="Resources\drawable\arrow_icon.png" />
     <AndroidResource Include="Resources\drawable\bikeRound_new.png" />
-    <AndroidResource Include="Resources\drawable\border.png" />
-    <AndroidResource Include="Resources\drawable\border_bottom.png" />
-    <AndroidResource Include="Resources\drawable\border_vertical.png" />
-    <AndroidResource Include="Resources\drawable\button.png" />
-    <AndroidResource Include="Resources\drawable\cell_icon.png" />
     <AndroidResource Include="Resources\drawable\dist_new.png" />
-    <AndroidResource Include="Resources\drawable\edit_icon.png" />
-    <AndroidResource Include="Resources\drawable\email_icon.png" />
     <AndroidResource Include="Resources\drawable\header.png" />
     <AndroidResource Include="Resources\drawable\heart_new.png" />
-    <AndroidResource Include="Resources\drawable\home_icon.png" />
     <AndroidResource Include="Resources\drawable\horizontal_line.png" />
     <AndroidResource Include="Resources\drawable\icon.png" />
     <AndroidResource Include="Resources\drawable\icon_01.png" />
@@ -248,11 +237,9 @@
     <AndroidResource Include="Resources\drawable\img_bg.png" />
     <AndroidResource Include="Resources\drawable\line_new.png" />
     <AndroidResource Include="Resources\drawable\mont_new.png" />
-    <AndroidResource Include="Resources\drawable\ninja.png" />
     <AndroidResource Include="Resources\drawable\pop_up_bg.png" />
     <AndroidResource Include="Resources\drawable\runRound_new.png" />
     <AndroidResource Include="Resources\drawable\speed_new.png" />
-    <AndroidResource Include="Resources\drawable\splash.png" />
     <AndroidResource Include="Resources\drawable\switch_off.png" />
     <AndroidResource Include="Resources\drawable\timer_new.png" />
     <AndroidResource Include="Resources\drawable\watt_new.png" />
@@ -282,7 +269,6 @@
     <AndroidResource Include="Resources\drawable\bg_new.png" />
     <AndroidResource Include="Resources\layout\EditProfileActivity.axml" />
     <AndroidResource Include="Resources\layout\InitActivity.axml" />
-    <AndroidResource Include="Resources\drawable\icon_logo.png" />
     <AndroidResource Include="Resources\drawable\icon_email.png" />
     <AndroidResource Include="Resources\drawable\icon_lock.png" />
     <AndroidResource Include="Resources\drawable\icon_user.png" />
@@ -315,8 +301,6 @@
     <AndroidResource Include="Resources\layout\AdjustTrainningActivity.axml" />
     <AndroidResource Include="Resources\drawable\icon_whistle.png" />
     <AndroidResource Include="Resources\drawable\icon_delete.png" />
-    <AndroidResource Include="Resources\drawable\icon_group_report.png" />
-    <AndroidResource Include="Resources\drawable\icon_workout_report.png" />
     <AndroidResource Include="Resources\drawable\icon_other.png" />
     <AndroidResource Include="Resources\drawable\icon_03_inactive.png" />
     <AndroidResource Include="Resources\drawable\icon_04_inactive.png" />

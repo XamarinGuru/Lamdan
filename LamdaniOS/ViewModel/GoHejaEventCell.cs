@@ -53,24 +53,25 @@ namespace location2
 				lblEventTime.TextColor = UIColor.White;
 			}
 
-			switch (goHejaEvent.type)
+			var pType = (Constants.EVENT_TYPE)Enum.ToObject(typeof(Constants.EVENT_TYPE), int.Parse(goHejaEvent.type));
+			switch (pType)
 			{
-				case "0":
-					imgType.Image = UIImage.FromFile("icon_triathlon.png");
+				case Constants.EVENT_TYPE.OTHER:
+					imgType.Image = UIImage.FromFile("icon_other.png");
 					break;
-				case "1":
+				case Constants.EVENT_TYPE.BIKE:
 					imgType.Image = UIImage.FromFile("icon_bike.png");
 					break;
-				case "2":
+				case Constants.EVENT_TYPE.RUN:
 					imgType.Image = UIImage.FromFile("icon_run.png");
 					break;
-				case "3":
+				case Constants.EVENT_TYPE.SWIM:
 					imgType.Image = UIImage.FromFile("icon_swim.png");
 					break;
-				case "4":
+				case Constants.EVENT_TYPE.TRIATHLON:
 					imgType.Image = UIImage.FromFile("icon_triathlon.png");
 					break;
-				case "5":
+				case Constants.EVENT_TYPE.ANOTHER:
 					imgType.Image = UIImage.FromFile("icon_other.png");
 					break;
 			}

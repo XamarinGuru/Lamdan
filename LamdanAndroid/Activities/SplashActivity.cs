@@ -36,13 +36,13 @@ namespace goheja
 
             startupWork.ContinueWith(t =>
             {
-                initiatAth();
+                GotoMainIfAlreadyLoggedin();
             }, TaskScheduler.FromCurrentSynchronizationContext());
 
             startupWork.Start();
         }
 
-        public void initiatAth()
+        public void GotoMainIfAlreadyLoggedin()
         {
             if (!IsNetEnable()) return;
 

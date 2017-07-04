@@ -3,7 +3,6 @@ using System;
 using UIKit;
 using CoreGraphics;
 using PortableLibrary;
-using System.Threading.Tasks;
 using System.Threading;
 
 namespace location2
@@ -137,7 +136,7 @@ namespace location2
 		}
 
 		#region keyboard process
-		private void KeyBoardUpNotification(NSNotification notification)
+		void KeyBoardUpNotification(NSNotification notification)
 		{
 			if (!txtEmail.IsEditing && !txtPassword.IsEditing)
 				return;
@@ -155,16 +154,16 @@ namespace location2
 				moveViewUp = false;
 			}
 		}
-		private void KeyBoardDownNotification(NSNotification notification)
+		void KeyBoardDownNotification(NSNotification notification)
 		{
 			if (moveViewUp) { ScrollTheView(false); }
 		}
-		private void ScrollTheView(bool move)
+		void ScrollTheView(bool move)
 		{
 			UIView.BeginAnimations(string.Empty, System.IntPtr.Zero);
 			UIView.SetAnimationDuration(0.3);
 
-			CGRect frame = this.View.Frame;
+			CGRect frame = View.Frame;
 
 			if (move)
 			{
@@ -174,7 +173,7 @@ namespace location2
 				frame.Y = 0;
 			}
 
-			this.View.Frame = frame;
+			View.Frame = frame;
 			UIView.CommitAnimations();
 		}
         #endregion
@@ -188,17 +187,16 @@ namespace location2
             {
                 try
                 {
-                    ThreadPool.QueueUserWorkItem(delegate
-                    {
-                        ShowLoadingView(Constants.MSG_SIGNUP);
+					var strFName = txtFirstName.Text;
+					var strLName = txtLastName.Text;
+					var strNName = txtNickName.Text;
+					var strPW = txtPassword.Text;
+					var strEmail = txtEmail.Text;
+					var nAge = int.Parse(txtAge.Text);
 
-                        var strFName = txtFirstName.Text;
-                        var strLName = txtLastName.Text;
-                        var strNName = txtNickName.Text;
-                        var strPW = txtPassword.Text;
-                        var strEmail = txtEmail.Text;
-                        var nAge = int.Parse(txtAge.Text);
-
+					ThreadPool.QueueUserWorkItem(delegate
+					{
+						ShowLoadingView(Constants.MSG_SIGNUP);
                         var result = RegisterUser(strFName, strLName, strNName, strPW, strEmail, nAge);
 
                         if (result == "user added")
@@ -228,7 +226,7 @@ namespace location2
 	                                    AppDelegate myDelegate = UIApplication.SharedApplication.Delegate as AppDelegate;
 	                                    myDelegate.navVC = nextVC as UINavigationController;
 	                                }
-	                                this.PresentViewController(nextVC, true, null);
+	                                PresentViewController(nextVC, true, null);
 	                            }
 	                        });
                         }

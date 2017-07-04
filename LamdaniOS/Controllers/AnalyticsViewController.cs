@@ -1,7 +1,6 @@
 ﻿using System;
 using UIKit;
 using CoreLocation;
-using System.Threading.Tasks;
 using PortableLibrary;
 using Google.Maps;
 using System.Drawing;

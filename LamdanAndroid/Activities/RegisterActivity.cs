@@ -215,7 +215,7 @@ namespace goheja
             catch (Exception ex)
             {
                 HideLoadingView();
-				ShowMessageBox(null, ex.Message.ToString());
+				ShowMessageBox(null, ex.Message);
             }
         }
 

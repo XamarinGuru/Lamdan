@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using static PortableLibrary.Constants;
+using USER_TYPE = PortableLibrary.Constants.USER_TYPE;
+using OS_TYPE = PortableLibrary.Constants.OS_TYPE;
 
 namespace PortableLibrary
 {
